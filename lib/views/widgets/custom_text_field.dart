@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import '../../core/app_colors.dart';
 
 class CustomTextField extends StatelessWidget {
-   CustomTextField(
+  CustomTextField(
       {Key? key,
       this.onChanged,
       this.icon,
@@ -16,7 +16,9 @@ class CustomTextField extends StatelessWidget {
       this.inputFormatters,
       this.checkValidation,
       this.fillColor,
-      required this.borderColor})
+      required this.borderColor,
+      this.labelText,
+        this.radius})
       : super(key: key);
 
   final Function(String?)? onChanged;
@@ -25,13 +27,15 @@ class CustomTextField extends StatelessWidget {
   final Icon? icon;
   final bool? correctFormat;
   final String? hintText;
+  final String? labelText;
   final String? initialValue;
   final List<TextInputFormatter>? inputFormatters;
   final String? Function(String?)? checkValidation;
   final Color? fillColor;
   final Color borderColor;
-  FocusNode focusNode = FocusNode();
+  final double? radius;
 
+  FocusNode focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -42,16 +46,17 @@ class CustomTextField extends StatelessWidget {
       onChanged: onChanged,
       validator: checkValidation,
       decoration: InputDecoration(
-        labelText: hintText ?? '',
+        labelText: labelText,
+        hintText: hintText,
         enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(width: 1, color: borderColor),
-            borderRadius: const BorderRadius.all(Radius.circular(15))),
+            borderRadius: BorderRadius.circular(radius ?? 15)),
         border: InputBorder.none,
         filled: true,
         fillColor: fillColor,
         suffixIcon: InkWell(onTap: onTapIcon, child: icon ?? const SizedBox()),
         focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(radius ?? 15),
             borderSide: BorderSide(
               color: borderColor,
               width: 1,

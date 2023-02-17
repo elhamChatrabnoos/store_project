@@ -7,20 +7,14 @@ import '../views/pages/home_page_related/user_info_page.dart';
 
 class HomeController extends GetxController{
 
-  RxInt _selectedNavIndex = 1.obs;
-
   List _bottomBarPages = [
-    const ShopBasketPage(),
-    const HomePage(),
     const UserInfoPage(),
+    HomePage(),
+    const ShopBasketPage(),
   ];
 
   final pageController = PageController(initialPage: 1);
   int maxCount = 3;
-
-  void onTappedNavItem(int index){
-    _selectedNavIndex.value = index;
-  }
 
   List get bottomBarPages => _bottomBarPages;
 
@@ -28,9 +22,4 @@ class HomeController extends GetxController{
     _bottomBarPages = value;
   }
 
-  RxInt get selectedNavIndex => _selectedNavIndex;
-
-  set selectedNavIndex(RxInt value) {
-    _selectedNavIndex = value;
-  }
 }

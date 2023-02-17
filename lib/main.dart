@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:shop_getx/core/app_colors.dart';
+import 'package:shop_getx/views/pages/home_page_related/home_page.dart';
 import 'package:shop_getx/views/pages/home_page_related/main_page.dart';
 import 'package:shop_getx/views/pages/login_page.dart';
 
@@ -14,12 +16,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home:
-          Directionality(textDirection: TextDirection.rtl, child: MainPage()),
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: AppColors.primaryColor,
+        ),
+        home: MainPage()
+        // Directionality(textDirection: TextDirection.rtl, child: MainPage()),
+        );
   }
 }

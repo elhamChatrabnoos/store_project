@@ -19,7 +19,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String _password = '';
 
   final formKey = GlobalKey<FormState>();
 
@@ -90,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
     return Obx(() {
       return CustomTextField(
         borderColor: AppColors.textFieldColor,
-        hintText: AppTexts.passwordTxt,
+        labelText: AppTexts.passwordTxt,
         checkValidation: (value) {
           if (value!.isEmpty) {
             return AppTexts.incorrectPassMsg;
@@ -100,7 +99,6 @@ class _LoginPageState extends State<LoginPage> {
         onTapIcon: () {
           loginSignupController.showHidePass();
         },
-        onChanged: (p0) => _password = p0!,
         secure: loginSignupController.secureTextPass.value,
       );
     });
@@ -109,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget emailTextField() {
     return CustomTextField(
       borderColor: AppColors.textFieldColor,
-      hintText: AppTexts.emailTxt,
+      labelText: AppTexts.emailTxt,
       checkValidation: (value) {
         if (value!.isEmpty) {
           return AppTexts.unavailableEmailMsg;
