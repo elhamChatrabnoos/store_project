@@ -1,16 +1,16 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:shop_getx/views/widgets/custom_product_item.dart';
+import 'package:get/get.dart';
+import 'package:shop_getx/controllers/home_page_controller.dart';
+import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
 import 'package:shop_getx/views/widgets/custom_text_field.dart';
+import 'package:shop_getx/views/widgets/home_poduct_item.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
-  List<Widget>? sliderImages = [
-    Image.asset('assets/images/slider2.jpg'),
-    Image.asset('assets/images/slider3.jpg'),
-  ];
+  final HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -21,63 +21,111 @@ class HomePage extends StatelessWidget {
 
   Widget _bodyItems() {
     return Padding(
-        padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _imagesSlider(),
-            const CustomText(
-                text: 'شوینده ها', textSize: 20, fontWeight: FontWeight.bold),
-            _productCategories()
+            AppSizes.normalSizeBox2,
+            _categoryTitle('شوینده ها'),
+            _productCategories(),
+            AppSizes.normalSizeBox2,
+            _categoryTitle('حبوبات'),
+            _productCategories(),
+            AppSizes.bigSizeBox,
           ],
         ),
+      ),
+    );
+  }
 
+  Widget _categoryTitle(String categoryTitle) {
+    return Row(
+      children: [
+        CustomText(
+            text: categoryTitle, textSize: 20, textWeight: FontWeight.bold),
+        const Spacer(),
+        InkWell(
+          onTap: () {},
+          child: CustomText(
+              text: 'مشاهده همه',
+              textColor: Colors.blue,
+              textSize: 17,
+              textWeight: FontWeight.normal),
+        )
+      ],
     );
   }
 
   Widget _productCategories() {
-    return Flexible(
-        fit: FlexFit.tight,
+    return Container(
+        height: 270,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
+          primary: false,
           itemCount: 5,
           itemBuilder: (context, index) {
-            return ProductItem(
-                image: 'assets/images/powder.png',
-                title: 'تاید لباسشویی',
-                description: '300 گرم',
-                price: 30000,
-                discount: 5);
+            return index == 4
+                ? _moreButton()
+                : ProductItem(
+                    image: 'assets/images/powder.png',
+                    title: 'تاید لباسشویی',
+                    description: '300 گرم',
+                    price: 25000,
+                    discount: 5);
           },
         ));
   }
 
+  Widget _moreButton() {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          CustomText(
+            textSize: 15,
+            text: 'همه محصولات',
+            textColor: Colors.lightBlueAccent,
+            textWeight: FontWeight.normal,
+          ),
+          Icon(
+            Icons.arrow_circle_left_outlined,
+            size: 40,
+            color: Colors.lightBlueAccent,
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _imagesSlider() {
     return CarouselSlider.builder(
-        itemCount: sliderImages!.length,
+        itemCount: 2,
         itemBuilder: (context, index, realIndex) {
-          return Card(
-            child: sliderImages![index],
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          );
+          return Padding(
+              padding: EdgeInsets.all(10),
+              child: Image.asset(homeController.sliderImages[index]));
         },
         options: CarouselOptions(autoPlay: false));
   }
 
   PreferredSize _appBarWithSearch() {
     return PreferredSize(
-      preferredSize: const Size.fromHeight(100),
+      preferredSize: const Size.fromHeight(90),
       child: AppBar(
         flexibleSpace: Container(
             margin:
                 const EdgeInsets.only(top: 50, left: 10, right: 10, bottom: 10),
             child: CustomTextField(
               radius: 5,
+              fillColor: Colors.white38,
               icon: const Icon(Icons.search),
-              borderColor: Colors.deepPurpleAccent,
+              borderColor: Colors.grey,
               hintText: 'جست و جوی محصول',
             )),
       ),
