@@ -17,4 +17,9 @@ class AppTexts{
   static String loginTitle = 'ورود/ثبت نام';
   static String incorrectPassMsg = 'رمز اشتباه';
   static String unavailableEmailMsg = 'نام کاربری موجود نیست';
+
+
+  // details page strings
+  static String productDetailTitle = 'جزئیات محصول';
+
 }

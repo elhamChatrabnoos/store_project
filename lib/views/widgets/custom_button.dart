@@ -7,20 +7,22 @@ class CustomButton extends StatelessWidget {
       this.textColor,
       required this.buttonText,
       this.buttonWidth,
-      this.onTap})
+      this.buttonHeight,
+      this.onTap, required this.textSize})
       : super(key: key);
 
   final Color? buttonColor;
   final Color? textColor;
   final String buttonText;
+  final double textSize;
   double? buttonWidth;
+  double? buttonHeight;
   final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
-    // MediaQuery.of(context).size.height
     return SizedBox(
-        height: MediaQuery.of(context).size.height / 12,
+        height: buttonHeight ?? MediaQuery.of(context).size.height / 12,
         width: buttonWidth ?? MediaQuery.of(context).size.width,
         child: OutlinedButton(
             onPressed: onTap,
@@ -32,7 +34,7 @@ class CustomButton extends StatelessWidget {
             ),
             child: Text(
               buttonText,
-              style: TextStyle(color: textColor, fontSize: 18),
+              style: TextStyle(color: textColor, fontSize: textSize),
             )));
   }
 }

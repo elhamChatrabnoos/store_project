@@ -7,7 +7,8 @@ class CustomText extends StatelessWidget {
     this.textWeight,
     this.textColor,
     this.textDecoration,
-    this.decorationColor})
+    this.decorationColor,
+    this.textAlign})
       : super(key: key);
 
   final String text;
@@ -16,11 +17,13 @@ class CustomText extends StatelessWidget {
   final Color? textColor;
   final TextDecoration? textDecoration;
   final Color? decorationColor;
+  final TextAlign? textAlign;
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
+      textAlign: textAlign,
       style: TextStyle(
           color: textColor,
           fontWeight: textWeight ?? FontWeight.bold,

@@ -30,10 +30,10 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
-        body: loginBody(context));
+        body: _loginBody(context));
   }
 
-  Widget loginBody(BuildContext context) {
+  Widget _loginBody(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.all(40),
         child: Form(
@@ -41,25 +41,26 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              titleTextImage(),
+              _titleTextImage(),
               AppSizes.normalSizeBox,
               AppSizes.littleSizeBox,
-              emailTextField(),
+              _emailTextField(),
               AppSizes.normalSizeBox2,
               AppSizes.littleSizeBox,
-              passwordTextField(),
+              _passwordTextField(),
               AppSizes.normalSizeBox,
-              buttons(context)
+              _buttons(context)
             ],
           ),
         ));
   }
 
-  Widget buttons(BuildContext context) {
+  Widget _buttons(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         CustomButton(
+          textSize: 18,
           buttonWidth: 150,
           textColor: AppColors.loginTextColor,
           buttonText: AppTexts.loginBtnTxt,
@@ -72,6 +73,7 @@ class _LoginPageState extends State<LoginPage> {
           },
         ),
         CustomButton(
+          textSize: 18,
           buttonWidth: 150,
           textColor: AppColors.loginBtnColor,
           buttonText: AppTexts.signUpBtnTxt,
@@ -85,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget passwordTextField() {
+  Widget _passwordTextField() {
     return Obx(() {
       return CustomTextField(
         borderColor: AppColors.textFieldColor,
@@ -104,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  Widget emailTextField() {
+  Widget _emailTextField() {
     return CustomTextField(
       borderColor: AppColors.textFieldColor,
       labelText: AppTexts.emailTxt,
@@ -118,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Center titleTextImage() {
+  Widget _titleTextImage() {
     return Center(
         child: Column(
           children: [
