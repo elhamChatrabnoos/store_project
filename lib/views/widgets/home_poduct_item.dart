@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/models/product.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
@@ -44,16 +45,16 @@ class HomeProductItem extends StatelessWidget {
     );
   }
 
-  CustomText _descriptionText() {
+  Widget _descriptionText() {
     return CustomText(
-      text: product.productDescription!,
+      text: product.shortProductDescrip!,
       textSize: 13,
       textWeight: FontWeight.normal,
-      textColor: Colors.deepPurple,
+      textColor: AppColors.subTextColor,
     );
   }
 
-  CustomText _priceText() {
+  Widget _priceText() {
     return CustomText(
         text: product.productDiscount != null
             ? '${product.productPrice! - product.productPrice! * product.productDiscount! ~/ 100} تومان '
@@ -61,7 +62,7 @@ class HomeProductItem extends StatelessWidget {
         textSize: 15);
   }
 
-  Row _productDiscount() {
+  Widget _productDiscount() {
     return Row(
       children: [
         Container(
@@ -79,7 +80,7 @@ class HomeProductItem extends StatelessWidget {
         CustomText(
           text: product.productPrice.toString(),
           textDecoration: TextDecoration.lineThrough,
-          decorationColor: const Color.fromARGB(255, 0, 0, 0),
+          decorationColor: Color(0xFF575757),
           textSize: 14,
           textColor: const Color.fromARGB(255, 140, 140, 140),
         ),
@@ -87,7 +88,7 @@ class HomeProductItem extends StatelessWidget {
     );
   }
 
-  Align _productImage() {
+  Widget _productImage() {
     return Align(
         alignment: Alignment.center,
         child: Image.asset(

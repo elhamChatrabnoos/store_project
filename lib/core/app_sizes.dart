@@ -13,7 +13,9 @@ class AppSizes{
   static SizedBox littleSizeBox2Width = const SizedBox(width: 5);
 
   static double titleTextSize = 25;
+  static double subTitleTextSize2 = 20;
   static double subTitleTextSize = 15;
-  static double normalTextSize = 20;
+
+  static int numberOfListItem = 3;
 
 }

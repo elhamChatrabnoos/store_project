@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:shop_getx/models/product.dart';
+import 'package:shop_getx/views/pages/product_details_page.dart';
 import 'package:shop_getx/views/widgets/product_item.dart';
 
 class AllProductListPage extends StatelessWidget {
@@ -33,10 +36,16 @@ Widget _productList() {
   return ListView.builder(
     scrollDirection: Axis.vertical,
     shrinkWrap: true,
-    itemCount: 10,
+    itemCount: productList.length,
     itemBuilder: (context, index) {
       return ProductItem(
-        addToBasket: () {},
+        onItemClick: () => Get.to(
+          ProductDetailsPage(product: productList[index]),
+        ),
+        addToBasketClick: () {
+          productList[index].productCount =
+              productList[index].productCount! + 1;
+        },
         product: productList[index],
       );
     },

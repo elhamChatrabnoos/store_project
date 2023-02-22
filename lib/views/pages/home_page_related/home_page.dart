@@ -72,8 +72,7 @@ class HomePage extends StatelessWidget {
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
-          primary: false,
-          itemCount: productList.length,
+          itemCount: AppSizes.numberOfListItem,
           itemBuilder: (context, index) {
             return index == 4
                 ? _moreButton()

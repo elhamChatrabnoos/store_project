@@ -13,6 +13,12 @@ class AppColors{
   static Color navActiveItemColor = const Color.fromARGB(255, 0, 0, 0);
   static Color navInactiveItemColor = const Color.fromARGB(255, 93, 90, 90);
 
+  static Color buttonColor = const Color(0xFF5CC2FA);
+  static Color deepButtonColor = const Color(0xFF044C72);
+  static Color subTextColor = Colors.deepPurple;
+
+
+
   static  MaterialColor primaryColor = MaterialColor(
     const Color.fromARGB(255, 255, 255, 255).value,
     <int, Color>{

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/core/app_texts.dart';
 import 'package:shop_getx/models/product.dart';
@@ -9,64 +10,122 @@ import 'package:shop_getx/views/widgets/home_poduct_item.dart';
 import '../widgets/custom_button.dart';
 
 class ProductDetailsPage extends StatelessWidget {
-  ProductDetailsPage({Key? key, required this.product}) : super(key: key);
+  ProductDetailsPage(
+      {Key? key, required this.product})
+      : super(key: key);
 
   final Product product;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          AppBar(centerTitle: true, title: Text(AppTexts.productDetailTitle)),
-      body: Directionality(
+        backgroundColor: const Color(0xFFECE9EB),
+        appBar:
+            AppBar(centerTitle: true, title: Text(AppTexts.productDetailTitle)),
+        body: Directionality(
           textDirection: TextDirection.rtl,
-          child: Padding(
-              padding: const EdgeInsets.all(20),
+          child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset(product.productImage!,
-                      width: MediaQuery.of(context).size.width, height: 250),
-                  _productName(),
+                  _topPartPage(context),
                   AppSizes.littleSizeBox,
-                  _discountCost(),
-                  AppSizes.littleSizeBox,
-                  _productPrice(),
-                  AppSizes.normalSizeBox2,
-                  const CustomText(text: 'محصولات مشابه', textSize: 20),
-                  SizedBox(
-                    height: 100,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: productList.length,
-                      itemBuilder: (context, index) {
-                        HomeProductItem(product: productList[index]);
-                      },
-                    ),
-                  )
+                  _bottomPartPage()
                 ],
-              ))),
+              )),
+        ));
+  }
+
+  Widget _bottomPartPage() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      color: const Color(0xFFFFFFFF),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const CustomText(
+              text: ' توضیحات محصول',
+              textColor: Colors.blue,
+              textSize: 17,
+              textWeight: FontWeight.normal),
+          AppSizes.littleSizeBox,
+          _longDescription(),
+          AppSizes.littleSizeBox,
+          const Divider(height: 20, color: Color(0xFF5CC2FA)),
+          AppSizes.littleSizeBox,
+          CustomText(
+              text: 'محصولات مشابه', textSize: AppSizes.subTitleTextSize2),
+          AppSizes.littleSizeBox,
+          _listOfSimilarProduct(),
+        ],
+      ),
     );
   }
 
-  Widget _productPrice() {
+  Widget _topPartPage(BuildContext context) {
+    return Container(
+      color: const Color(0xFFFFFFFF),
+      padding: const EdgeInsets.all(15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image.asset(product.productImage!,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height / 4),
+          _productName(),
+          AppSizes.littleSizeBox,
+          _discountCost(),
+          AppSizes.littleSizeBox,
+          _productPriceAndToBasket(),
+        ],
+      ),
+    );
+  }
+
+  Widget _longDescription() {
+    return CustomText(
+      text: product.longProductDescrip!,
+      textSize: AppSizes.subTitleTextSize,
+      textWeight: FontWeight.normal,
+    );
+  }
+
+  Widget _listOfSimilarProduct() {
+    return SizedBox(
+      height: 270,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
+        itemCount: AppSizes.numberOfListItem,
+        itemBuilder: (context, index) {
+          return HomeProductItem(
+            product: productList[index],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _productPriceAndToBasket() {
     return Row(
       children: [
         CustomText(
             text: product.productDiscount != null
                 ? '${product.productPrice! - product.productPrice! * product.productDiscount! ~/ 100} تومان '
                 : '${product.productPrice} تومان ',
-            textSize: AppSizes.normalTextSize),
+            textSize: AppSizes.subTitleTextSize2),
         const Spacer(),
         CustomButton(
-          onTap: null,
+          onTap: () {
+            product.productCount = product.productCount! + 1;
+          },
           textSize: 15,
           buttonHeight: 40,
           buttonWidth: 160,
           buttonText: 'افزودن به سبد خرید',
           textColor: Colors.white,
-          buttonColor: Colors.lightBlueAccent,
+          buttonColor: AppColors.buttonColor,
         ),
       ],
     );
