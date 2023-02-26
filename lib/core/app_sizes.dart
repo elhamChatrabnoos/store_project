@@ -10,11 +10,19 @@ class AppSizes{
 
   static SizedBox bigSizeBoxWidth = const SizedBox(width: 100);
   static SizedBox littleSizeBoxWidth = const SizedBox(width: 10);
+  static SizedBox normalSizeBoxWidth = const SizedBox(width: 20);
+  static SizedBox normalSizeBoxWidth2 = const SizedBox(width: 30);
   static SizedBox littleSizeBox2Width = const SizedBox(width: 5);
 
   static double titleTextSize = 25;
-  static double subTitleTextSize2 = 20;
   static double subTitleTextSize = 15;
+  static double subTitleTextSize2 = 20;
+  static double normalTextSize = 13;
+
+  static double buttonsTextSize = 18;
+
+
+
 
   static int numberOfListItem = 3;
 

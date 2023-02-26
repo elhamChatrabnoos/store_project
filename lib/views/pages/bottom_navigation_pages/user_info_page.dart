@@ -1,25 +1,23 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:shop_getx/core/app_sizes.dart';
-import '../../controllers/loign_sign_up_controller.dart';
-import '../../core/app_colors.dart';
-import '../../core/app_texts.dart';
-import '../widgets/custom_button.dart';
-import '../widgets/custom_text.dart';
-import '../widgets/custom_text_field.dart';
-import '../widgets/profile_image.dart';
-import 'login_page.dart';
+import 'package:get/get_core/src/get_main.dart';
 
-class SignUpPage extends StatelessWidget {
-  SignUpPage({Key? key}) : super(key: key);
+import '../../../controllers/loign_sign_up_controller.dart';
+import '../../../core/app_colors.dart';
+import '../../../core/app_sizes.dart';
+import '../../../core/app_texts.dart';
+import '../../widgets/custom_button.dart';
+import '../../widgets/custom_text.dart';
+import '../../widgets/custom_text_field.dart';
+import '../../widgets/profile_image.dart';
+
+class UserInfoPage extends StatelessWidget {
+   UserInfoPage({Key? key}) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
   final LoginSignupController loginSignupController =
-      Get.put(LoginSignupController());
+  Get.put(LoginSignupController());
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +32,11 @@ class SignUpPage extends StatelessWidget {
   Padding _bodyOfPage(BuildContext context) {
     return Padding(
         padding:
-            const EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 10),
+        const EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 10),
         child: Form(
           key: formKey,
           child: Column(
             children: [
-              AppSizes.littleSizeBox,
-              CustomText(text: AppTexts.createAccountBtn, textSize: 30),
               AppSizes.littleSizeBox,
               ProfileImageShape(),
               AppSizes.normalSizeBox2,
@@ -52,20 +48,20 @@ class SignUpPage extends StatelessWidget {
               AppSizes.normalSizeBox2,
               _addressTextField(),
               AppSizes.normalSizeBox2,
-              _createAccountButton(context),
+              _updateUserInfoButton(context),
             ],
           ),
         ));
   }
 
-  CustomButton _createAccountButton(BuildContext context) {
+  CustomButton _updateUserInfoButton(BuildContext context) {
     return CustomButton(
       textColor: Colors.white,
-      buttonText: AppTexts.createAccountBtn,
+      buttonText: AppTexts.updateAccount,
       buttonColor: AppColors.loginBtnColor,
       onTap: () {
         if (formKey.currentState!.validate()) {
-          Get.to(LoginPage());
+
         }
       },
       textSize: AppSizes.buttonsTextSize,

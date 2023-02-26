@@ -18,7 +18,7 @@ class CustomTextField extends StatelessWidget {
       this.fillColor,
       required this.borderColor,
       this.labelText,
-        this.radius})
+        this.radius, this.keyboardType})
       : super(key: key);
 
   final Function(String?)? onChanged;
@@ -34,13 +34,15 @@ class CustomTextField extends StatelessWidget {
   final Color? fillColor;
   final Color borderColor;
   final double? radius;
+  final TextInputType? keyboardType;
 
   FocusNode focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      focusNode: focusNode,
+      keyboardType: keyboardType,
+      // focusNode: focusNode,
       inputFormatters: inputFormatters,
       initialValue: initialValue,
       onChanged: onChanged,

@@ -46,11 +46,8 @@ class AllProductListPage extends StatelessWidget {
               onItemClick: () => Get.to(ProductDetailsPage(
                   product: productController.productList[index])),
               addToBasketClick: () {
-                productController.productList[index].productCount =
-                    productController.productList[index].productCount! + 1;
-                // productController
-                //     .addProduct(productController.productList[index])
-                //     ;
+                productController
+                    .addProduct(productController.productList[index]);
               },
               onAddBtnClick: () => productController
                   .addProduct(productController.productList[index]),

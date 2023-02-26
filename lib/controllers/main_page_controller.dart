@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../views/pages/main_page_related/home_page.dart';
-import '../views/pages/main_page_related/shop_basket_page.dart';
-import '../views/pages/main_page_related/user_info_page.dart';
+import '../views/pages/bottom_navigation_pages/home_page.dart';
+import '../views/pages/bottom_navigation_pages/shop_basket_page.dart';
+import '../views/pages/bottom_navigation_pages/user_info_page.dart';
+
 
 class MainController extends GetxController{
 
   List _bottomBarPages = [
-    const UserInfoPage(),
+    UserInfoPage(),
     HomePage(),
-    const ShopBasketPage(),
+    ShopBasketPage(),
   ];
 
   final pageController = PageController(initialPage: 1);

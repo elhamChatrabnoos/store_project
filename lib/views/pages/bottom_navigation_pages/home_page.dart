@@ -70,47 +70,26 @@ class HomePage extends StatelessWidget {
 
   Widget _productOfCategories() {
     return SizedBox(
-          height: AppSizes.bigSizeBox.height! * 2,
-      child:SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child:  Row(
-        children: productController.productList.map((element) {
-          int index = productController.productList.indexOf(element);
-          if(index == 4) {
-            return _moreButton();
-          } else {
-            return
-          HomeProductItem(
-            onItemClick: () {
-              Get.to(ProductDetailsPage(
-                product: productController.productList[index],
-              ));
-            },
-            product: productController.productList[index],
-          );
-          }
-
-
-        }).toList(),
-      ),),
-      // ListView.builder(
-      //   scrollDirection: Axis.horizontal,
-      //   shrinkWrap: true,
-      //   itemCount: AppSizes.numberOfListItem,
-      //   itemBuilder: (context, index) {
-      //     return index == 4
-      //         ? _moreButton()
-      //         : HomeProductItem(
-      //             onItemClick: () {
-      //               Get.to(ProductDetailsPage(
-      //                 product: productController.productList[index],
-      //               ));
-      //             },
-      //             product: productController.productList[index],
-      //           );
-      //   },
-      // )
-    );
+        height: 265,
+        child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              itemCount: AppSizes.numberOfListItem,
+              itemBuilder: (context, index) {
+                return index == 4
+                    ? _moreButton()
+                    : HomeProductItem(
+                        onItemClick: () {
+                          Get.to(ProductDetailsPage(
+                            product: productController.productList[index],
+                          ));
+                        },
+                        product: productController.productList[index],
+                      );
+              },
+            )));
   }
 
   Widget _moreButton() {
@@ -151,8 +130,9 @@ class HomePage extends StatelessWidget {
 
   PreferredSize _appBarWithSearch() {
     return PreferredSize(
-      preferredSize: const Size.fromHeight(90),
+      preferredSize: const Size.fromHeight(95),
       child: AppBar(
+        automaticallyImplyLeading: false,
         flexibleSpace: Container(
             margin:
                 const EdgeInsets.only(top: 50, left: 10, right: 10, bottom: 10),

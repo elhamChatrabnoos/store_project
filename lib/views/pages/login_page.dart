@@ -9,7 +9,7 @@ import 'package:shop_getx/views/pages/sign_up_page.dart';
 import '../../core/app_texts.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
-import 'main_page_related/main_page.dart';
+import 'main_page.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -21,32 +21,33 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        resizeToAvoidBottomInset: false,
-        body: _loginBody(context));
+    return Directionality(
+        textDirection: TextDirection.rtl,
+        child: Scaffold(
+            backgroundColor: Colors.white,
+            resizeToAvoidBottomInset: false,
+            body: _loginBody(context)));
   }
 
   Widget _loginBody(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.all(40),
-        child: Form(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _titleTextImage(),
-              AppSizes.normalSizeBox,
-              AppSizes.littleSizeBox,
-              _emailTextField(),
-              AppSizes.normalSizeBox2,
-              AppSizes.littleSizeBox,
-              _passwordTextField(),
-              AppSizes.normalSizeBox,
-              _buttons(context)
-            ],
-          ),
-        ));
+    return Center(
+      child: Padding(
+          padding: const EdgeInsets.all(40),
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                _titleTextImage(),
+                AppSizes.normalSizeBox,
+                _emailTextField(),
+                AppSizes.normalSizeBox2,
+                _passwordTextField(),
+                AppSizes.normalSizeBox,
+                _buttons(context)
+              ],
+            ),
+          )),
+    );
   }
 
   Widget _buttons(BuildContext context) {
@@ -54,27 +55,24 @@ class LoginPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         CustomButton(
-          textSize: 18,
+          textSize: AppSizes.buttonsTextSize,
           buttonWidth: 150,
           textColor: AppColors.loginTextColor,
           buttonText: AppTexts.loginBtnTxt,
           buttonColor: AppColors.loginBtnColor,
           onTap: () {
             if (formKey.currentState!.validate()) {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => MainPage()));
+              Get.to(MainPage());
             }
           },
         ),
         CustomButton(
-          textSize: 18,
-          buttonWidth: 150,
-          textColor: AppColors.loginBtnColor,
-          buttonText: AppTexts.signUpBtnTxt,
-          buttonColor: AppColors.loginTextColor,
-          onTap: () => Navigator.push(
-              context, MaterialPageRoute(builder: (context) => const SignUpPage())),
-        )
+            textSize: AppSizes.buttonsTextSize,
+            buttonWidth: 150,
+            textColor: AppColors.loginBtnColor,
+            buttonText: AppTexts.signUpBtnTxt,
+            buttonColor: AppColors.loginTextColor,
+            onTap: () => Get.to(SignUpPage())),
       ],
     );
   }

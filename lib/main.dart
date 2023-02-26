@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:shop_getx/core/app_colors.dart';
-import 'package:shop_getx/views/pages/main_page_related/main_page.dart';
+import 'package:shop_getx/views/pages/login_page.dart';
+import 'package:shop_getx/views/pages/main_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: AppColors.primaryColor,
         ),
-        home: MainPage()
+        home: LoginPage()
         // Directionality(textDirection: TextDirection.rtl, child: MainPage()),
         );
   }
