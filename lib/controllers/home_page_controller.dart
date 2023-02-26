@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class HomeController extends GetConnect{
+class HomeController extends GetxController{
 
   List<String> sliderImages = [
     'assets/images/slider2.jpg',

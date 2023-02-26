@@ -9,21 +9,15 @@ import 'package:shop_getx/views/pages/sign_up_page.dart';
 import '../../core/app_texts.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
-import 'home_page_related/main_page.dart';
+import 'main_page_related/main_page.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
 
   final formKey = GlobalKey<FormState>();
 
   final LoginSignupController loginSignupController =
-  Get.put(LoginSignupController());
+      Get.put(LoginSignupController());
 
   @override
   Widget build(BuildContext context) {
@@ -78,10 +72,8 @@ class _LoginPageState extends State<LoginPage> {
           textColor: AppColors.loginBtnColor,
           buttonText: AppTexts.signUpBtnTxt,
           buttonColor: AppColors.loginTextColor,
-          onTap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => SignUpPage()));
-          },
+          onTap: () => Navigator.push(
+              context, MaterialPageRoute(builder: (context) => const SignUpPage())),
         )
       ],
     );
@@ -98,9 +90,7 @@ class _LoginPageState extends State<LoginPage> {
           }
         },
         icon: const Icon(Icons.remove_red_eye),
-        onTapIcon: () {
-          loginSignupController.showHidePass();
-        },
+        onTapIcon: () => loginSignupController.showHidePass(),
         secure: loginSignupController.secureTextPass.value,
       );
     });
@@ -123,10 +113,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget _titleTextImage() {
     return Center(
         child: Column(
-          children: [
-            AppSizes.littleSizeBox,
-            Image.asset(AppImages.loginImage, alignment: Alignment.center),
-          ],
-        ));
+      children: [
+        AppSizes.littleSizeBox,
+        Image.asset(AppImages.loginImage, alignment: Alignment.center),
+      ],
+    ));
   }
 }

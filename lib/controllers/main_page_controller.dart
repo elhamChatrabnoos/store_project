@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../views/pages/home_page_related/home_page.dart';
-import '../views/pages/home_page_related/shop_basket_page.dart';
-import '../views/pages/home_page_related/user_info_page.dart';
+import '../views/pages/main_page_related/home_page.dart';
+import '../views/pages/main_page_related/shop_basket_page.dart';
+import '../views/pages/main_page_related/user_info_page.dart';
 
 class MainController extends GetxController{
 

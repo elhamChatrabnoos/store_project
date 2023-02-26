@@ -2,6 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shop_getx/controllers/home_page_controller.dart';
+import 'package:shop_getx/controllers/product_controller.dart';
+import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/views/pages/all_product_list_page.dart';
 import 'package:shop_getx/views/pages/product_details_page.dart';
@@ -15,6 +17,7 @@ class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
   final HomeController homeController = Get.put(HomeController());
+  final ProductController productController = Get.put(ProductController());
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,6 @@ class HomePage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,11 +56,11 @@ class HomePage extends StatelessWidget {
         const Spacer(),
         InkWell(
           onTap: () {
-            Get.to(const AllProductListPage());
+            Get.to(AllProductListPage());
           },
-          child: const CustomText(
+          child: CustomText(
               text: 'مشاهده همه',
-              textColor: Colors.blue,
+              textColor: AppColors.buttonColor,
               textSize: 17,
               textWeight: FontWeight.normal),
         )
@@ -68,24 +70,47 @@ class HomePage extends StatelessWidget {
 
   Widget _productOfCategories() {
     return SizedBox(
-        height: 270,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          itemCount: AppSizes.numberOfListItem,
-          itemBuilder: (context, index) {
-            return index == 4
-                ? _moreButton()
-                : HomeProductItem(
-                    onItemClick: () {
-                      Get.to(ProductDetailsPage(
-                        product: productList[index],
-                      ));
-                    },
-                    product: productList[index],
-                  );
-          },
-        ));
+          height: AppSizes.bigSizeBox.height! * 2,
+      child:SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child:  Row(
+        children: productController.productList.map((element) {
+          int index = productController.productList.indexOf(element);
+          if(index == 4) {
+            return _moreButton();
+          } else {
+            return
+          HomeProductItem(
+            onItemClick: () {
+              Get.to(ProductDetailsPage(
+                product: productController.productList[index],
+              ));
+            },
+            product: productController.productList[index],
+          );
+          }
+
+
+        }).toList(),
+      ),),
+      // ListView.builder(
+      //   scrollDirection: Axis.horizontal,
+      //   shrinkWrap: true,
+      //   itemCount: AppSizes.numberOfListItem,
+      //   itemBuilder: (context, index) {
+      //     return index == 4
+      //         ? _moreButton()
+      //         : HomeProductItem(
+      //             onItemClick: () {
+      //               Get.to(ProductDetailsPage(
+      //                 product: productController.productList[index],
+      //               ));
+      //             },
+      //             product: productController.productList[index],
+      //           );
+      //   },
+      // )
+    );
   }
 
   Widget _moreButton() {

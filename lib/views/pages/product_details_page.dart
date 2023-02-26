@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/core/app_texts.dart';
@@ -7,6 +8,7 @@ import 'package:shop_getx/models/product.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
 import 'package:shop_getx/views/widgets/home_poduct_item.dart';
 
+import '../../controllers/product_controller.dart';
 import '../widgets/custom_button.dart';
 
 class ProductDetailsPage extends StatelessWidget {
@@ -15,6 +17,8 @@ class ProductDetailsPage extends StatelessWidget {
       : super(key: key);
 
   final Product product;
+  final ProductController productController = Get.find<ProductController>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +104,7 @@ class ProductDetailsPage extends StatelessWidget {
         itemCount: AppSizes.numberOfListItem,
         itemBuilder: (context, index) {
           return HomeProductItem(
-            product: productList[index],
+            product: productController.productList[index],
           );
         },
       ),
@@ -116,6 +120,7 @@ class ProductDetailsPage extends StatelessWidget {
                 : '${product.productPrice} تومان ',
             textSize: AppSizes.subTitleTextSize2),
         const Spacer(),
+        product.productCount! <= 0 ?
         CustomButton(
           onTap: () {
             product.productCount = product.productCount! + 1;
@@ -126,10 +131,38 @@ class ProductDetailsPage extends StatelessWidget {
           buttonText: 'افزودن به سبد خرید',
           textColor: Colors.white,
           buttonColor: AppColors.buttonColor,
-        ),
+        ) : _addDeleteProduct(),
       ],
     );
   }
+
+  Widget _addDeleteProduct() {
+    return Container(
+      padding: EdgeInsets.all(5),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(width: 2, color: AppColors.deepButtonColor)),
+      width: 100,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          InkWell(
+            // onTap: onAddBtnClick,
+            child: Icon(Icons.add, size: 20, color: AppColors.deepButtonColor),
+          ),
+          CustomText(
+              text: product.productCount.toString(),
+              textColor: AppColors.deepButtonColor),
+          InkWell(
+            onTap: () => product.productCount = product.productCount! - 1,
+            child:
+            Icon(Icons.delete, size: 20, color: AppColors.deepButtonColor),
+          )
+        ],
+      ),
+    );
+  }
+
 
   Widget _productName() {
     return CustomText(

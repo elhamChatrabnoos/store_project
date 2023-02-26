@@ -20,8 +20,7 @@ class AppColors{
 
 
   static  MaterialColor primaryColor = MaterialColor(
-    const Color.fromARGB(255, 255, 255, 255).value,
-    <int, Color>{
+    const Color.fromARGB(255, 255, 255, 255).value, <int, Color>{
       50: Colors.white.withOpacity(1),
       100: Colors.white.withOpacity(0.2),
       200: Colors.white.withOpacity(0.3),

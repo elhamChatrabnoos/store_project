@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+
 
 class LoginSignupController extends GetxController{
   RxBool _correctEmail = false.obs;
@@ -11,7 +11,7 @@ class LoginSignupController extends GetxController{
   RxBool _checkedAgreement = false.obs;
 
   RxBool checkInformation(String email, String password) {
-    return (email == _registeredEmail).obs;
+    return (email == registeredEmail).obs;
     // && password == _registeredPassword;
   }
 

@@ -1,21 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/models/product.dart';
 import 'package:shop_getx/views/widgets/custom_button.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
 
+import '../../controllers/product_controller.dart';
+
 class ProductItem extends StatelessWidget {
   ProductItem({Key? key,
     required this.product,
-    required this.addToBasketClick,
-    required this.onItemClick})
+    this.addToBasketClick,
+    this.onItemClick,
+    this.onAddBtnClick,
+    this.onRemoveBtnClick,
+    required this.productIndex})
       : super(key: key);
 
-  final Function() addToBasketClick;
-  final Function() onItemClick;
+  final Function()? addToBasketClick;
+  final Function()? onItemClick;
+  final Function()? onAddBtnClick;
+  final Function()? onRemoveBtnClick;
   final Product product;
+  final int productIndex;
+
+  final ProductController productController = Get.put(ProductController());
 
   @override
   Widget build(BuildContext context) {
@@ -49,20 +61,21 @@ class ProductItem extends StatelessWidget {
 
   Widget _buyAndCost() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         _priceText(),
         AppSizes.littleSizeBox2,
         product.productDiscount != null ? _productDiscount() : const SizedBox(),
         AppSizes.normalSizeBox2,
-        product.productCount! <= 0 ? CustomButton(
-          onTap: addToBasketClick,
-          textSize: 13,
-          buttonHeight: 30,
-          buttonWidth: 130,
-          buttonText: 'افزودن به سبد خرید',
-          textColor: Colors.blue,
-        ) : _addDeleteProduct(),
+        product.productCount! <= 0
+            ?  CustomButton(
+            onTap: addToBasketClick,
+            textSize: 13,
+            buttonHeight: 30,
+            buttonWidth: 130,
+            buttonText: 'افزودن به سبد خرید',
+            textColor: Colors.blue,
+          ) : _addDeleteProduct(),
       ],
     );
   }
@@ -132,23 +145,32 @@ class ProductItem extends StatelessWidget {
           product.productImage!,
           width: 100,
           height: 100,
-        ));
+        )
+    );
   }
 
   Widget _addDeleteProduct() {
     return Container(
-      padding: EdgeInsets.all(5),
+      padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(10),
           border: Border.all(width: 2, color: AppColors.deepButtonColor)),
       width: 100,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Icon(Icons.add, size: 20, color: AppColors.deepButtonColor),
-          CustomText(text: product.productCount.toString(),
+          InkWell(
+            onTap: onAddBtnClick,
+            child: Icon(Icons.add, size: 20, color: AppColors.deepButtonColor),
+          ),
+          CustomText(
+              text: product.productCount.toString(),
               textColor: AppColors.deepButtonColor),
-          Icon(Icons.delete, size: 20, color: AppColors.deepButtonColor),
+          InkWell(
+            onTap: onRemoveBtnClick,
+            child:
+            Icon(Icons.delete, size: 20, color: AppColors.deepButtonColor),
+          )
         ],
       ),
     );

@@ -21,5 +21,6 @@ class AppTexts{
 
   // details page strings
   static String productDetailTitle = 'جزئیات محصول';
+  static String addToBasketTxt = 'افزودن به سبد خرید';
 
 }
