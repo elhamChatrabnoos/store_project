@@ -12,7 +12,7 @@ import '../../controllers/product_controller.dart';
 class AllProductListPage extends StatelessWidget {
   AllProductListPage({Key? key}) : super(key: key);
 
-  final ProductController productController = Get.find<ProductController>();
+  final ProductController productController = Get.put(ProductController());
 
   @override
   Widget build(BuildContext context) {
@@ -36,28 +36,30 @@ class AllProductListPage extends StatelessWidget {
   }
 
   Widget _productList() {
-    return Obx(() {
-      return ListView.builder(
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          itemCount: productController.productList.length,
-          itemBuilder: (context, index) {
-            return ProductItem(
-              onItemClick: () => Get.to(ProductDetailsPage(
-                  product: productController.productList[index])),
-              addToBasketClick: () {
-                productController
-                    .addProduct(productController.productList[index]);
-              },
-              onAddBtnClick: () => productController
-                  .addProduct(productController.productList[index]),
-              onRemoveBtnClick: () => productController
-                  .removeProduct(productController.productList[index]),
-              product: productController.productList[index],
-              productIndex: index,
-            );
-          });
-    });
+    return GetBuilder<ProductController>(
+      assignId: true,
+      builder: (productController) {
+        return ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: productList.length,
+            itemBuilder: (context, index) {
+              return ProductItem(
+                onItemClick: () =>
+                    Get.to(ProductDetailsPage(product: productList[index])),
+                addToBasketClick: () {
+                  productController.addProductToBasket(productList[index]);
+                },
+                onAddBtnClick: () =>
+                    productController.addProductToBasket(productList[index]),
+                onRemoveBtnClick: () => productController
+                    .removeProductFromBasket(productList[index]),
+                product: productList[index],
+                productIndex: index,
+              );
+            });
+      },
+    );
   }
 }
 

@@ -55,7 +55,7 @@ class LoginPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         CustomButton(
-          textSize: AppSizes.buttonsTextSize,
+          textSize: AppSizes.normalTextSize2,
           buttonWidth: 150,
           textColor: AppColors.loginTextColor,
           buttonText: AppTexts.loginBtnTxt,
@@ -67,7 +67,7 @@ class LoginPage extends StatelessWidget {
           },
         ),
         CustomButton(
-            textSize: AppSizes.buttonsTextSize,
+            textSize: AppSizes.normalTextSize2,
             buttonWidth: 150,
             textColor: AppColors.loginBtnColor,
             buttonText: AppTexts.signUpBtnTxt,

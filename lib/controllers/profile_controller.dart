@@ -6,14 +6,15 @@ import 'package:image_picker/image_picker.dart';
 
 class ProfileController extends GetxController{
 
-  Rx<File>? imageFile;
+  // File imageFile = File('file.txt');
 
-  Future selectImage(bool fromCamera) async {
+  Future selectImage(bool fromCamera, File? imageFile) async {
     PickedFile? pickedFile = await ImagePicker.platform.pickImage(
         source: fromCamera ? ImageSource.camera : ImageSource.gallery);
     if (pickedFile != null) {
-      imageFile = Rx<File>(File(pickedFile.path)).obs as Rx<File>?;
+      imageFile = File(pickedFile.path);
     }
+    update();
   }
 
 

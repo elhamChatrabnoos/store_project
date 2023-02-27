@@ -11,8 +11,6 @@ import 'package:shop_getx/views/widgets/custom_text.dart';
 import 'package:shop_getx/views/widgets/custom_text_field.dart';
 import 'package:shop_getx/views/widgets/home_poduct_item.dart';
 
-import '../../../models/product.dart';
-
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
@@ -83,10 +81,10 @@ class HomePage extends StatelessWidget {
                     : HomeProductItem(
                         onItemClick: () {
                           Get.to(ProductDetailsPage(
-                            product: productController.productList[index],
+                            product: productList[index],
                           ));
                         },
-                        product: productController.productList[index],
+                        product: productList[index],
                       );
               },
             )));

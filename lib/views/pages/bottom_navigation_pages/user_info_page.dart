@@ -64,7 +64,7 @@ class UserInfoPage extends StatelessWidget {
 
         }
       },
-      textSize: AppSizes.buttonsTextSize,
+      textSize: AppSizes.normalTextSize2,
     );
   }
 

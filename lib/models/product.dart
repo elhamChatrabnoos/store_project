@@ -8,7 +8,7 @@ class Product {
   bool? isAvailable;
   String? productCategory;
   String? productSubCategory;
-  int? productCount = 0;
+  int productCount = 0;
 
   Product({
     this.productImage,
@@ -18,6 +18,10 @@ class Product {
     this.productDiscount,
     this.productPrice,
     this.isAvailable,
+    this.productCount = 0,
+    this.productCategory,
+    this.productSubCategory
   });
+
 }
 

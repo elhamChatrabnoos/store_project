@@ -68,7 +68,7 @@ class SignUpPage extends StatelessWidget {
           Get.to(LoginPage());
         }
       },
-      textSize: AppSizes.buttonsTextSize,
+      textSize: AppSizes.normalTextSize2,
     );
   }
 

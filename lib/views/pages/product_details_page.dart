@@ -59,7 +59,7 @@ class ProductDetailsPage extends StatelessWidget {
           const Divider(height: 20, color: Color(0xFF5CC2FA)),
           AppSizes.littleSizeBox,
           CustomText(
-              text: 'محصولات مشابه', textSize: AppSizes.subTitleTextSize2),
+              text: 'محصولات مشابه', textSize: AppSizes.subTitleTextSize),
           AppSizes.littleSizeBox,
           _listOfSimilarProduct(),
         ],
@@ -90,7 +90,7 @@ class ProductDetailsPage extends StatelessWidget {
   Widget _longDescription() {
     return CustomText(
       text: product.longProductDescrip!,
-      textSize: AppSizes.subTitleTextSize,
+      textSize: AppSizes.normalTextSize1,
       textWeight: FontWeight.normal,
     );
   }
@@ -104,7 +104,7 @@ class ProductDetailsPage extends StatelessWidget {
         itemCount: AppSizes.numberOfListItem,
         itemBuilder: (context, index) {
           return HomeProductItem(
-            product: productController.productList[index],
+            product: productList[index],
           );
         },
       ),
@@ -118,7 +118,7 @@ class ProductDetailsPage extends StatelessWidget {
             text: product.productDiscount != null
                 ? '${product.productPrice! - product.productPrice! * product.productDiscount! ~/ 100} تومان '
                 : '${product.productPrice} تومان ',
-            textSize: AppSizes.subTitleTextSize2),
+            textSize: AppSizes.subTitleTextSize),
         const Spacer(),
         product.productCount! <= 0 ?
         CustomButton(
@@ -182,7 +182,7 @@ class ProductDetailsPage extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(5.0))),
             child: CustomText(
               text: '${product.productDiscount}%',
-              textSize: AppSizes.subTitleTextSize,
+              textSize: AppSizes.normalTextSize1,
               textWeight: FontWeight.bold,
               textColor: Colors.white,
             )),
@@ -191,7 +191,7 @@ class ProductDetailsPage extends StatelessWidget {
           text: product.productPrice.toString(),
           textDecoration: TextDecoration.lineThrough,
           decorationColor: const Color.fromARGB(255, 119, 117, 117),
-          textSize: AppSizes.subTitleTextSize,
+          textSize: AppSizes.normalTextSize1,
           textColor: const Color.fromARGB(255, 140, 140, 140),
         ),
       ],

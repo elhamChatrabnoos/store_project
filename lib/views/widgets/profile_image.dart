@@ -11,6 +11,7 @@ import 'package:shop_getx/views/widgets/custom_text.dart';
 class ProfileImageShape extends StatelessWidget {
   ProfileImageShape({Key? key}) : super(key: key);
 
+  File? imageFile;
   ProfileController profileController = Get.put(ProfileController());
 
   @override
@@ -30,7 +31,7 @@ class ProfileImageShape extends StatelessWidget {
                       children: [
                         CustomText(
                             text: 'انتخاب پروفایل',
-                            textSize: AppSizes.subTitleTextSize2),
+                            textSize: AppSizes.subTitleTextSize),
                         AppSizes.normalSizeBox2,
                         Row(
                           children: [
@@ -48,31 +49,37 @@ class ProfileImageShape extends StatelessWidget {
                 },
               );
             },
-            child: _profileAvatar(100)));
+            child: _profileAvatar(100)
+            ));
   }
 
   Widget _option(BuildContext context, String subTitle, IconData iconData) {
-    return InkWell(
-      onTap: () {
-        if (subTitle == 'دوربین') {
-          profileController.selectImage(true);
-        } else if (subTitle == 'گالری') {
-          profileController.selectImage(false);
-        } else {
-          profileController.imageFile = null;
-        }
-        Navigator.pop(context);
-      },
-      child: Column(
-        children: [
-          Icon(iconData, color: AppColors.primaryColor, size: 30),
-          CustomText(
-            text: subTitle,
-            textSize: AppSizes.subTitleTextSize,
-          )
-        ],
-      ),
-    );
+    // return GetBuilder<ProfileController>(
+    //   assignId: true,
+    //   builder: (profileController) {
+        return InkWell(
+          onTap: () {
+            if (subTitle == 'دوربین') {
+              profileController.selectImage(true, imageFile);
+            } else if (subTitle == 'گالری') {
+              profileController.selectImage(false, imageFile);
+            } else {
+              // profileController.imageFile = null;
+            }
+            Navigator.pop(context);
+          },
+          child: Column(
+            children: [
+              Icon(iconData, color: AppColors.primaryColor, size: 30),
+              CustomText(
+                text: subTitle,
+                textSize: AppSizes.normalTextSize1,
+              )
+            ],
+          ),
+        );
+    //   },
+    // );
   }
 
   // _selectImage(bool fromCamera) async {
@@ -84,16 +91,14 @@ class ProfileImageShape extends StatelessWidget {
   // }
 
   Widget _profileAvatar(double imageSize) {
-    return profileController.imageFile == null
+    return imageFile == null
         ? Image.asset('assets/images/userImage.png',
-            width: imageSize, height: imageSize)
-        : Obx(() {
-            return Image.file(
-              width: imageSize,
-              height: imageSize,
-              profileController.imageFile!.value,
-              fit: BoxFit.cover,
-            );
-          });
+        width: imageSize, height: imageSize)
+        : Image.file(
+      width: imageSize,
+      height: imageSize,
+      imageFile!,
+      fit: BoxFit.cover,
+    );
   }
 }

@@ -11,13 +11,14 @@ import 'package:shop_getx/views/widgets/custom_text.dart';
 import '../../controllers/product_controller.dart';
 
 class ProductItem extends StatelessWidget {
-  ProductItem({Key? key,
-    required this.product,
-    this.addToBasketClick,
-    this.onItemClick,
-    this.onAddBtnClick,
-    this.onRemoveBtnClick,
-    required this.productIndex})
+  ProductItem(
+      {Key? key,
+      required this.product,
+      this.addToBasketClick,
+      this.onItemClick,
+      this.onAddBtnClick,
+      this.onRemoveBtnClick,
+      required this.productIndex})
       : super(key: key);
 
   final Function()? addToBasketClick;
@@ -48,11 +49,11 @@ class ProductItem extends StatelessWidget {
                       const Spacer(),
                       _buyAndCost()
                     ]),
-                AppSizes.littleSizeBox2,
+                AppSizes.littleSizeBox,
                 const Divider(
                   height: 15,
                   color: Colors.grey,
-                )
+                ),
               ],
             )),
       ),
@@ -67,15 +68,16 @@ class ProductItem extends StatelessWidget {
         AppSizes.littleSizeBox2,
         product.productDiscount != null ? _productDiscount() : const SizedBox(),
         AppSizes.normalSizeBox2,
-        product.productCount! <= 0
-            ?  CustomButton(
-            onTap: addToBasketClick,
-            textSize: 13,
-            buttonHeight: 30,
-            buttonWidth: 130,
-            buttonText: 'افزودن به سبد خرید',
-            textColor: Colors.blue,
-          ) : _addDeleteProduct(),
+        product.productCount == 0
+            ? CustomButton(
+                onTap: addToBasketClick,
+                textSize: 13,
+                buttonHeight: 30,
+                buttonWidth: 130,
+                buttonText: 'افزودن به سبد خرید',
+                textColor: Colors.blue,
+              )
+            : _addDeleteProduct(),
       ],
     );
   }
@@ -88,13 +90,20 @@ class ProductItem extends StatelessWidget {
         AppSizes.littleSizeBox,
         CustomText(text: product.productName!, textSize: 17),
         AppSizes.littleSizeBox,
-        _descriptionText(),
-        AppSizes.littleSizeBox2,
+        _isAvailableProduct(),
+        AppSizes.littleSizeBox,
+        SizedBox(
+          width: 110,
+          child: CustomText(
+              text: product.longProductDescrip!,
+              textWeight: FontWeight.normal,
+              textSize: 12),
+        )
       ],
     );
   }
 
-  Widget _descriptionText() {
+  Widget _isAvailableProduct() {
     return CustomText(
       text: product.isAvailable! ? 'موجود در انبار' : 'موجودی به اتمام رسیده',
       textSize: 15,
@@ -106,8 +115,7 @@ class ProductItem extends StatelessWidget {
   Widget _priceText() {
     return CustomText(
         text: product.productDiscount != null
-            ? '${product.productPrice! -
-            product.productPrice! * product.productDiscount! ~/ 100} تومان '
+            ? '${product.productPrice! - product.productPrice! * product.productDiscount! ~/ 100} تومان '
             : '${product.productPrice} تومان ',
         textSize: 18);
   }
@@ -145,8 +153,7 @@ class ProductItem extends StatelessWidget {
           product.productImage!,
           width: 100,
           height: 100,
-        )
-    );
+        ));
   }
 
   Widget _addDeleteProduct() {
@@ -169,7 +176,7 @@ class ProductItem extends StatelessWidget {
           InkWell(
             onTap: onRemoveBtnClick,
             child:
-            Icon(Icons.delete, size: 20, color: AppColors.deepButtonColor),
+                Icon(Icons.delete, size: 20, color: AppColors.deepButtonColor),
           )
         ],
       ),

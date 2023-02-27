@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../views/pages/bottom_navigation_pages/home_page.dart';
-import '../views/pages/bottom_navigation_pages/shop_basket_page.dart';
+import '../views/pages/bottom_navigation_pages/buy_basket_page.dart';
 import '../views/pages/bottom_navigation_pages/user_info_page.dart';
 
 
