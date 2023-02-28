@@ -7,6 +7,7 @@ class ProductController extends GetxController {
 
   final ProductRepository _productRepository = ProductRepository();
   RxBool isLoading = true.obs;
+  Product? targetProduct;
 
   @override
   void onInit() {
@@ -38,6 +39,17 @@ class ProductController extends GetxController {
   }
 
 
+  void updateProduct(Product product) {
+    _productRepository
+        .updateProduct(targetProduct: product, productId: product.productId!)
+        .then((value) {
+      product = value;
+      print('success update');
+      update();
+    });
+  }
+
+
   addProductToBasket(Product product) {
     // when product is in the buy basket just change its count number
     // else add product to add basket list
@@ -45,8 +57,7 @@ class ProductController extends GetxController {
     if (indexOfProduct > -1) {
       buyBasketList[indexOfProduct].productCountInBasket =
           buyBasketList[indexOfProduct].productCountInBasket! + 1;
-    }
-    else {
+    } else {
       product.productCountInBasket = 1;
       buyBasketList.add(product);
     }
@@ -55,7 +66,21 @@ class ProductController extends GetxController {
 
   void removeProductFromBasket(Product product) {
     product.productCountInBasket = product.productCountInBasket! - 1;
+    if (product.productCountInBasket! < 1) {
+      buyBasketList.remove(product);
+    }
     update();
+  }
+
+
+  bool searchProductInBasket(Product product) {
+    for (var i = 0; i < buyBasketList.length; ++i) {
+      if (product.productId == buyBasketList[i].productId) {
+        targetProduct = buyBasketList[i];
+        return true;
+      }
+    }
+    return false;
   }
 
 }

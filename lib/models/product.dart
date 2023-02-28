@@ -27,7 +27,7 @@ class Product {
     totalProductCount = json['totalProductCount'];
   }
 
-  num? productId;
+  String? productId;
   String? productName;
   String? productImage;
   String? productDescription;
@@ -40,7 +40,7 @@ class Product {
   num? totalProductCount;
 
   Product copyWith({
-    num? productId,
+    String? productId,
     String? productName,
     String? productImage,
     String? productDescription,

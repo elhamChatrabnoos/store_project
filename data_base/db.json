@@ -11,10 +11,9 @@
       }
     }
   ],
-
   "product": [
     {
-      "productId": 1,
+      "productId": "1",
       "productName": "تاید لباس",
       "productImage": "assets/images/powder.png",
       "productDescription": "دارای وزن 300 گرم\nکشور سازنده آلمان \nدارای رایحه لوندر\n مناسب برای لباسشویی",
@@ -27,7 +26,7 @@
       "totalProductCount": 0
     },
     {
-      "productId": 2,
+      "productId": "2",
       "productName": "جرمگیر",
       "productImage": "assets/images/powder.png",
       "productDescription": "دارای وزن 300 گرم\nکشور سازنده آلمان \nدارای رایحه لوندر\n مناسب برای لباسشویی",
@@ -36,9 +35,8 @@
       "isAvailable": true,
       "productCategory": "شوینده",
       "productSubCategory": "",
+      "productCountInBasket": 0,
       "productCount": 0
     }
   ]
-
 }
-

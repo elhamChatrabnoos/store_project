@@ -1,13 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'package:get/get_core/src/get_main.dart';
-import 'package:shop_getx/models/product.dart';
 import 'package:shop_getx/views/pages/product_details_page.dart';
 import 'package:shop_getx/views/widgets/product_item.dart';
 
 import '../../controllers/product_controller.dart';
+import '../../models/product.dart';
 
 class AllProductListPage extends StatelessWidget {
   AllProductListPage({Key? key}) : super(key: key);
@@ -38,31 +35,30 @@ class AllProductListPage extends StatelessWidget {
   Widget _productList() {
     return GetBuilder<ProductController>(
       assignId: true,
-      builder: (productController) {
+      builder: (logic) {
         return ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemCount: productList.length,
             itemBuilder: (context, index) {
               return ProductItem(
-                onItemClick: () =>
-                    Get.to(ProductDetailsPage(product: productList[index])),
+                onItemClick: () => Get.to(
+                  ProductDetailsPage(product: productList[index]),
+                ),
                 addToBasketClick: () {
-                  productController.addProductToBasket(productList[index]);
+                  logic.addProductToBasket(productList[index]);
                 },
-                onAddBtnClick: () =>
-                    productController.addProductToBasket(productList[index]),
-                onRemoveBtnClick: () {
-                  num? productCount = buyBasketList[index].productCountInBasket;
-                  if (productCount! > 1) {
-                    productController.removeProductFromBasket(
-                        buyBasketList[index]);
-                  } else {
-                    // Todo show dialog before delete
-                    buyBasketList.removeAt(index);
+                onAddBtnClick: () {
+                  if (logic.searchProductInBasket(productList[index])) {
+                    logic.addProductToBasket(logic.targetProduct!);
                   }
                 },
-                product: productList[index],
+                onRemoveBtnClick: () {
+                  logic.removeProductFromBasket(buyBasketList[index]);
+                },
+                product: logic.searchProductInBasket(productList[index])
+                    ? logic.targetProduct!
+                    : productList[index],
                 productIndex: index,
               );
             });

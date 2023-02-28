@@ -73,19 +73,11 @@ class ProductItem extends StatelessWidget {
     );
   }
 
-  Widget _checkProductInBasket(){
-    // search product in current user buy basket list
-    bool thereIs = buyBasketList.any((element)=> element.productId == product.productId);
-    for (var i = 0; i < buyBasketList.length; ++i) {
-      if(buyBasketList[i].productId == product.productId){
-        product.productCountInBasket = buyBasketList[i].productCountInBasket;
-        break;
-      }
-    }
-    if(thereIs){
+  Widget _checkProductInBasket() {
+    print(product.productCountInBasket);
+    if (product.productCountInBasket! > 0) {
       return _addDeleteProduct();
-    }
-    else{
+    } else {
       return CustomButton(
         onTap: addToBasketClick,
         textSize: 13,
@@ -173,25 +165,23 @@ class ProductItem extends StatelessWidget {
 
   Widget _addDeleteProduct() {
     return Container(
-      padding: const EdgeInsets.all(5),
+      padding: const EdgeInsets.all(0),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(width: 2, color: AppColors.deepButtonColor)),
-      width: 100,
+      width: 140,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          InkWell(
-            onTap: onAddBtnClick,
-            child: Icon(Icons.add, size: 20, color: AppColors.deepButtonColor),
-          ),
+          IconButton(
+              onPressed: onAddBtnClick,
+              icon: Icon(Icons.add, size: 20, color: AppColors.deepButtonColor)),
           CustomText(
               text: product.productCountInBasket.toString(),
               textColor: AppColors.deepButtonColor),
-          InkWell(
-            onTap: onRemoveBtnClick,
-            child:
-                Icon(Icons.delete, size: 20, color: AppColors.deepButtonColor),
+          IconButton(
+            onPressed: onRemoveBtnClick,
+            icon: Icon(Icons.delete, size: 20, color: AppColors.deepButtonColor),
           )
         ],
       ),
