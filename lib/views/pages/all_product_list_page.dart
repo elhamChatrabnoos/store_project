@@ -52,8 +52,16 @@ class AllProductListPage extends StatelessWidget {
                 },
                 onAddBtnClick: () =>
                     productController.addProductToBasket(productList[index]),
-                onRemoveBtnClick: () => productController
-                    .removeProductFromBasket(productList[index]),
+                onRemoveBtnClick: () {
+                  num? productCount = buyBasketList[index].productCountInBasket;
+                  if (productCount! > 1) {
+                    productController.removeProductFromBasket(
+                        buyBasketList[index]);
+                  } else {
+                    // Todo show dialog before delete
+                    buyBasketList.removeAt(index);
+                  }
+                },
                 product: productList[index],
                 productIndex: index,
               );

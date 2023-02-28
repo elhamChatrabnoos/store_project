@@ -35,17 +35,20 @@ class ShopBasketPage extends StatelessWidget {
                 onAddBtnClick: () =>
                     productController.addProductToBasket(buyBasketList[index]),
                 onRemoveBtnClick: () {
-                  int productCount = buyBasketList[index].productCount;
-                  if (productCount > 1) {
+                  num? productCount = buyBasketList[index].productCountInBasket;
+                  //if product count is more than 1 in basket remove 1 else remove product totally
+                  if (productCount! > 1) {
                     productController.removeProductFromBasket(
                         buyBasketList[index]);
                   } else {
+                    // Todo show dialog before delete
                     buyBasketList.removeAt(index);
                   }
                 },
                 product: buyBasketList[index],
                 productIndex: index,
               );
-            });
+            }
+            );
   }
 }

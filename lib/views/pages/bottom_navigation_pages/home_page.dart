@@ -21,10 +21,13 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Directionality(
         textDirection: TextDirection.rtl,
-        child: Scaffold(appBar: _appBarWithSearch(), body: _bodyItems()));
+        child: Scaffold(
+              appBar: _appBarWithSearch(),
+              body: _bodyItems(context))
+        );
   }
 
-  Widget _bodyItems() {
+  Widget _bodyItems(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: SingleChildScrollView(
@@ -35,10 +38,7 @@ class HomePage extends StatelessWidget {
             _imagesSlider(),
             AppSizes.normalSizeBox2,
             _categoryTitle('شوینده ها'),
-            _productOfCategories(),
-            AppSizes.normalSizeBox2,
-            _categoryTitle('حبوبات'),
-            _productOfCategories(),
+            _productOfCategories(context),
             AppSizes.bigSizeBox,
           ],
         ),
@@ -66,15 +66,15 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _productOfCategories() {
+  Widget _productOfCategories(BuildContext context) {
     return SizedBox(
-        height: 265,
+        height: MediaQuery.of(context).size.height/2.5,
         child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
-              itemCount: AppSizes.numberOfListItem,
+              itemCount: productList.length,
               itemBuilder: (context, index) {
                 return index == 4
                     ? _moreButton()

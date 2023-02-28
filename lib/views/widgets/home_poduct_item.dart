@@ -46,11 +46,14 @@ class HomeProductItem extends StatelessWidget {
   }
 
   Widget _descriptionText() {
-    return CustomText(
-      text: product.shortProductDescrip!,
-      textSize: 13,
-      textWeight: FontWeight.normal,
-      textColor: AppColors.subTextColor,
+    return SizedBox(
+      width: 120,
+      child: CustomText(
+        text: product.productDescription!,
+        textSize: 13,
+        textWeight: FontWeight.normal,
+        textColor: AppColors.subTextColor,
+      ),
     );
   }
 

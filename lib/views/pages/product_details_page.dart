@@ -12,20 +12,18 @@ import '../../controllers/product_controller.dart';
 import '../widgets/custom_button.dart';
 
 class ProductDetailsPage extends StatelessWidget {
-  ProductDetailsPage(
-      {Key? key, required this.product})
+  ProductDetailsPage({Key? key, required this.product})
       : super(key: key);
 
   final Product product;
   final ProductController productController = Get.find<ProductController>();
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xFFECE9EB),
         appBar:
-            AppBar(centerTitle: true, title: Text(AppTexts.productDetailTitle)),
+        AppBar(centerTitle: true, title: Text(AppTexts.productDetailTitle)),
         body: Directionality(
           textDirection: TextDirection.rtl,
           child: SingleChildScrollView(
@@ -75,8 +73,14 @@ class ProductDetailsPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image.asset(product.productImage!,
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 4),
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height / 4),
           _productName(),
           AppSizes.littleSizeBox,
           _discountCost(),
@@ -89,7 +93,7 @@ class ProductDetailsPage extends StatelessWidget {
 
   Widget _longDescription() {
     return CustomText(
-      text: product.longProductDescrip!,
+      text: product.productDescription!,
       textSize: AppSizes.normalTextSize1,
       textWeight: FontWeight.normal,
     );
@@ -101,7 +105,7 @@ class ProductDetailsPage extends StatelessWidget {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
-        itemCount: AppSizes.numberOfListItem,
+        itemCount: productList.length,
         itemBuilder: (context, index) {
           return HomeProductItem(
             product: productList[index],
@@ -116,26 +120,39 @@ class ProductDetailsPage extends StatelessWidget {
       children: [
         CustomText(
             text: product.productDiscount != null
-                ? '${product.productPrice! - product.productPrice! * product.productDiscount! ~/ 100} تومان '
+                ? '${product.productPrice! -
+                product.productPrice! * product.productDiscount! ~/ 100} تومان '
                 : '${product.productPrice} تومان ',
             textSize: AppSizes.subTitleTextSize),
         const Spacer(),
-        product.productCount! <= 0 ?
-        CustomButton(
-          onTap: () {
-            product.productCount = product.productCount! + 1;
-          },
-          textSize: 15,
-          buttonHeight: 40,
-          buttonWidth: 160,
-          buttonText: 'افزودن به سبد خرید',
-          textColor: Colors.white,
-          buttonColor: AppColors.buttonColor,
-        ) : _addDeleteProduct(),
+        _checkProductInBasket(),
       ],
     );
   }
 
+  Widget _checkProductInBasket() {
+    int indexOfProduct = buyBasketList.indexOf(product);
+    if (indexOfProduct > -1) {
+      return _addDeleteProduct();
+    }
+    else {
+      return GetBuilder<ProductController>(
+        assignId: true,
+        builder: (productController) {
+          return CustomButton(
+            onTap: productController.addProductToBasket(product),
+            textSize: 13,
+            buttonHeight: 30,
+            buttonWidth: 130,
+            buttonText: 'افزودن به سبد خرید',
+            textColor: Colors.blue,
+          );
+        },
+      );
+    }
+  }
+
+  // Todo create widget for this
   Widget _addDeleteProduct() {
     return Container(
       padding: EdgeInsets.all(5),
@@ -147,14 +164,14 @@ class ProductDetailsPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           InkWell(
-            // onTap: onAddBtnClick,
+            onTap: productController.addProductToBasket(product),
             child: Icon(Icons.add, size: 20, color: AppColors.deepButtonColor),
           ),
           CustomText(
-              text: product.productCount.toString(),
+              text: product.productCountInBasket.toString(),
               textColor: AppColors.deepButtonColor),
           InkWell(
-            onTap: () => product.productCount = product.productCount! - 1,
+            onTap: () => productController.removeProductFromBasket(product),
             child:
             Icon(Icons.delete, size: 20, color: AppColors.deepButtonColor),
           )

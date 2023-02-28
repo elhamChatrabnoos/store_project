@@ -113,7 +113,8 @@ class LoginPage extends StatelessWidget {
         child: Column(
       children: [
         AppSizes.littleSizeBox,
-        Image.asset(AppImages.loginImage, alignment: Alignment.center),
+        Image.asset(AppImages.loginImage,
+            width: 200, height: 200, alignment: Alignment.center),
       ],
     ));
   }

@@ -25,7 +25,7 @@ class ProductItem extends StatelessWidget {
   final Function()? onItemClick;
   final Function()? onAddBtnClick;
   final Function()? onRemoveBtnClick;
-  final Product product;
+  Product product;
   final int productIndex;
 
   final ProductController productController = Get.put(ProductController());
@@ -68,18 +68,33 @@ class ProductItem extends StatelessWidget {
         AppSizes.littleSizeBox2,
         product.productDiscount != null ? _productDiscount() : const SizedBox(),
         AppSizes.normalSizeBox2,
-        product.productCount == 0
-            ? CustomButton(
-                onTap: addToBasketClick,
-                textSize: 13,
-                buttonHeight: 30,
-                buttonWidth: 130,
-                buttonText: 'افزودن به سبد خرید',
-                textColor: Colors.blue,
-              )
-            : _addDeleteProduct(),
+        _checkProductInBasket(),
       ],
     );
+  }
+
+  Widget _checkProductInBasket(){
+    // search product in current user buy basket list
+    bool thereIs = buyBasketList.any((element)=> element.productId == product.productId);
+    for (var i = 0; i < buyBasketList.length; ++i) {
+      if(buyBasketList[i].productId == product.productId){
+        product.productCountInBasket = buyBasketList[i].productCountInBasket;
+        break;
+      }
+    }
+    if(thereIs){
+      return _addDeleteProduct();
+    }
+    else{
+      return CustomButton(
+        onTap: addToBasketClick,
+        textSize: 13,
+        buttonHeight: 30,
+        buttonWidth: 130,
+        buttonText: 'افزودن به سبد خرید',
+        textColor: Colors.blue,
+      );
+    }
   }
 
   Column _titleAndDescription() {
@@ -95,7 +110,7 @@ class ProductItem extends StatelessWidget {
         SizedBox(
           width: 110,
           child: CustomText(
-              text: product.longProductDescrip!,
+              text: product.productDescription!,
               textWeight: FontWeight.normal,
               textSize: 12),
         )
@@ -171,7 +186,7 @@ class ProductItem extends StatelessWidget {
             child: Icon(Icons.add, size: 20, color: AppColors.deepButtonColor),
           ),
           CustomText(
-              text: product.productCount.toString(),
+              text: product.productCountInBasket.toString(),
               textColor: AppColors.deepButtonColor),
           InkWell(
             onTap: onRemoveBtnClick,

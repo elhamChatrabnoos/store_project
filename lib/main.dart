@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: AppColors.primaryColor,
         ),
-        home: LoginPage()
+        home: MainPage()
         // Directionality(textDirection: TextDirection.rtl, child: MainPage()),
         );
   }
