@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:shop_getx/core/app_sizes.dart';
+import 'package:shop_getx/models/user.dart';
+
 import '../../controllers/loign_sign_up_controller.dart';
 import '../../core/app_colors.dart';
 import '../../core/app_texts.dart';
@@ -18,8 +17,7 @@ class SignUpPage extends StatelessWidget {
   SignUpPage({Key? key}) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
-  final LoginSignupController loginSignupController =
-      Get.put(LoginSignupController());
+  final UserController loginController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
@@ -34,51 +32,73 @@ class SignUpPage extends StatelessWidget {
   Padding _bodyOfPage(BuildContext context) {
     return Padding(
         padding:
-            const EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 10),
+        const EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 10),
         child: Form(
           key: formKey,
-          child: Column(
-            children: [
-              AppSizes.littleSizeBox,
-              CustomText(text: AppTexts.createAccountBtn, textSize: 30),
-              AppSizes.littleSizeBox,
-              ProfileImageShape(),
-              AppSizes.normalSizeBox2,
-              _emailTextField(),
-              AppSizes.normalSizeBox2,
-              _passwordTextField(),
-              AppSizes.normalSizeBox2,
-              _phoneNumberTextField(),
-              AppSizes.normalSizeBox2,
-              _addressTextField(),
-              AppSizes.normalSizeBox2,
-              _createAccountButton(context),
-            ],
+          // Todo delete thumb and show keyboard and textField together
+          child: SingleChildScrollView(
+            child: GetBuilder<UserController>(
+              assignId: true,
+              builder: (logic) {
+                return Column(
+                  children: [
+                    AppSizes.littleSizeBox,
+                    CustomText(text: AppTexts.createAccountBtn, textSize: 30),
+                    AppSizes.littleSizeBox,
+                    ProfileImageShape(),
+                    AppSizes.normalSizeBox2,
+                    _emailTextField(logic),
+                    AppSizes.normalSizeBox2,
+                    _passwordTextField(logic),
+                    AppSizes.normalSizeBox2,
+                    _phoneNumberTextField(logic),
+                    AppSizes.normalSizeBox2,
+                    _addressTextField(logic),
+                    AppSizes.normalSizeBox2,
+                    _createAccountButton(context, logic),
+                  ],
+                );
+              },
+            ),
           ),
         ));
   }
 
-  CustomButton _createAccountButton(BuildContext context) {
+  Widget _createAccountButton(BuildContext context, UserController logic) {
     return CustomButton(
       textColor: Colors.white,
       buttonText: AppTexts.createAccountBtn,
       buttonColor: AppColors.loginBtnColor,
       onTap: () {
         if (formKey.currentState!.validate()) {
-          Get.to(LoginPage());
+          User user = User(
+              userName: logic.userNameController.text,
+              userPass: logic.passController.text,
+              userAddress: logic.addressController.text,
+              userPhone: logic.phoneNumController.text);
+
+          if (logic.userExist(user)) {
+            Get.snackbar('کاربر تکراری', 'نام کاربری موجود است.');
+          }
+          else {
+            logic.addUser(user);
+            Get.to(LoginPage());
+          }
         }
       },
       textSize: AppSizes.normalTextSize2,
     );
   }
 
-  Widget _phoneNumberTextField() {
+  Widget _phoneNumberTextField(UserController logic) {
     return CustomTextField(
+      controller: logic.phoneNumController,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       keyboardType: TextInputType.number,
       labelText: AppTexts.phoneTxt,
       checkValidation: (value) {
-        if (!value!.startsWith('0') && value.length < 11) {
+        if (value!.isNotEmpty &&
+            !(value.startsWith('0') && value.length < 11)) {
           return AppTexts.phoneNumError;
         }
       },
@@ -87,42 +107,51 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
-  Widget _passwordTextField() {
-    return CustomTextField(
-      labelText: AppTexts.passwordTxt,
-      checkValidation: (value) {
-        if (!loginSignupController.checkPasswordFormat(value!).value) {
-          return AppTexts.passwordError;
-        }
-      },
-      icon: const Icon(Icons.remove_red_eye),
-      onTapIcon: () => loginSignupController.showHidePass(),
-      secure: loginSignupController.secureTextPass.value,
-      borderColor: AppColors.textFieldColor,
-    );
+  Widget _passwordTextField(UserController logic) {
+    return Obx(() {
+      return CustomTextField(
+        controller: logic.passController,
+        labelText: AppTexts.passwordTxt,
+        checkValidation: (value) {
+          if (!logic
+              .checkPasswordFormat(value!)
+              .value) {
+            return AppTexts.passwordError;
+          }
+        },
+        icon: const Icon(Icons.remove_red_eye),
+        onTapIcon: () => logic.showHidePass(),
+        secure: logic.secureTextPass.value,
+        borderColor: AppColors.textFieldColor,
+      );
+    });
   }
 
-  Widget _emailTextField() {
+  Widget _emailTextField(UserController logic) {
     return CustomTextField(
+      controller: logic.userNameController,
       checkValidation: (value) {
-        if (!loginSignupController.checkEmailValidation(value!).value) {
+        if (!logic
+            .checkEmailValidation(value!)
+            .value) {
           return AppTexts.emailError;
         }
       },
       labelText: AppTexts.emailTxt,
       secure: false,
-      onChanged: (value) => loginSignupController.checkEmailValidation(value!),
-      icon: loginSignupController.correctEmail.value
+      onChanged: (value) => logic.checkEmailValidation(value!),
+      icon: logic.correctEmail.value
           ? const Icon(Icons.check)
           : const Icon(Icons.email_outlined),
       borderColor: AppColors.textFieldColor,
     );
   }
 
-  Widget _addressTextField() {
+  Widget _addressTextField(UserController logic) {
     return CustomTextField(
+      controller: logic.addressController,
       checkValidation: (value) {
-        if (value!.length < 10) {
+        if (value!.isNotEmpty && !(value.length >= 10)) {
           return AppTexts.addressError;
         }
       },
@@ -132,5 +161,4 @@ class SignUpPage extends StatelessWidget {
       borderColor: AppColors.textFieldColor,
     );
   }
-
 }

@@ -4,21 +4,22 @@ import 'package:flutter/services.dart';
 import '../../core/app_colors.dart';
 
 class CustomTextField extends StatelessWidget {
-  CustomTextField(
-      {Key? key,
-      this.onChanged,
-      this.icon,
-      this.correctFormat,
-      this.secure,
-      this.onTapIcon,
-      this.hintText,
-      this.initialValue,
-      this.inputFormatters,
-      this.checkValidation,
-      this.fillColor,
-      required this.borderColor,
-      this.labelText,
-        this.radius, this.keyboardType})
+  CustomTextField({Key? key,
+    this.onChanged,
+    this.icon,
+    this.correctFormat,
+    this.secure,
+    this.onTapIcon,
+    this.hintText,
+    this.initialValue,
+    this.inputFormatters,
+    this.checkValidation,
+    this.fillColor,
+    required this.borderColor,
+    this.labelText,
+    this.radius,
+    this.keyboardType,
+    this.controller})
       : super(key: key);
 
   final Function(String?)? onChanged;
@@ -35,6 +36,7 @@ class CustomTextField extends StatelessWidget {
   final Color borderColor;
   final double? radius;
   final TextInputType? keyboardType;
+  final TextEditingController? controller;
 
   FocusNode focusNode = FocusNode();
 
@@ -42,6 +44,7 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       keyboardType: keyboardType,
+      controller: controller,
       // focusNode: focusNode,
       inputFormatters: inputFormatters,
       initialValue: initialValue,

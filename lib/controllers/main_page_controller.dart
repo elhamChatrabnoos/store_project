@@ -8,7 +8,7 @@ import '../views/pages/bottom_navigation_pages/user_info_page.dart';
 
 class MainController extends GetxController{
 
-  List _bottomBarPages = [
+  List bottomBarPages = [
     UserInfoPage(),
     HomePage(),
     ShopBasketPage(),
@@ -16,13 +16,6 @@ class MainController extends GetxController{
 
   final pageController = PageController(initialPage: 1);
 
-
   int maxCount = 3;
-
-  List get bottomBarPages => _bottomBarPages;
-
-  set bottomBarPages(List value) {
-    _bottomBarPages = value;
-  }
 
 }

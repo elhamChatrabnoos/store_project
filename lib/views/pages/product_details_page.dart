@@ -12,10 +12,11 @@ import '../../controllers/product_controller.dart';
 import '../widgets/custom_button.dart';
 
 class ProductDetailsPage extends StatelessWidget {
-  ProductDetailsPage({Key? key, required this.product})
-      : super(key: key);
+  ProductDetailsPage({Key? key, required this.product}) : super(key: key);
 
   final Product product;
+
+  // final ProductController productController = Get.put(ProductController());
   final ProductController productController = Get.find<ProductController>();
 
   @override
@@ -134,13 +135,12 @@ class ProductDetailsPage extends StatelessWidget {
     int indexOfProduct = buyBasketList.indexOf(product);
     if (indexOfProduct > -1) {
       return _addDeleteProduct();
-    }
-    else {
+    } else {
       return GetBuilder<ProductController>(
         assignId: true,
         builder: (productController) {
           return CustomButton(
-            onTap: productController.addProductToBasket(product),
+            onTap: () => productController.addProductToBasket(product),
             textSize: 13,
             buttonHeight: 30,
             buttonWidth: 130,
@@ -164,7 +164,7 @@ class ProductDetailsPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           InkWell(
-            onTap: productController.addProductToBasket(product),
+            onTap: () => productController.addProductToBasket(product),
             child: Icon(Icons.add, size: 20, color: AppColors.deepButtonColor),
           ),
           CustomText(
@@ -179,7 +179,6 @@ class ProductDetailsPage extends StatelessWidget {
       ),
     );
   }
-
 
   Widget _productName() {
     return CustomText(

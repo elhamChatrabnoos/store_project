@@ -16,8 +16,8 @@ class LoginPage extends StatelessWidget {
 
   final formKey = GlobalKey<FormState>();
 
-  final LoginSignupController loginSignupController =
-      Get.put(LoginSignupController());
+  final UserController loginSignupController =
+      Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {

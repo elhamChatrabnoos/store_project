@@ -4,12 +4,9 @@ import 'package:shop_getx/views/pages/product_details_page.dart';
 import 'package:shop_getx/views/widgets/product_item.dart';
 
 import '../../controllers/product_controller.dart';
-import '../../models/product.dart';
 
 class AllProductListPage extends StatelessWidget {
-  AllProductListPage({Key? key}) : super(key: key);
-
-  final ProductController productController = Get.put(ProductController());
+  const AllProductListPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +32,7 @@ class AllProductListPage extends StatelessWidget {
   Widget _productList() {
     return GetBuilder<ProductController>(
       assignId: true,
-      builder: (logic) {
+      builder: (productController) {
         return ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
@@ -46,19 +43,22 @@ class AllProductListPage extends StatelessWidget {
                   ProductDetailsPage(product: productList[index]),
                 ),
                 addToBasketClick: () {
-                  logic.addProductToBasket(productList[index]);
+                  productController.addProductToBasket(productList[index]);
                 },
                 onAddBtnClick: () {
-                  if (logic.searchProductInBasket(productList[index])) {
-                    logic.addProductToBasket(logic.targetProduct!);
-                  }
+                  productController.searchProductInBasket(productList[index]);
+                  productController
+                      .addProductToBasket(productController.targetProduct!);
                 },
                 onRemoveBtnClick: () {
-                  logic.removeProductFromBasket(buyBasketList[index]);
+                  productController.searchProductInBasket(productList[index]);
+                  productController.removeProductFromBasket(
+                      productController.targetProduct!);
                 },
-                product: logic.searchProductInBasket(productList[index])
-                    ? logic.targetProduct!
-                    : productList[index],
+                product:
+                    productController.searchProductInBasket(productList[index])
+                        ? productController.targetProduct!
+                        : productList[index],
                 productIndex: index,
               );
             });

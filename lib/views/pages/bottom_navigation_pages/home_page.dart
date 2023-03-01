@@ -14,7 +14,10 @@ import 'package:shop_getx/views/widgets/home_poduct_item.dart';
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
-  final HomeController homeController = Get.put(HomeController());
+  List<String> sliderImages = [
+    'assets/images/slider2.jpg',
+    'assets/images/slider3.jpg'];
+
   final ProductController productController = Get.put(ProductController());
 
   @override
@@ -121,7 +124,7 @@ class HomePage extends StatelessWidget {
         itemBuilder: (context, index, realIndex) {
           return Padding(
               padding: const EdgeInsets.all(10),
-              child: Image.asset(homeController.sliderImages[index]));
+              child: Image.asset(sliderImages[index]));
         },
         options: CarouselOptions(autoPlay: false));
   }

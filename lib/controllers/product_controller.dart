@@ -17,14 +17,10 @@ class ProductController extends GetxController {
 
   // void getProducts(){
   //   isLoading = true.obs;
-  //   print('toye khoroji mobile vared *then* nemishe');
   //   _productRepository.getProducts().then((value){
   //     productList = value.obs;
-  //     print('isLoading before change $isLoading');
   //     isLoading = false.obs;
-  //     print('isLoading $isLoading');
   //   });
-  //   print('toye khoroji web in ejra *nemishe $isLoading');
   //   // update();
   // }
 

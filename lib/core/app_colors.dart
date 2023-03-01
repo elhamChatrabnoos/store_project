@@ -12,7 +12,7 @@ class AppColors{
   static Color bottomNavItemColor = const Color.fromARGB(255, 193, 193, 206);
   static Color navActiveItemColor = const Color.fromARGB(255, 0, 0, 0);
   static Color navInactiveItemColor = const Color.fromARGB(255, 93, 90, 90);
-  static Color grayColor = const Color.fromARGB(255, 93, 90, 90);
+  static Color grayColor = const Color.fromARGB(255, 222, 217, 217);
 
   static Color buttonColor = const Color(0xFF5CC2FA);
   static Color deepButtonColor = const Color(0xFF044C72);

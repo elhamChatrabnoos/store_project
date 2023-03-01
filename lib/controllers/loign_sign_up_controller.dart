@@ -1,25 +1,57 @@
-
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:shop_getx/repositories/user_repository.dart';
 
-class LoginSignupController extends GetxController{
+import '../models/user.dart';
+
+class UserController extends GetxController {
+
   RxBool _correctEmail = false.obs;
-  RxBool _secureTextPass = true.obs;
+  RxBool secureTextPass = true.obs;
   RxBool _secureTextConfPass = true.obs;
   RxBool _checkboxValue = false.obs;
-  RxString _registeredEmail = ''.obs;
-  RxString _registeredPassword = ''.obs;
-  RxBool _checkedAgreement = false.obs;
+  List<User>? userList;
 
-  RxBool checkInformation(String email, String password) {
-    return (email == registeredEmail).obs;
-    // && password == _registeredPassword;
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController passController = TextEditingController();
+  TextEditingController phoneNumController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+
+  final UserRepository _userRepository = UserRepository();
+
+  @override
+  void onInit() {
+    super.onInit();
+    getUser();
+  }
+
+  void addUser(User user) {
+    _userRepository.addUser(newUser: user);
+  }
+
+  void getUser(){
+    _userRepository.getUsers().then((value) {
+      userList = value;
+    });
+  }
+
+
+  bool userExist(User user){
+    // search user in userList before add
+    for (var userElement in userList!) {
+      if(userElement.userName == user.userName){
+        return true;
+      }
+    }
+   return false;
   }
 
   RxBool checkEmailValidation(String value) {
     _correctEmail =
-    ((value.contains('@gmail.com') || value.contains('@yahoo.com'))
-        ? true
-        : false).obs;
+        ((value.contains('@gmail.com') || value.contains('@yahoo.com'))
+            ? true.obs
+            : false.obs);
+    update();
     return _correctEmail;
   }
 
@@ -32,7 +64,7 @@ class LoginSignupController extends GetxController{
 
   RxBool checkConfirmPass(String? firstInput, String secondInput) {
     bool samePass = firstInput == secondInput && firstInput!.isNotEmpty;
-    _registeredPassword.value = samePass ? firstInput : '';
+    // _registeredPassword.value = samePass ? firstInput : '';
     return samePass.obs;
   }
 
@@ -42,30 +74,6 @@ class LoginSignupController extends GetxController{
 
   void showHideConfPass() {
     _secureTextConfPass.value = _secureTextConfPass.value ? false : true;
-  }
-
-
-  RxBool checkAgreement(bool value){
-    _checkedAgreement.value = value;
-    return _checkedAgreement;
-  }
-
-  RxBool get checkedAgreement => _checkedAgreement;
-
-  set checkedAgreement(RxBool value) {
-    _checkedAgreement = value;
-  }
-
-  RxString get registeredPassword => _registeredPassword;
-
-  set registeredPassword(RxString value) {
-    _registeredPassword = value;
-  }
-
-  RxString get registeredEmail => _registeredEmail;
-
-  set registeredEmail(RxString value) {
-    _registeredEmail = value;
   }
 
   RxBool get checkboxValue => _checkboxValue;
@@ -80,11 +88,6 @@ class LoginSignupController extends GetxController{
     _secureTextConfPass = value;
   }
 
-  RxBool get secureTextPass => _secureTextPass;
-
-  set secureTextPass(RxBool value) {
-    _secureTextPass = value;
-  }
 
   RxBool get correctEmail => _correctEmail;
 

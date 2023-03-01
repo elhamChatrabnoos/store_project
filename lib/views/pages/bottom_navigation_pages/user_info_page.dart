@@ -12,15 +12,16 @@ import '../../widgets/custom_text.dart';
 import '../../widgets/custom_text_field.dart';
 import '../../widgets/profile_image.dart';
 
-class UserInfoPage extends StatelessWidget {
+class UserInfoPage extends GetView<UserController> {
    UserInfoPage({Key? key}) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
-  final LoginSignupController loginSignupController =
-  Get.put(LoginSignupController());
+  // final LoginSignupController loginSignupController =
+  // Get.put(LoginSignupController());
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => UserController());
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -87,13 +88,13 @@ class UserInfoPage extends StatelessWidget {
     return CustomTextField(
       labelText: AppTexts.passwordTxt,
       checkValidation: (value) {
-        if (!loginSignupController.checkPasswordFormat(value!).value) {
+        if (!controller.checkPasswordFormat(value!).value) {
           return AppTexts.passwordError;
         }
       },
       icon: const Icon(Icons.remove_red_eye),
-      onTapIcon: () => loginSignupController.showHidePass(),
-      secure: loginSignupController.secureTextPass.value,
+      onTapIcon: () => controller.showHidePass(),
+      secure: controller.secureTextPass.value,
       borderColor: AppColors.textFieldColor,
     );
   }
@@ -101,14 +102,14 @@ class UserInfoPage extends StatelessWidget {
   Widget _emailTextField() {
     return CustomTextField(
       checkValidation: (value) {
-        if (!loginSignupController.checkEmailValidation(value!).value) {
+        if (!controller.checkEmailValidation(value!).value) {
           return AppTexts.emailError;
         }
       },
       labelText: AppTexts.emailTxt,
       secure: false,
-      onChanged: (value) => loginSignupController.checkEmailValidation(value!),
-      icon: loginSignupController.correctEmail.value
+      onChanged: (value) => controller.checkEmailValidation(value!),
+      icon: controller.correctEmail.value
           ? const Icon(Icons.check)
           : const Icon(Icons.email_outlined),
       borderColor: AppColors.textFieldColor,

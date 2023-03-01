@@ -2,20 +2,13 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:shop_getx/models/product.dart';
+import 'package:shop_getx/repositories/dio_field.dart';
 
 class ProductRepository {
-  final Dio _dio = Dio(
-    BaseOptions(
-      baseUrl: 'http://localhost:3000/',
-      // baseUrl: 'http://192.168.1.123/',
-      // baseUrl: 'http://22.198.147.172:3000/',
-      receiveDataWhenStatusError: true,
-      // connectTimeout: const Duration(seconds: 5),
-    ),
-  );
+
 
   Future<Either<String, List<Product>>> getProducts() async {
-    var productsList = await _dio.get('product');
+    var productsList = await dioBaseUrl.get('product');
     try {
       final result =
           productsList.data.map<Product>((e) => Product.fromJson(e)).toList();
@@ -28,7 +21,7 @@ class ProductRepository {
   Future<Product> updateProduct(
       {required Product targetProduct, required String productId}) async {
     try {
-      var response = await _dio.put('product', data: targetProduct.toJson());
+      var response = await dioBaseUrl.put('product', data: targetProduct.toJson());
       Product? updatedProduct = Product.fromJson(response.data);
       return updatedProduct;
     } catch (e) {
