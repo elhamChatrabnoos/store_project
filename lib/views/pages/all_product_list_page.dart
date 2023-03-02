@@ -5,11 +5,15 @@ import 'package:shop_getx/views/widgets/product_item.dart';
 
 import '../../controllers/product_controller.dart';
 
-class AllProductListPage extends StatelessWidget {
-  const AllProductListPage({Key? key}) : super(key: key);
+class AllProductListPage extends GetView<ProductController> {
+   AllProductListPage({Key? key}) : super(key: key);
+
+   // Todo check find for this page instead of lazyPut
+  // final ProductController productController = Get.find<ProductController>();
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => ProductController());
     return Scaffold(
         appBar: AppBar(
           actions: [

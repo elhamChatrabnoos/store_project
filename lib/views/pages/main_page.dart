@@ -5,24 +5,30 @@ import 'package:shop_getx/controllers/main_page_controller.dart';
 import 'package:shop_getx/controllers/product_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 
-class MainPage extends GetView<MainController>{
+import '../../controllers/user_controller.dart';
+import 'bottom_navigation_pages/buy_basket_page.dart';
+import 'bottom_navigation_pages/home_page.dart';
+import 'bottom_navigation_pages/profile_page.dart';
+
+class MainPage extends GetView<ProductController> {
   MainPage({Key? key}) : super(key: key);
+
+  List bottomBarPages = [UserProfilePage(), HomePage(), ShopBasketPage()];
+  final pageController = PageController(initialPage: 1);
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => MainController());
+    Get.lazyPut(() => ProductController());
     return Scaffold(
       body: PageView(
-        physics: NeverScrollableScrollPhysics(),
-        controller: controller.pageController,
-        children: List.generate(controller.bottomBarPages.length,
-            (index) => controller.bottomBarPages[index]),
+        physics: const NeverScrollableScrollPhysics(),
+        controller: pageController,
+        children: List.generate(
+            bottomBarPages.length, (index) => bottomBarPages[index]),
       ),
       extendBody: true,
       bottomNavigationBar:
-          (controller.bottomBarPages.length <= controller.maxCount)
-              ? _bottomBarItems()
-              : null,
+          (bottomBarPages.length <= 3) ? _bottomBarItems() : null,
     );
   }
 
@@ -31,7 +37,7 @@ class MainPage extends GetView<MainController>{
       itemLabelStyle: TextStyle(color: AppColors.navInactiveItemColor),
       color: AppColors.bottomNavBackColor,
       notchColor: AppColors.bottomNavItemColor,
-      pageController: controller.pageController,
+      pageController: pageController,
       bottomBarItems: [
         BottomBarItem(
             itemLabel: 'پروفایل',
@@ -55,7 +61,7 @@ class MainPage extends GetView<MainController>{
                 color: AppColors.navActiveItemColor)),
       ],
       onTap: (index) {
-        controller.pageController.animateToPage(index,
+        pageController.animateToPage(index,
             duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
       },
     );

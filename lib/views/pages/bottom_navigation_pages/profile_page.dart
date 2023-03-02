@@ -2,26 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:shop_getx/views/pages/login_page.dart';
 
-import '../../../controllers/loign_sign_up_controller.dart';
+import '../../../controllers/user_controller.dart';
 import '../../../core/app_colors.dart';
 import '../../../core/app_sizes.dart';
 import '../../../core/app_texts.dart';
+import '../../../models/user.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_text.dart';
 import '../../widgets/custom_text_field.dart';
 import '../../widgets/profile_image.dart';
 
-class UserInfoPage extends GetView<UserController> {
-   UserInfoPage({Key? key}) : super(key: key);
+class UserProfilePage extends StatelessWidget {
+  UserProfilePage({Key? key}) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
-  // final LoginSignupController loginSignupController =
-  // Get.put(LoginSignupController());
+  UserController controller = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => UserController());
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -33,13 +33,14 @@ class UserInfoPage extends GetView<UserController> {
   Padding _bodyOfPage(BuildContext context) {
     return Padding(
         padding:
-        const EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 10),
+            const EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 10),
         child: Form(
           key: formKey,
           child: Column(
             children: [
+              _exitAccount(),
               AppSizes.littleSizeBox,
-              ProfileImageShape(),
+              // ProfileImageShape(),
               AppSizes.normalSizeBox2,
               _emailTextField(),
               AppSizes.normalSizeBox2,
@@ -55,6 +56,24 @@ class UserInfoPage extends GetView<UserController> {
         ));
   }
 
+  Widget _exitAccount() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        const Icon(Icons.exit_to_app),
+        AppSizes.littleSizeBoxWidth,
+        CustomText(
+          text: 'خروج از حساب',
+          onClickText: () {
+            controller.removeUserFromPref();
+            Get.off(LoginPage());
+            // Get.to(LoginPage());
+          },
+        )
+      ],
+    );
+  }
+
   CustomButton _updateUserInfoButton(BuildContext context) {
     return CustomButton(
       textColor: Colors.white,
@@ -62,20 +81,44 @@ class UserInfoPage extends GetView<UserController> {
       buttonColor: AppColors.loginBtnColor,
       onTap: () {
         if (formKey.currentState!.validate()) {
-
+          User user = User(
+              userId: controller.getUserFromPref()['userId'],
+              userName: controller.userNameController.text,
+              userPass: controller.passController.text,
+              userAddress: controller.addressController.text,
+              userPhone: controller.phoneNumController.text);
+          print('user id : ${controller.getUserFromPref()['userId']}');
+          print('user name is : ${controller.getUserFromPref()['userName']}');
+          controller.editUser(user);
         }
       },
       textSize: AppSizes.normalTextSize2,
     );
   }
 
+  Widget _addressTextField() {
+    return CustomTextField(
+      initialValue: controller.getUserFromPref()['userAddress'],
+      checkValidation: (value) {
+        if (value!.isNotEmpty && !(value.length >= 10)) {
+          return AppTexts.addressError;
+        }
+      },
+      labelText: AppTexts.addressTxt,
+      secure: false,
+      icon: const Icon(Icons.home),
+      borderColor: AppColors.textFieldColor,
+    );
+  }
+
   Widget _phoneNumberTextField() {
     return CustomTextField(
+      initialValue: controller.getUserFromPref()['userPhone'],
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       keyboardType: TextInputType.number,
       labelText: AppTexts.phoneTxt,
       checkValidation: (value) {
-        if (!value!.startsWith('0') && value.length < 11) {
+        if (value!.isNotEmpty && !controller.correctPhoneFormat(value).value) {
           return AppTexts.phoneNumError;
         }
       },
@@ -85,22 +128,26 @@ class UserInfoPage extends GetView<UserController> {
   }
 
   Widget _passwordTextField() {
-    return CustomTextField(
-      labelText: AppTexts.passwordTxt,
-      checkValidation: (value) {
-        if (!controller.checkPasswordFormat(value!).value) {
-          return AppTexts.passwordError;
-        }
-      },
-      icon: const Icon(Icons.remove_red_eye),
-      onTapIcon: () => controller.showHidePass(),
-      secure: controller.secureTextPass.value,
-      borderColor: AppColors.textFieldColor,
-    );
+    return Obx(() {
+      return CustomTextField(
+        initialValue: controller.getUserFromPref()['userPass'],
+        labelText: AppTexts.passwordTxt,
+        checkValidation: (value) {
+          if (!controller.checkPasswordFormat(value!).value) {
+            return AppTexts.passwordError;
+          }
+        },
+        icon: const Icon(Icons.remove_red_eye),
+        onTapIcon: () => controller.showHidePass(),
+        secure: controller.secureTextPass.value,
+        borderColor: AppColors.textFieldColor,
+      );
+    });
   }
 
   Widget _emailTextField() {
     return CustomTextField(
+      initialValue: controller.getUserFromPref()['userName'],
       checkValidation: (value) {
         if (!controller.checkEmailValidation(value!).value) {
           return AppTexts.emailError;
@@ -115,19 +162,4 @@ class UserInfoPage extends GetView<UserController> {
       borderColor: AppColors.textFieldColor,
     );
   }
-
-  Widget _addressTextField() {
-    return CustomTextField(
-      checkValidation: (value) {
-        if (value!.length < 10) {
-          return AppTexts.addressError;
-        }
-      },
-      labelText: AppTexts.addressTxt,
-      secure: false,
-      icon: const Icon(Icons.home),
-      borderColor: AppColors.textFieldColor,
-    );
-  }
-
 }

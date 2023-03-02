@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/models/user.dart';
 
-import '../../controllers/loign_sign_up_controller.dart';
+import '../../controllers/user_controller.dart';
 import '../../core/app_colors.dart';
 import '../../core/app_texts.dart';
 import '../widgets/custom_button.dart';
@@ -17,7 +17,6 @@ class SignUpPage extends StatelessWidget {
   SignUpPage({Key? key}) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
-  final UserController loginController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,7 @@ class SignUpPage extends StatelessWidget {
   Padding _bodyOfPage(BuildContext context) {
     return Padding(
         padding:
-        const EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 10),
+            const EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 10),
         child: Form(
           key: formKey,
           // Todo delete thumb and show keyboard and textField together
@@ -77,12 +76,11 @@ class SignUpPage extends StatelessWidget {
               userAddress: logic.addressController.text,
               userPhone: logic.phoneNumController.text);
 
-          if (logic.userExist(user)) {
+          if (logic.checkUserNameExist(user.userName!)) {
             Get.snackbar('کاربر تکراری', 'نام کاربری موجود است.');
-          }
-          else {
+          } else {
             logic.addUser(user);
-            Get.to(LoginPage());
+            Get.off(() => LoginPage());
           }
         }
       },
@@ -97,8 +95,7 @@ class SignUpPage extends StatelessWidget {
       keyboardType: TextInputType.number,
       labelText: AppTexts.phoneTxt,
       checkValidation: (value) {
-        if (value!.isNotEmpty &&
-            !(value.startsWith('0') && value.length < 11)) {
+        if (value!.isNotEmpty && !logic.correctPhoneFormat(value).value) {
           return AppTexts.phoneNumError;
         }
       },
@@ -113,9 +110,7 @@ class SignUpPage extends StatelessWidget {
         controller: logic.passController,
         labelText: AppTexts.passwordTxt,
         checkValidation: (value) {
-          if (!logic
-              .checkPasswordFormat(value!)
-              .value) {
+          if (!logic.checkPasswordFormat(value!).value) {
             return AppTexts.passwordError;
           }
         },
@@ -131,9 +126,7 @@ class SignUpPage extends StatelessWidget {
     return CustomTextField(
       controller: logic.userNameController,
       checkValidation: (value) {
-        if (!logic
-            .checkEmailValidation(value!)
-            .value) {
+        if (!logic.checkEmailValidation(value!).value) {
           return AppTexts.emailError;
         }
       },

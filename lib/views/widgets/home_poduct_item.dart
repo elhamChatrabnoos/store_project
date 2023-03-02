@@ -49,6 +49,7 @@ class HomeProductItem extends StatelessWidget {
     return SizedBox(
       width: 120,
       child: CustomText(
+        overflow: TextOverflow.ellipsis,
         text: product.productDescription!,
         textSize: 13,
         textWeight: FontWeight.normal,

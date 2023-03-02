@@ -1,26 +1,47 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shop_getx/controllers/loign_sign_up_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shop_getx/controllers/user_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_images.dart';
 import 'package:shop_getx/core/app_sizes.dart';
+import 'package:shop_getx/models/user.dart';
+import 'package:shop_getx/views/pages/bottom_navigation_pages/home_page.dart';
+import 'package:shop_getx/views/pages/bottom_navigation_pages/profile_page.dart';
 import 'package:shop_getx/views/pages/sign_up_page.dart';
 
+import '../../controllers/product_controller.dart';
 import '../../core/app_texts.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
 import 'main_page.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
 
   final formKey = GlobalKey<FormState>();
 
-  final UserController loginSignupController =
-      Get.put(UserController());
+  // Todo think about it
+  final ProductController productController = Get.put(ProductController());
+  UserController userController = Get.find<UserController>();
+
+  @override
+  void initState() {
+    super.initState();
+    userController.getUsers();
+  }
 
   @override
   Widget build(BuildContext context) {
+    // Get.lazyPut(() => UserController());
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -30,24 +51,23 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _loginBody(BuildContext context) {
-    return Center(
-      child: Padding(
-          padding: const EdgeInsets.all(40),
-          child: Form(
-            key: formKey,
-            child: Column(
-              children: [
-                _titleTextImage(),
-                AppSizes.normalSizeBox,
-                _emailTextField(),
-                AppSizes.normalSizeBox2,
-                _passwordTextField(),
-                AppSizes.normalSizeBox,
-                _buttons(context)
-              ],
-            ),
-          )),
-    );
+    return Padding(
+        padding: const EdgeInsets.all(40),
+        child: Form(
+          key: formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _titleTextImage(),
+              AppSizes.normalSizeBox,
+              _emailTextField(),
+              AppSizes.normalSizeBox2,
+              _passwordTextField(),
+              AppSizes.normalSizeBox,
+              _buttons(context)
+            ],
+          ),
+        ));
   }
 
   Widget _buttons(BuildContext context) {
@@ -62,7 +82,8 @@ class LoginPage extends StatelessWidget {
           buttonColor: AppColors.loginBtnColor,
           onTap: () {
             if (formKey.currentState!.validate()) {
-              Get.to(MainPage());
+              userController.saveUserToPref(userController.currentUser!);
+              Get.off(() => MainPage());
             }
           },
         ),
@@ -72,7 +93,7 @@ class LoginPage extends StatelessWidget {
             textColor: AppColors.loginBtnColor,
             buttonText: AppTexts.signUpBtnTxt,
             buttonColor: AppColors.loginTextColor,
-            onTap: () => Get.to(SignUpPage())),
+            onTap: () => Get.off(SignUpPage())),
       ],
     );
   }
@@ -80,26 +101,31 @@ class LoginPage extends StatelessWidget {
   Widget _passwordTextField() {
     return Obx(() {
       return CustomTextField(
+        controller: userController.passController,
         borderColor: AppColors.textFieldColor,
         labelText: AppTexts.passwordTxt,
         checkValidation: (value) {
-          if (value!.isEmpty) {
+          if (value!.isEmpty ||
+              !userController.userExist(
+                  userController.userNameController.text, userController.passController.text)) {
             return AppTexts.incorrectPassMsg;
           }
         },
         icon: const Icon(Icons.remove_red_eye),
-        onTapIcon: () => loginSignupController.showHidePass(),
-        secure: loginSignupController.secureTextPass.value,
+        onTapIcon: () => userController.showHidePass(),
+        secure: userController.secureTextPass.value,
       );
     });
   }
 
   Widget _emailTextField() {
     return CustomTextField(
+      controller: userController.userNameController,
       borderColor: AppColors.textFieldColor,
       labelText: AppTexts.emailTxt,
       checkValidation: (value) {
-        if (value!.isEmpty) {
+        if (value!.isEmpty ||
+            !userController.checkUserNameExist(userController.userNameController.text)) {
           return AppTexts.unavailableEmailMsg;
         }
       },

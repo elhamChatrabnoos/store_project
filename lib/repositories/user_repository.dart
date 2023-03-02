@@ -30,4 +30,17 @@ class UserRepository{
   }
 
 
+  Future<User> editUser({required User targetUser, required num userId}) async{
+    try{
+      var response = await dioBaseUrl.put('user/${userId.toString()}', data: targetUser.toJson());
+      User retrievedUser = User.fromJson(response.data);
+      return retrievedUser;
+    }
+    catch(e){
+      print('***edit user error***: ${e.toString()}');
+      return throw e.toString();
+    }
+  }
+
+
 }

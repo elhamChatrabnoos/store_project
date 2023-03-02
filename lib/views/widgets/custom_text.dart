@@ -8,7 +8,7 @@ class CustomText extends StatelessWidget {
     this.textColor,
     this.textDecoration,
     this.decorationColor,
-    this.textAlign})
+    this.textAlign, this.overflow, this.onClickText})
       : super(key: key);
 
   final String text;
@@ -18,20 +18,24 @@ class CustomText extends StatelessWidget {
   final TextDecoration? textDecoration;
   final Color? decorationColor;
   final TextAlign? textAlign;
+  final TextOverflow? overflow;
+  final Function()? onClickText;
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-      softWrap: false,
-      style: TextStyle(
-          color: textColor,
-          fontWeight: textWeight ?? FontWeight.bold,
-          decoration: textDecoration,
-          decorationColor: decorationColor,
-          fontSize: textSize),
+    return InkWell(
+      onTap: onClickText,
+      child: Text(
+        text,
+        maxLines: 1,
+        overflow: overflow,
+        style: TextStyle(
+            color: textColor,
+            fontWeight: textWeight ?? FontWeight.bold,
+            decoration: textDecoration,
+            decorationColor: decorationColor,
+            fontSize: textSize),
+      ),
     );
   }
 }

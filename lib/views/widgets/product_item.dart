@@ -102,6 +102,7 @@ class ProductItem extends StatelessWidget {
         SizedBox(
           width: 110,
           child: CustomText(
+              overflow: TextOverflow.ellipsis,
               text: product.productDescription!,
               textWeight: FontWeight.normal,
               textSize: 12),
@@ -175,13 +176,15 @@ class ProductItem extends StatelessWidget {
         children: [
           IconButton(
               onPressed: onAddBtnClick,
-              icon: Icon(Icons.add, size: 20, color: AppColors.deepButtonColor)),
+              icon:
+                  Icon(Icons.add, size: 20, color: AppColors.deepButtonColor)),
           CustomText(
               text: product.productCountInBasket.toString(),
               textColor: AppColors.deepButtonColor),
           IconButton(
             onPressed: onRemoveBtnClick,
-            icon: Icon(Icons.delete, size: 20, color: AppColors.deepButtonColor),
+            icon:
+                Icon(Icons.delete, size: 20, color: AppColors.deepButtonColor),
           )
         ],
       ),
