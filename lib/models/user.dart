@@ -1,44 +1,43 @@
 class User {
   User({
-    this.userId,
-    this.userName,
-    this.userPass,
-    this.userPhone,
-    this.userAddress,
-  });
+      this.id, 
+      this.userImage, 
+      this.userName, 
+      this.userPass, 
+      this.userPhone, 
+      this.userAddress,});
 
   User.fromJson(dynamic json) {
-    userId = json['id'];
+    id = json['id'];
+    userImage = json['userImage'];
     userName = json['userName'];
     userPass = json['userPass'];
     userPhone = json['userPhone'];
     userAddress = json['userAddress'];
   }
-
-  num? userId;
+  num? id;
+  String? userImage;
   String? userName;
   String? userPass;
   String? userPhone;
   String? userAddress;
-
-  User copyWith({
-    num? id,
-    String? userName,
-    String? userPass,
-    String? userPhone,
-    String? userAddress,
-  }) =>
-      User(
-        userId: id ?? this.userId,
-        userName: userName ?? this.userName,
-        userPass: userPass ?? this.userPass,
-        userPhone: userPhone ?? this.userPhone,
-        userAddress: userAddress ?? this.userAddress,
-      );
-
+User copyWith({  num? id,
+  String? userImage,
+  String? userName,
+  String? userPass,
+  String? userPhone,
+  String? userAddress,
+}) => User(  id: id ?? this.id,
+  userImage: userImage ?? this.userImage,
+  userName: userName ?? this.userName,
+  userPass: userPass ?? this.userPass,
+  userPhone: userPhone ?? this.userPhone,
+  userAddress: userAddress ?? this.userAddress,
+);
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['id'] = userId;
+    map['id'] = id;
+    map['userImage'] = userImage;
     map['userName'] = userName;
     map['userPass'] = userPass;
     map['userPhone'] = userPhone;

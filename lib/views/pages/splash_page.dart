@@ -21,6 +21,7 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
 
   UserController userController = Get.put(UserController());
+  final ProductController productController = Get.put(ProductController());
 
   @override
   void initState() {

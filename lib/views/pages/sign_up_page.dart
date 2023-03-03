@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -13,13 +16,14 @@ import '../widgets/custom_text_field.dart';
 import '../widgets/profile_image.dart';
 import 'login_page.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends GetView<UserController> {
   SignUpPage({Key? key}) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => UserController());
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -44,7 +48,7 @@ class SignUpPage extends StatelessWidget {
                     AppSizes.littleSizeBox,
                     CustomText(text: AppTexts.createAccountBtn, textSize: 30),
                     AppSizes.littleSizeBox,
-                    ProfileImageShape(),
+                    _profileImage(context, logic),
                     AppSizes.normalSizeBox2,
                     _emailTextField(logic),
                     AppSizes.normalSizeBox2,
@@ -55,12 +59,36 @@ class SignUpPage extends StatelessWidget {
                     _addressTextField(logic),
                     AppSizes.normalSizeBox2,
                     _createAccountButton(context, logic),
+                    AppSizes.normalSizeBox2,
+                    CustomText(
+                      textDecoration: TextDecoration.underline,
+                        text: 'قبلا حساب ایجاد کرده ام.',
+                        onClickText: () => Get.off(LoginPage()),
+                        textColor: Colors.blue)
                   ],
                 );
               },
             ),
           ),
         ));
+  }
+
+  Widget _profileImage(BuildContext context, UserController logic) {
+    return ProfileImageShape(
+      tapOnGallery: () {
+        logic.selectProfileImage(false);
+        Navigator.pop(context);
+      },
+      tapOnCamera: () {
+        logic.selectProfileImage(true);
+        Navigator.pop(context);
+      },
+      tapOnDelete: () {
+        logic.removeProfileImage();
+        Navigator.pop(context);
+      },
+      imageFile: logic.profileImage,
+    );
   }
 
   Widget _createAccountButton(BuildContext context, UserController logic) {
@@ -70,17 +98,28 @@ class SignUpPage extends StatelessWidget {
       buttonColor: AppColors.loginBtnColor,
       onTap: () {
         if (formKey.currentState!.validate()) {
-          User user = User(
-              userName: logic.userNameController.text,
-              userPass: logic.passController.text,
-              userAddress: logic.addressController.text,
-              userPhone: logic.phoneNumController.text);
-
-          if (logic.checkUserNameExist(user.userName!)) {
+          if (logic.checkUserNameExist(logic.userNameController.text)) {
             Get.snackbar('کاربر تکراری', 'نام کاربری موجود است.');
           } else {
+            // prepare user image and information
+            String userImage = '';
+
+            if (logic.profileImage != null) {
+              File imageFile = File(logic.profileImage!.path);
+              List<int> imageBytes = imageFile.readAsBytesSync();
+              String base64Image = base64Encode(imageBytes);
+              userImage = base64Image;
+            }
+
+            User user = User(
+                userImage: userImage,
+                userName: logic.userNameController.text,
+                userPass: logic.passController.text,
+                userAddress: logic.addressController.text,
+                userPhone: logic.phoneNumController.text);
+
             logic.addUser(user);
-            Get.off(() => LoginPage());
+            Get.off(LoginPage());
           }
         }
       },
@@ -95,7 +134,7 @@ class SignUpPage extends StatelessWidget {
       keyboardType: TextInputType.number,
       labelText: AppTexts.phoneTxt,
       checkValidation: (value) {
-        if (value!.isNotEmpty && !logic.correctPhoneFormat(value).value) {
+        if (value!.isNotEmpty && !logic.correctPhoneFormat(value)) {
           return AppTexts.phoneNumError;
         }
       },

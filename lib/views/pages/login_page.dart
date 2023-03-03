@@ -29,8 +29,6 @@ class _LoginPageState extends State<LoginPage> {
 
   final formKey = GlobalKey<FormState>();
 
-  // Todo think about it
-  final ProductController productController = Get.put(ProductController());
   UserController userController = Get.find<UserController>();
 
   @override
@@ -41,7 +39,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Get.lazyPut(() => UserController());
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -76,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
       children: [
         CustomButton(
           textSize: AppSizes.normalTextSize2,
-          buttonWidth: 150,
+          buttonWidth: MediaQuery.of(context).size.width/3,
           textColor: AppColors.loginTextColor,
           buttonText: AppTexts.loginBtnTxt,
           buttonColor: AppColors.loginBtnColor,
@@ -89,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         CustomButton(
             textSize: AppSizes.normalTextSize2,
-            buttonWidth: 150,
+            buttonWidth: MediaQuery.of(context).size.width/3,
             textColor: AppColors.loginBtnColor,
             buttonText: AppTexts.signUpBtnTxt,
             buttonColor: AppColors.loginTextColor,

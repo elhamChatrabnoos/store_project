@@ -2,101 +2,32 @@
   "user": [
     {
       "id": 1,
+      "userImage": "",
       "userName": "e@gmail.com",
-      "userPass": "Elham@123",
+      "userPass": "Elham@1234",
       "userPhone": "",
       "userAddress": ""
-    },
+    }
+  ],
+  "shoppingCart": [
     {
-      "id": 2,
-      "userName": "t@gmail.com",
-      "userPass": "$tTggg1234fd",
-      "userPhone": "",
-      "userAddress": ""
-    },
-    {
-      "id": 3,
-      "userName": "f@gmail.com",
-      "userPass": "Rf6547668g3#",
-      "userPhone": "",
-      "userAddress": ""
-    },
-    {
-      "id": 4,
-      "userName": "gg@gmail.com",
-      "userPass": "YYam@123",
-      "userPhone": "",
-      "userAddress": ""
-    },
-    {
-      "id": 5,
-      "userName": "y@gmail.com",
-      "userPass": "rg54$Rtdfv",
-      "userPhone": "",
-      "userAddress": ""
-    },
-    {
-      "id": 6,
-      "userName": "yer@gmail.com",
-      "userPass": "FRERdfb$456@",
-      "userPhone": "",
-      "userAddress": ""
-    },
-    {
-      "id": 7,
-      "userName": "yrn@gmail.com",
-      "userPass": "aerbADFB$ADFB3456",
-      "userPhone": "",
-      "userAddress": ""
-    },
-    {
-      "id": 8,
-      "userName": "ff@gmail.com",
-      "userPass": "ascas234AEF#",
-      "userPhone": "",
-      "userAddress": ""
-    },
-    {
-      "id": 9,
-      "userName": "FB@gmail.com",
-      "userPass": "DxfdgfkSDTJ23#",
-      "userPhone": "",
-      "userAddress": ""
-    },
-    {
-      "id": 10,
-      "userName": "ddt@gmail.com",
-      "userPass": "tTggg1234#fd",
-      "userPhone": "",
-      "userAddress": ""
-    },
-    {
-      "id": 11,
-      "userName": "sfbsdbt@gmail.com",
-      "userPass": "tTggg1234#fd",
-      "userPhone": "",
-      "userAddress": ""
-    },
-    {
-      "id": 12,
-      "userName": "dfbt@gmail.com",
-      "userPass": "tTggg1234#fd",
-      "userPhone": "",
-      "userAddress": ""
-    },
-    {
-      "id": 13,
-      "userName": "oot@gmail.com",
-      "userPass": "$tTggg1234fd",
-      "userPhone": "",
-      "userAddress": ""
-    },
-    {
-      "id": 14,
-      "userName": "nnt@gmail.com",
-      "userPass": "$tTggg1234fd",
-      "userPhone": "",
-      "userAddress": ""
+      "id": 1,
+      "userId": 1,
+      "shoppingList": [
+        {
+          "productId": "1",
+          "productName": "تاید لباس",
+          "productImage": "assets/images/powder.png",
+          "productDescription": "دارای وزن 300 گرم\nکشور سازنده آلمان \nدارای رایحه لوندر\n مناسب برای لباسشویی",
+          "productDiscount": 5,
+          "productPrice": 30000,
+          "isAvailable": true,
+          "productCategory": "شوینده",
+          "productSubCategory": "",
+          "productCountInBasket": 0,
+          "totalProductCount": 0
+        }
+      ]
     }
   ],
   "product": [

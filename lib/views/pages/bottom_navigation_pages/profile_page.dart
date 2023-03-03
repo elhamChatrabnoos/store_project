@@ -14,9 +14,26 @@ import '../../widgets/custom_text.dart';
 import '../../widgets/custom_text_field.dart';
 import '../../widgets/profile_image.dart';
 
-class UserProfilePage extends StatelessWidget {
-  UserProfilePage({Key? key}) : super(key: key);
+class UserProfilePage extends StatefulWidget {
+  const UserProfilePage({Key? key}) : super(key: key);
 
+  @override
+  State<UserProfilePage> createState() => _UserProfilePageState();
+}
+
+class _UserProfilePageState extends State<UserProfilePage> {
+
+  @override
+  void initState() {
+    super.initState();
+    controller.defineSharedPref();
+    controller.userNameController.text = controller.getUserFromPref()['userName'];
+    controller.passController.text = controller.getUserFromPref()['userPass'];
+    controller.addressController.text = controller.getUserFromPref()['userAddress'];
+    controller.phoneNumController.text = controller.getUserFromPref()['userPhone'];
+  }
+
+  // ToDo it has error when come from sign up page
   final formKey = GlobalKey<FormState>();
   UserController controller = Get.put(UserController());
 
@@ -38,11 +55,10 @@ class UserProfilePage extends StatelessWidget {
           key: formKey,
           child: Column(
             children: [
-              _exitAccount(),
               AppSizes.littleSizeBox,
-              // ProfileImageShape(),
+              ProfileImageShape(),
               AppSizes.normalSizeBox2,
-              _emailTextField(),
+              _userNameTextField(),
               AppSizes.normalSizeBox2,
               _passwordTextField(),
               AppSizes.normalSizeBox2,
@@ -50,7 +66,7 @@ class UserProfilePage extends StatelessWidget {
               AppSizes.normalSizeBox2,
               _addressTextField(),
               AppSizes.normalSizeBox2,
-              _updateUserInfoButton(context),
+              _exitAccount(),
             ],
           ),
         ));
@@ -60,45 +76,43 @@ class UserProfilePage extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        const Icon(Icons.exit_to_app),
-        AppSizes.littleSizeBoxWidth,
+        _updateUserInfoButton(context),
+        AppSizes.normalSizeBoxWidth2,
         CustomText(
+          textColor: Colors.blue,
           text: 'خروج از حساب',
           onClickText: () {
             controller.removeUserFromPref();
             Get.off(LoginPage());
             // Get.to(LoginPage());
           },
-        )
+        ),
       ],
     );
   }
 
-  CustomButton _updateUserInfoButton(BuildContext context) {
-    return CustomButton(
-      textColor: Colors.white,
-      buttonText: AppTexts.updateAccount,
-      buttonColor: AppColors.loginBtnColor,
-      onTap: () {
+  Widget _updateUserInfoButton(BuildContext context) {
+    return CustomText(
+      textColor: Colors.blue,
+      text: AppTexts.updateAccount,
+      onClickText: () {
         if (formKey.currentState!.validate()) {
           User user = User(
-              userId: controller.getUserFromPref()['userId'],
+              id: controller.getUserFromPref()['userId'],
               userName: controller.userNameController.text,
               userPass: controller.passController.text,
               userAddress: controller.addressController.text,
               userPhone: controller.phoneNumController.text);
-          print('user id : ${controller.getUserFromPref()['userId']}');
-          print('user name is : ${controller.getUserFromPref()['userName']}');
           controller.editUser(user);
+          Get.snackbar(AppTexts.updateAccount, AppTexts.userEditedSuccessful);
         }
       },
-      textSize: AppSizes.normalTextSize2,
     );
   }
 
   Widget _addressTextField() {
     return CustomTextField(
-      initialValue: controller.getUserFromPref()['userAddress'],
+      controller: controller.addressController,
       checkValidation: (value) {
         if (value!.isNotEmpty && !(value.length >= 10)) {
           return AppTexts.addressError;
@@ -113,12 +127,12 @@ class UserProfilePage extends StatelessWidget {
 
   Widget _phoneNumberTextField() {
     return CustomTextField(
-      initialValue: controller.getUserFromPref()['userPhone'],
+      controller: controller.phoneNumController,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       keyboardType: TextInputType.number,
       labelText: AppTexts.phoneTxt,
       checkValidation: (value) {
-        if (value!.isNotEmpty && !controller.correctPhoneFormat(value).value) {
+        if (value!.isNotEmpty && !controller.correctPhoneFormat(value)) {
           return AppTexts.phoneNumError;
         }
       },
@@ -130,7 +144,7 @@ class UserProfilePage extends StatelessWidget {
   Widget _passwordTextField() {
     return Obx(() {
       return CustomTextField(
-        initialValue: controller.getUserFromPref()['userPass'],
+        controller: controller.passController,
         labelText: AppTexts.passwordTxt,
         checkValidation: (value) {
           if (!controller.checkPasswordFormat(value!).value) {
@@ -145,9 +159,9 @@ class UserProfilePage extends StatelessWidget {
     });
   }
 
-  Widget _emailTextField() {
+  Widget _userNameTextField() {
     return CustomTextField(
-      initialValue: controller.getUserFromPref()['userName'],
+      controller: controller.userNameController,
       checkValidation: (value) {
         if (!controller.checkEmailValidation(value!).value) {
           return AppTexts.emailError;
@@ -163,3 +177,5 @@ class UserProfilePage extends StatelessWidget {
     );
   }
 }
+
+

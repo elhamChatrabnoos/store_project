@@ -10,15 +10,14 @@ import 'bottom_navigation_pages/buy_basket_page.dart';
 import 'bottom_navigation_pages/home_page.dart';
 import 'bottom_navigation_pages/profile_page.dart';
 
-class MainPage extends GetView<ProductController> {
+class MainPage extends StatelessWidget {
   MainPage({Key? key}) : super(key: key);
 
   List bottomBarPages = [UserProfilePage(), HomePage(), ShopBasketPage()];
-  final pageController = PageController(initialPage: 1);
+  PageController pageController = PageController(initialPage: 1);
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => ProductController());
     return Scaffold(
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),

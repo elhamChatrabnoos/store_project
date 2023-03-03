@@ -10,7 +10,7 @@ import 'package:shop_getx/views/widgets/custom_text.dart';
 import 'package:shop_getx/views/widgets/custom_text_field.dart';
 import 'package:shop_getx/views/widgets/home_poduct_item.dart';
 
-import '../../../controllers/user_controller.dart';
+import '../../../shared_class/custom_search.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -19,8 +19,6 @@ class HomePage extends StatelessWidget {
     'assets/images/slider2.jpg',
     'assets/images/slider3.jpg'];
 
-  final ProductController productController = Get.put(ProductController());
-
   @override
   Widget build(BuildContext context) {
     // Get.lazyPut(() => ProductController());
@@ -28,7 +26,22 @@ class HomePage extends StatelessWidget {
         textDirection: TextDirection.rtl,
         child: Scaffold(
           backgroundColor: AppColors.grayColor,
-              appBar: _appBarWithSearch(),
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    // method to show the search bar
+                    showSearch(
+                      context: context,
+                      delegate: CustomSearchDelegate(),
+                      // delegate to customize the search bar
+                    );
+                  },
+                  icon: const Icon(Icons.search),
+                )
+              ],
+            ),
               body: _bodyItems(context))
         );
   }

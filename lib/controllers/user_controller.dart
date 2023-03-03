@@ -1,19 +1,25 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shop_getx/core/app_keys.dart';
+import 'package:shop_getx/core/app_texts.dart';
 import 'package:shop_getx/repositories/user_repository.dart';
 
 import '../models/user.dart';
 
 class UserController extends GetxController {
+
   RxBool correctEmail = false.obs;
   RxBool secureTextPass = true.obs;
   RxBool secureTextConfPass = true.obs;
   RxBool checkboxValue = false.obs;
-  List<User>? userList;
+  List<User>? userList = [];
   User? currentUser;
+  File? profileImage;
 
   TextEditingController userNameController = TextEditingController();
   TextEditingController passController = TextEditingController();
@@ -36,26 +42,31 @@ class UserController extends GetxController {
 
   void saveUserToPref(User user) {
     Map<String, dynamic> userModel = {
-      'userId': user.userId,
+      'userId': user.id,
+      'userImage': user.userImage,
       'userName': user.userName!,
       'userPass': user.userPass,
       'userPhone': user.userPhone!,
       'userAddress': user.userAddress!,
     };
-    userPref!.setString('user', jsonEncode(userModel));
+    userPref!.setString(AppKeys.userPrefKey, jsonEncode(userModel));
   }
 
   Map<String, dynamic> getUserFromPref() {
-    String? user = userPref!.getString('user');
+    String? user = userPref!.getString(AppKeys.userPrefKey);
     return jsonDecode(user!) as Map<String, dynamic>;
   }
 
   void removeUserFromPref() {
-    userPref!.remove('user');
+    userPref!.remove(AppKeys.userPrefKey);
   }
 
-  void addUser(User user) {
-    _userRepository.addUser(newUser: user);
+  String addUser(User user) {
+    String message = AppTexts.userAddFailed;
+    _userRepository.addUser(newUser: user).then((value) {
+      message = AppTexts.userAddSuccess;
+    });
+    return message;
   }
 
   void getUsers() {
@@ -66,7 +77,7 @@ class UserController extends GetxController {
 
   void editUser(User user) {
     _userRepository
-        .editUser(targetUser: user, userId: user.userId!)
+        .editUser(targetUser: user, userId: user.id!)
         .then((value) {
       print('userUpdated');
     });
@@ -83,13 +94,8 @@ class UserController extends GetxController {
   }
 
   bool checkUserNameExist(String userName) {
-    for (var userElement in userList!) {
-      print('userName: ${userElement.userName}');
-      print('id: ${userElement.userId}');
-      print('address: ${userElement.userAddress}');
-      print('phone: ${userElement.userPhone}');
-      print('pass: ${userElement.userPass}');
-    }
+    print('${userList!.length}');
+
     // search user in userList before add
     for (var userElement in userList!) {
       if (userElement.userName == userName) {
@@ -98,6 +104,21 @@ class UserController extends GetxController {
       }
     }
     return false;
+  }
+
+  Future selectProfileImage(bool fromCamera) async {
+    // ImagePicker? pickedFile = ImagePicker();
+    PickedFile? pickedFile = await ImagePicker.platform.pickImage(
+        source: fromCamera ? ImageSource.camera : ImageSource.gallery);
+    if(pickedFile != null){
+      profileImage = File(pickedFile.path);
+    }
+    update();
+  }
+
+  void removeProfileImage() {
+    profileImage = null;
+    update();
   }
 
   RxBool checkEmailValidation(String value) {
@@ -116,8 +137,8 @@ class UserController extends GetxController {
     return regExp.hasMatch(inputValue).obs;
   }
 
-  RxBool correctPhoneFormat(String value){
-    return (value.startsWith('0') && value.length <= 11).obs;
+  bool correctPhoneFormat(String value) {
+    return (value.startsWith('0') && value.length == 11);
   }
 
   void showHidePass() {
@@ -136,4 +157,5 @@ class UserController extends GetxController {
     phoneNumController.dispose();
     addressController.dispose();
   }
+
 }

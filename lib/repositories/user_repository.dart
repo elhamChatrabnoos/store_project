@@ -37,7 +37,7 @@ class UserRepository{
       return retrievedUser;
     }
     catch(e){
-      print('***edit user error***: ${e.toString()}');
+      print('***edit user error*** ${e.toString()}');
       return throw e.toString();
     }
   }

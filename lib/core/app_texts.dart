@@ -23,4 +23,13 @@ class AppTexts {
   // details page strings
   static String productDetailTitle = 'جزئیات محصول';
   static String addToBasketTxt = 'افزودن به سبد خرید';
+
+  // snackBars message
+  static String userEditedSuccessful = 'اطلاعات با موفقیت ویرایش شد.';
+  static String userAddSuccess = 'اطلاعات با موفقیت ذخیره شد.';
+  static String userAddFailed = 'خطایی هنگام ذخیره اطلاعات رخ داده است.';
+  static String warning = 'خطا!';
+
+
+
 }
