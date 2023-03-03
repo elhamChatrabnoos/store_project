@@ -15,24 +15,24 @@ class ProductController extends GetxController {
     super.onInit();
   }
 
-  // void getProducts(){
-  //   isLoading = true.obs;
-  //   _productRepository.getProducts().then((value){
-  //     productList = value.obs;
-  //     isLoading = false.obs;
-  //   });
-  //   // update();
-  // }
-
-  Future<void> getProducts() async {
-    final resultOrError = await _productRepository.getProducts();
-    resultOrError.fold((left) {
-      print('left ${left}');
-    }, (List<Product> receivedProductList) {
-      productList = receivedProductList.obs;
+  void getProducts(){
+    isLoading = true.obs;
+    _productRepository.getProducts().then((value){
+      productList = value;
+      isLoading = false.obs;
     });
-    update();
+    // update();
   }
+
+  // Future<void> getProducts() async {
+  //   final resultOrError = await _productRepository.getProducts();
+  //   resultOrError.fold((left) {
+  //     print('left ${left}');
+  //   }, (List<Product> receivedProductList) {
+  //     productList = receivedProductList.obs;
+  //   });
+  //   update();
+  // }
 
 
   void updateProduct(Product product) {

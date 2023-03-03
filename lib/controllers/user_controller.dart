@@ -19,7 +19,6 @@ class UserController extends GetxController {
   RxBool checkboxValue = false.obs;
   List<User>? userList = [];
   User? currentUser;
-  File? profileImage;
 
   TextEditingController userNameController = TextEditingController();
   TextEditingController passController = TextEditingController();
@@ -61,12 +60,11 @@ class UserController extends GetxController {
     userPref!.remove(AppKeys.userPrefKey);
   }
 
-  String addUser(User user) {
-    String message = AppTexts.userAddFailed;
+  num addUser(User user) {
     _userRepository.addUser(newUser: user).then((value) {
-      message = AppTexts.userAddSuccess;
+      return value.id;
     });
-    return message;
+    return 0;
   }
 
   void getUsers() {
@@ -94,8 +92,6 @@ class UserController extends GetxController {
   }
 
   bool checkUserNameExist(String userName) {
-    print('${userList!.length}');
-
     // search user in userList before add
     for (var userElement in userList!) {
       if (userElement.userName == userName) {
@@ -104,21 +100,6 @@ class UserController extends GetxController {
       }
     }
     return false;
-  }
-
-  Future selectProfileImage(bool fromCamera) async {
-    // ImagePicker? pickedFile = ImagePicker();
-    PickedFile? pickedFile = await ImagePicker.platform.pickImage(
-        source: fromCamera ? ImageSource.camera : ImageSource.gallery);
-    if(pickedFile != null){
-      profileImage = File(pickedFile.path);
-    }
-    update();
-  }
-
-  void removeProfileImage() {
-    profileImage = null;
-    update();
   }
 
   RxBool checkEmailValidation(String value) {

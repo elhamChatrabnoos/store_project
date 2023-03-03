@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/models/user.dart';
 
+import '../../controllers/profile_image_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../core/app_colors.dart';
 import '../../core/app_texts.dart';
@@ -20,6 +21,7 @@ class SignUpPage extends GetView<UserController> {
   SignUpPage({Key? key}) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
+  ProfileImageController profileController = Get.put(ProfileImageController());
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class SignUpPage extends GetView<UserController> {
   Padding _bodyOfPage(BuildContext context) {
     return Padding(
         padding:
-            const EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 10),
+        const EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 10),
         child: Form(
           key: formKey,
           // Todo delete thumb and show keyboard and textField together
@@ -48,7 +50,7 @@ class SignUpPage extends GetView<UserController> {
                     AppSizes.littleSizeBox,
                     CustomText(text: AppTexts.createAccountBtn, textSize: 30),
                     AppSizes.littleSizeBox,
-                    _profileImage(context, logic),
+                    _profileImage(context),
                     AppSizes.normalSizeBox2,
                     _emailTextField(logic),
                     AppSizes.normalSizeBox2,
@@ -61,7 +63,7 @@ class SignUpPage extends GetView<UserController> {
                     _createAccountButton(context, logic),
                     AppSizes.normalSizeBox2,
                     CustomText(
-                      textDecoration: TextDecoration.underline,
+                        textDecoration: TextDecoration.underline,
                         text: 'قبلا حساب ایجاد کرده ام.',
                         onClickText: () => Get.off(LoginPage()),
                         textColor: Colors.blue)
@@ -73,21 +75,26 @@ class SignUpPage extends GetView<UserController> {
         ));
   }
 
-  Widget _profileImage(BuildContext context, UserController logic) {
-    return ProfileImageShape(
-      tapOnGallery: () {
-        logic.selectProfileImage(false);
-        Navigator.pop(context);
+  Widget _profileImage(BuildContext context) {
+    return GetBuilder<ProfileImageController>(
+      assignId: true,
+      builder: (logic) {
+        return ProfileImageShape(
+          tapOnGallery: () {
+            logic.selectProfileImage(false);
+            Navigator.pop(context);
+          },
+          tapOnCamera: () {
+            logic.selectProfileImage(true);
+            Navigator.pop(context);
+          },
+          tapOnDelete: () {
+            logic.removeProfileImage();
+            Navigator.pop(context);
+          },
+          imageFile: logic.profileImage,
+        );
       },
-      tapOnCamera: () {
-        logic.selectProfileImage(true);
-        Navigator.pop(context);
-      },
-      tapOnDelete: () {
-        logic.removeProfileImage();
-        Navigator.pop(context);
-      },
-      imageFile: logic.profileImage,
     );
   }
 
@@ -104,8 +111,8 @@ class SignUpPage extends GetView<UserController> {
             // prepare user image and information
             String userImage = '';
 
-            if (logic.profileImage != null) {
-              File imageFile = File(logic.profileImage!.path);
+            if (profileController.profileImage != null) {
+              File imageFile = File(profileController.profileImage!.path);
               List<int> imageBytes = imageFile.readAsBytesSync();
               String base64Image = base64Encode(imageBytes);
               userImage = base64Image;
@@ -118,7 +125,9 @@ class SignUpPage extends GetView<UserController> {
                 userAddress: logic.addressController.text,
                 userPhone: logic.phoneNumController.text);
 
-            logic.addUser(user);
+            num userId = logic.addUser(user);
+            print('user id : $userId');
+
             Get.off(LoginPage());
           }
         }
@@ -149,7 +158,9 @@ class SignUpPage extends GetView<UserController> {
         controller: logic.passController,
         labelText: AppTexts.passwordTxt,
         checkValidation: (value) {
-          if (!logic.checkPasswordFormat(value!).value) {
+          if (!logic
+              .checkPasswordFormat(value!)
+              .value) {
             return AppTexts.passwordError;
           }
         },
@@ -165,7 +176,9 @@ class SignUpPage extends GetView<UserController> {
     return CustomTextField(
       controller: logic.userNameController,
       checkValidation: (value) {
-        if (!logic.checkEmailValidation(value!).value) {
+        if (!logic
+            .checkEmailValidation(value!)
+            .value) {
           return AppTexts.emailError;
         }
       },

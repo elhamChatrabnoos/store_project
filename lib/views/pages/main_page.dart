@@ -1,7 +1,6 @@
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shop_getx/controllers/main_page_controller.dart';
 import 'package:shop_getx/controllers/product_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 
@@ -27,7 +26,7 @@ class MainPage extends StatelessWidget {
       ),
       extendBody: true,
       bottomNavigationBar:
-          (bottomBarPages.length <= 3) ? _bottomBarItems() : null,
+          (bottomBarPages.length < 4) ? _bottomBarItems() : null,
     );
   }
 
