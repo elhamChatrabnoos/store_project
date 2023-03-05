@@ -1,46 +1,42 @@
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shop_getx/controllers/product_controller.dart';
 import 'package:shop_getx/controllers/user_controller.dart';
 import 'package:shop_getx/models/shopping_cart.dart';
 import 'package:shop_getx/repositories/shopping_cart_repository.dart';
+import 'package:shop_getx/shared_class/shared_prefrences.dart';
 
+import '../core/app_keys.dart';
 import '../models/product.dart';
 
 class ShoppingCartController extends GetxController {
   List<ShoppingCart> shoppingCartList = [];
   final ShoppingCartRepository _shoppingCartRepository =
       ShoppingCartRepository();
-  UserController userController = UserController();
   Product? targetProduct;
 
   @override
   void onInit() {
     super.onInit();
+    defineSharedPref();
     getShoppingCarts();
   }
 
   void getShoppingCarts() {
     _shoppingCartRepository.getShoppingCarts().then((value) {
       shoppingCartList = value;
-      for (var cart in shoppingCartList) {
-        if (cart.userId == userController.getUserFromPref()['id']) {
-          buyBasketList = cart.shoppingList!;
-        }
-      }
+      searchUserShoppingCart(UserController.getUserFromPref()['userId']);
     });
   }
 
-  void addCart(ShoppingCart cart) {
+  void addShoppingCart(ShoppingCart cart) {
     _shoppingCartRepository.addShoppingCart(newCart: cart).then((value) {
-      print('add cart success!');
+      AppSharedPreference.shoppingCartPref!
+          .setInt(AppKeys.cartShoppingId, value.id!);
     });
   }
 
-  void editCart(ShoppingCart cart) {
-    _shoppingCartRepository.editShoppingCart(
-        targetShoppingCart: cart, shoppingCartId: cart.id!);
-  }
-
-  addProductToBasket(Product product) {
+  void editShoppingCart(Product product) {
     // when product is in the buy basket just change its count number
     // else add product to add basket list
     int indexOfProduct = buyBasketList.indexOf(product);
@@ -52,8 +48,32 @@ class ShoppingCartController extends GetxController {
       buyBasketList.add(product);
     }
 
-    editBasketList(buyBasketList);
+    _editCartInServer();
     update();
+  }
+
+  void _editCartInServer() {
+    num userId = UserController.getUserFromPref()['userId'];
+
+    ShoppingCart editedCart = ShoppingCart(
+        id: AppSharedPreference.shoppingCartPref!
+            .getInt(AppKeys.cartShoppingId),
+        userId: userId,
+        shoppingList: buyBasketList);
+
+    _shoppingCartRepository.editShoppingCart(targetShoppingCart: editedCart);
+  }
+
+  bool searchUserShoppingCart(num userId) {
+    for (var cart in shoppingCartList) {
+      if (cart.userId == userId) {
+        buyBasketList = cart.shoppingList!;
+        AppSharedPreference.shoppingCartPref!
+            .setInt(AppKeys.cartShoppingId, cart.id!);
+        return true;
+      }
+    }
+    return false;
   }
 
   void removeProductFromBasket(Product product) {
@@ -61,6 +81,7 @@ class ShoppingCartController extends GetxController {
     if (product.productCountInBasket! < 1) {
       buyBasketList.remove(product);
     }
+    _editCartInServer();
     update();
   }
 
@@ -74,11 +95,43 @@ class ShoppingCartController extends GetxController {
     return false;
   }
 
-  void editBasketList(List<Product> buyBasketList) {
-    for (var cart in shoppingCartList) {
-      if (cart.userId == userController.getUserFromPref()['id']) {
-        cart.shoppingList = buyBasketList;
+  double totalShoppingCart() {
+    double total = 0;
+    for (var element in buyBasketList) {
+      if (element.productDiscount! > 0) {
+        total += (element.productPrice! -
+                element.productPrice! * element.productDiscount! ~/ 100) *
+            element.productCountInBasket!;
+      } else {
+        total += element.productPrice! * element.productCountInBasket!;
       }
     }
+    update();
+    return total;
+  }
+
+  bool allProductStock() {
+    for (var cartProduct in buyBasketList) {
+      for (var product in productList) {
+        if (cartProduct.productId == product.productId) {
+          if (!(cartProduct.productCountInBasket! <
+              product.totalProductCount!)) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  }
+
+  void emptyShoppingCart() {
+    buyBasketList.clear();
+    _editCartInServer();
+    update();
+  }
+
+  Future<void> defineSharedPref() async {
+    AppSharedPreference.shoppingCartPref =
+        await SharedPreferences.getInstance();
   }
 }

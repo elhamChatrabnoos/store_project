@@ -3,10 +3,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shop_getx/controllers/shopping_cart_controller.dart';
 import 'package:shop_getx/controllers/user_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_images.dart';
 import 'package:shop_getx/core/app_sizes.dart';
+import 'package:shop_getx/models/shopping_cart.dart';
 import 'package:shop_getx/models/user.dart';
 import 'package:shop_getx/views/pages/bottom_navigation_pages/home_page.dart';
 import 'package:shop_getx/views/pages/bottom_navigation_pages/profile_page.dart';
@@ -26,10 +28,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   final formKey = GlobalKey<FormState>();
 
   UserController userController = Get.find<UserController>();
+  ShoppingCartController shoppingController = Get.find<ShoppingCartController>();
 
   @override
   void initState() {
@@ -73,27 +75,36 @@ class _LoginPageState extends State<LoginPage> {
       children: [
         CustomButton(
           textSize: AppSizes.normalTextSize2,
-          buttonWidth: MediaQuery.of(context).size.width/3,
+          buttonWidth: MediaQuery.of(context).size.width / 3,
           textColor: AppColors.loginTextColor,
           buttonText: AppTexts.loginBtnTxt,
           buttonColor: AppColors.loginBtnColor,
           onTap: () {
             if (formKey.currentState!.validate()) {
               userController.saveUserToPref(userController.currentUser!);
-              print('mio ${userController.getUserFromPref()['userName']}');
+              _findShoppingCart();
               Get.off(() => MainPage());
             }
           },
         ),
         CustomButton(
             textSize: AppSizes.normalTextSize2,
-            buttonWidth: MediaQuery.of(context).size.width/3,
+            buttonWidth: MediaQuery.of(context).size.width / 3,
             textColor: AppColors.loginBtnColor,
             buttonText: AppTexts.signUpBtnTxt,
             buttonColor: AppColors.loginTextColor,
             onTap: () => Get.off(SignUpPage())),
       ],
     );
+  }
+
+  void _findShoppingCart() {
+    if (!shoppingController
+        .searchUserShoppingCart(userController.currentUser!.id!)) {
+      ShoppingCart cart = ShoppingCart(
+          userId: userController.currentUser!.id, shoppingList: []);
+      shoppingController.addShoppingCart(cart);
+    }
   }
 
   Widget _passwordTextField() {
@@ -104,8 +115,8 @@ class _LoginPageState extends State<LoginPage> {
         labelText: AppTexts.passwordTxt,
         checkValidation: (value) {
           if (value!.isEmpty ||
-              !userController.userExist(
-                  userController.userNameController.text, userController.passController.text)) {
+              !userController.userExist(userController.userNameController.text,
+                  userController.passController.text)) {
             return AppTexts.incorrectPassMsg;
           }
         },
@@ -123,7 +134,8 @@ class _LoginPageState extends State<LoginPage> {
       labelText: AppTexts.emailTxt,
       checkValidation: (value) {
         if (value!.isEmpty ||
-            !userController.checkUserNameExist(userController.userNameController.text)) {
+            !userController
+                .checkUserNameExist(userController.userNameController.text)) {
           return AppTexts.unavailableEmailMsg;
         }
       },

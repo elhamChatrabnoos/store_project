@@ -10,6 +10,8 @@ import 'package:shop_getx/views/widgets/custom_text.dart';
 import 'package:shop_getx/views/widgets/custom_text_field.dart';
 import 'package:shop_getx/views/widgets/home_poduct_item.dart';
 
+import '../../../controllers/shopping_cart_controller.dart';
+import '../../../controllers/user_controller.dart';
 import '../../../shared_class/custom_search.dart';
 
 class HomePage extends StatelessWidget {

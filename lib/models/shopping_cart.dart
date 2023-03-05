@@ -18,12 +18,12 @@ class ShoppingCart {
     }
   }
 
-  num? id;
+  int? id;
   num? userId;
   List<Product>? shoppingList;
 
   ShoppingCart copyWith({
-    num? id,
+    int? id,
     num? userId,
     List<Product>? shoppingList,
   }) =>

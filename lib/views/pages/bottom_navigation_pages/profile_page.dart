@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:shop_getx/views/pages/login_page.dart';
 
 import '../../../controllers/user_controller.dart';
@@ -9,7 +8,6 @@ import '../../../core/app_colors.dart';
 import '../../../core/app_sizes.dart';
 import '../../../core/app_texts.dart';
 import '../../../models/user.dart';
-import '../../widgets/custom_button.dart';
 import '../../widgets/custom_text.dart';
 import '../../widgets/custom_text_field.dart';
 import '../../widgets/profile_image.dart';
@@ -25,12 +23,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   @override
   void initState() {
-    print('init state profile');
     super.initState();
-    controller.userNameController.text = controller.getUserFromPref()['userName'];
-    controller.passController.text = controller.getUserFromPref()['userPass'];
-    controller.addressController.text = controller.getUserFromPref()['userAddress'];
-    controller.phoneNumController.text = controller.getUserFromPref()['userPhone'];
+    controller.userNameController.text = UserController.getUserFromPref()['userName'];
+    controller.passController.text = UserController.getUserFromPref()['userPass'];
+    controller.addressController.text = UserController.getUserFromPref()['userAddress'];
+    controller.phoneNumController.text = UserController.getUserFromPref()['userPhone'];
   }
 
   // ToDo it has error when come from sign up page
@@ -98,7 +95,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
       onClickText: () {
         if (formKey.currentState!.validate()) {
           User user = User(
-              id: controller.getUserFromPref()['userId'],
+              id: UserController.getUserFromPref()['userId'],
               userName: controller.userNameController.text,
               userPass: controller.passController.text,
               userAddress: controller.addressController.text,

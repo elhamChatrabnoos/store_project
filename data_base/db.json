@@ -10,9 +10,41 @@
     },
     {
       "id": 2,
+      "userImage": null,
+      "userName": "elham@gmail.com",
+      "userPass": "sadc12SD@#",
+      "userPhone": "",
+      "userAddress": ""
+    },
+    {
+      "id": 3,
       "userImage": "",
-      "userName": "rr@gmail.com",
-      "userPass": "vdsDFG24#@",
+      "userName": "elhsvdam@gmail.com",
+      "userPass": "sadc12SD@#",
+      "userPhone": "",
+      "userAddress": ""
+    },
+    {
+      "id": 4,
+      "userImage": "",
+      "userName": "eldam@gmail.com",
+      "userPass": "sadc12SD@#",
+      "userPhone": "",
+      "userAddress": ""
+    },
+    {
+      "id": 5,
+      "userImage": "",
+      "userName": "eldbssham@gmail.com",
+      "userPass": "sadc12SD@#",
+      "userPhone": "",
+      "userAddress": ""
+    },
+    {
+      "id": 6,
+      "userImage": "",
+      "userName": "sham@gmail.com",
+      "userPass": "sadc12SD@#",
       "userPhone": "",
       "userAddress": ""
     }
@@ -20,7 +52,17 @@
   "shoppingCart": [
     {
       "id": 1,
-      "userId": 1,
+      "userId": 2,
+      "shoppingList": []
+    },
+    {
+      "id": 2,
+      "userId": 3,
+      "shoppingList": []
+    },
+    {
+      "id": 3,
+      "userId": 5,
       "shoppingList": [
         {
           "productId": 1,
@@ -31,11 +73,27 @@
           "productPrice": 30000,
           "isAvailable": true,
           "productCategory": "شوینده",
-          "productSubCategory": "",
-          "productCountInBasket": 0,
+          "productCountInBasket": 1,
           "totalProductCount": 0
+        },
+        {
+          "productId": 2,
+          "productName": "جرمگیر",
+          "productImage": "assets/images/powder.png",
+          "productDescription": "دارای وزن 300 گرم\nکشور سازنده آلمان \nدارای رایحه لوندر\n مناسب برای لباسشویی",
+          "productDiscount": 5,
+          "productPrice": 30000,
+          "isAvailable": true,
+          "productCategory": "شوینده",
+          "productCountInBasket": 1,
+          "totalProductCount": null
         }
       ]
+    },
+    {
+      "id": 4,
+      "userId": 6,
+      "shoppingList": []
     }
   ],
   "product": [
@@ -50,7 +108,7 @@
       "productCategory": "شوینده",
       "productSubCategory": "",
       "productCountInBasket": 0,
-      "totalProductCount": 0
+      "totalProductCount": 3
     },
     {
       "productId": 2,
@@ -63,7 +121,7 @@
       "productCategory": "شوینده",
       "productSubCategory": "",
       "productCountInBasket": 0,
-      "productCount": 0
+      "totalProductCount": 5
     }
   ]
 }

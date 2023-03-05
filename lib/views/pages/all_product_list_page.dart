@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shop_getx/controllers/user_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_keys.dart';
 import 'package:shop_getx/shared_class/shared_prefrences.dart';
-import 'package:shop_getx/views/pages/product_details_page.dart';
 import 'package:shop_getx/views/pages/add_product_page.dart';
+import 'package:shop_getx/views/pages/product_details_page.dart';
 import 'package:shop_getx/views/widgets/product_item.dart';
 
 import '../../controllers/product_controller.dart';
 import '../../controllers/shopping_cart_controller.dart';
 import '../../shared_class/custom_search.dart';
 
-class AllProductListPage extends GetView<ProductController> {
+class AllProductListPage extends GetView<ShoppingCartController> {
   AllProductListPage({Key? key}) : super(key: key);
 
-  // Todo check find for this page instead of lazyPut
-  // final ShoppingCartController controller = Get.put(ShoppingCartController());
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => ProductController());
+    Get.lazyPut(() => ShoppingCartController());
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -43,21 +40,21 @@ class AllProductListPage extends GetView<ProductController> {
   }
 
   Widget _productList() {
-    return GetBuilder<ProductController>(
+    return GetBuilder<ShoppingCartController>(
       assignId: true,
-      builder: (productController) {
+      builder: (shoppingController) {
         return ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemCount: productList.length,
             itemBuilder: (context, index) {
-              return _productItem(index);
+              return _productItem(index, shoppingController);
             });
       },
     );
   }
 
-  Widget _productItem(int index) {
+  Widget _productItem(int index, ShoppingCartController shoppingController) {
     return AppSharedPreference.isUserAdminPref!.getBool(AppKeys.isUserAdmin)!
         ? ProductItem(
             onItemClick: () {
@@ -71,23 +68,22 @@ class AllProductListPage extends GetView<ProductController> {
               Get.to(() => ProductDetailsPage(product: productList[index]));
             },
             addToBasketClick: () {
-              // controller.addProductToBasket(productList[index]);
+              shoppingController.editShoppingCart(productList[index]);
             },
             onAddBtnClick: () {
-              // controller.searchProductInBasket(productList[index]);
-              // controller
-              //     .addProductToBasket(controller.targetProduct!);
+              shoppingController.searchProductInBasket(productList[index]);
+              shoppingController
+                  .editShoppingCart(shoppingController.targetProduct!);
             },
             onRemoveBtnClick: () {
-              // controller.searchProductInBasket(productList[index]);
-              // controller.removeProductFromBasket(
-              //     controller.targetProduct!);
+              shoppingController.searchProductInBasket(productList[index]);
+              shoppingController.removeProductFromBasket(
+                  shoppingController.targetProduct!);
             },
             product:
-                // controller.searchProductInBasket(productList[index])
-                //         ? controller.targetProduct!
-                //         :
-                productList[index],
+                shoppingController.searchProductInBasket(productList[index])
+                    ? shoppingController.targetProduct!
+                    : productList[index],
             productIndex: index,
           );
   }

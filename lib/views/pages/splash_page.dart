@@ -8,7 +8,9 @@ import 'package:shop_getx/views/pages/main_page.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
 
 import '../../controllers/product_controller.dart';
+import '../../controllers/shopping_cart_controller.dart';
 import '../../controllers/user_controller.dart';
+import '../../shared_class/shared_prefrences.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -22,6 +24,7 @@ class _SplashPageState extends State<SplashPage> {
 
   UserController userController = Get.put(UserController());
   final ProductController productController = Get.put(ProductController());
+  ShoppingCartController shoppingController = Get.put(ShoppingCartController());
 
   @override
   void initState() {
@@ -31,7 +34,7 @@ class _SplashPageState extends State<SplashPage> {
 
   void _specifyPage() {
     Future.delayed(const Duration(seconds: 4)).then((value) {
-      userController.userPref!.getString('user') != null
+      AppSharedPreference.userPref!.getString('user') != null
           ? Get.to(() => MainPage())
           : Get.to(() => LoginPage());
     });

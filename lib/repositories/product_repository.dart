@@ -30,10 +30,10 @@ class ProductRepository {
 
 
   Future<Product> editProduct(
-      {required Product targetProduct, required num productId}) async {
+      {required Product targetProduct}) async {
     try {
       var response =
-      await dioBaseUrl.put('product/${productId.toString()}', data: targetProduct.toJson());
+      await dioBaseUrl.put('product/${targetProduct.productId.toString()}', data: targetProduct.toJson());
       Product? updatedProduct = Product.fromJson(response.data);
       return updatedProduct;
     } catch (e) {

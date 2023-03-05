@@ -21,7 +21,7 @@ class ProductController extends GetxController {
 
   void editProduct(Product product) {
     _productRepository
-        .editProduct(targetProduct: product, productId: product.productId!)
+        .editProduct(targetProduct: product)
         .then((value) {
       product = value;
       print('success update');

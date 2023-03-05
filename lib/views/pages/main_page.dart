@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:shop_getx/controllers/product_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 
+import '../../controllers/shopping_cart_controller.dart';
 import '../../controllers/user_controller.dart';
 import 'bottom_navigation_pages/shopping_cart_page.dart';
 import 'bottom_navigation_pages/home_page.dart';
