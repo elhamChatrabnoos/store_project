@@ -80,6 +80,7 @@ class _LoginPageState extends State<LoginPage> {
           onTap: () {
             if (formKey.currentState!.validate()) {
               userController.saveUserToPref(userController.currentUser!);
+              print('mio ${userController.getUserFromPref()['userName']}');
               Get.off(() => MainPage());
             }
           },

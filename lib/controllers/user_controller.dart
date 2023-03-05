@@ -5,9 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shop_getx/controllers/shopping_cart_controller.dart';
 import 'package:shop_getx/core/app_keys.dart';
 import 'package:shop_getx/core/app_texts.dart';
+import 'package:shop_getx/models/shopping_cart.dart';
 import 'package:shop_getx/repositories/user_repository.dart';
+import 'package:shop_getx/shared_class/shared_prefrences.dart';
 
 import '../models/user.dart';
 
@@ -19,6 +22,7 @@ class UserController extends GetxController {
   RxBool checkboxValue = false.obs;
   List<User>? userList = [];
   User? currentUser;
+  num? newUserId;
 
   TextEditingController userNameController = TextEditingController();
   TextEditingController passController = TextEditingController();
@@ -30,42 +34,58 @@ class UserController extends GetxController {
 
   @override
   void onInit() {
+    print('init state user controll');
     super.onInit();
     defineSharedPref();
     getUsers();
   }
 
+
   Future<void> defineSharedPref() async {
     userPref = await SharedPreferences.getInstance();
+    AppSharedPreference.isUserAdminPref = await SharedPreferences.getInstance();
   }
+
 
   void saveUserToPref(User user) {
     Map<String, dynamic> userModel = {
       'userId': user.id,
       'userImage': user.userImage,
-      'userName': user.userName!,
+      'userName': user.userName,
       'userPass': user.userPass,
-      'userPhone': user.userPhone!,
-      'userAddress': user.userAddress!,
+      'userPhone': user.userPhone,
+      'userAddress': user.userAddress,
     };
     userPref!.setString(AppKeys.userPrefKey, jsonEncode(userModel));
+
+    if(user.userName!.contains('Admin')){
+      AppSharedPreference.isUserAdminPref!.setBool(AppKeys.isUserAdmin, true);
+    }
+    else{
+      AppSharedPreference.isUserAdminPref!.setBool(AppKeys.isUserAdmin, false);
+    }
   }
 
   Map<String, dynamic> getUserFromPref() {
+    print('userPref : $userPref');
     String? user = userPref!.getString(AppKeys.userPrefKey);
+    print('user name :::: ${user}');
     return jsonDecode(user!) as Map<String, dynamic>;
   }
+
 
   void removeUserFromPref() {
     userPref!.remove(AppKeys.userPrefKey);
   }
 
-  num addUser(User user) {
-    _userRepository.addUser(newUser: user).then((value) {
-      return value.id;
+
+  Future<void> addUser(User user) async {
+    await _userRepository.addUser(newUser: user).then((value) {
+      // ShoppingCart cart = ShoppingCart(userId: value.id, shoppingList: []);
+      // shoppingController.addCart(cart);
     });
-    return 0;
   }
+
 
   void getUsers() {
     _userRepository.getUsers().then((value) {
@@ -75,8 +95,7 @@ class UserController extends GetxController {
 
   void editUser(User user) {
     _userRepository
-        .editUser(targetUser: user, userId: user.id!)
-        .then((value) {
+        .editUser(targetUser: user, userId: user.id!).then((value) {
       print('userUpdated');
     });
     saveUserToPref(user);

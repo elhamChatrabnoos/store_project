@@ -1,7 +1,6 @@
 import 'package:shop_getx/models/shopping_cart.dart';
 import 'package:shop_getx/repositories/dio_field.dart';
 
-import '../models/user.dart';
 
 class ShoppingCartRepository{
 
@@ -31,7 +30,7 @@ class ShoppingCartRepository{
   }
 
 
-  Future<ShoppingCart> editShoppingCart({required User targetShoppingCart, required num shoppingCartId}) async{
+  Future<ShoppingCart> editShoppingCart({required ShoppingCart targetShoppingCart, required num shoppingCartId}) async{
     try{
       var response = await dioBaseUrl.put('shoppingCart/${shoppingCartId.toString()}', data: targetShoppingCart.toJson());
       ShoppingCart retrievedCart = ShoppingCart.fromJson(response.data);

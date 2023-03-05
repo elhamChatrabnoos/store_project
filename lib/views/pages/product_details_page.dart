@@ -9,6 +9,8 @@ import 'package:shop_getx/views/widgets/custom_text.dart';
 import 'package:shop_getx/views/widgets/home_poduct_item.dart';
 
 import '../../controllers/product_controller.dart';
+import '../../controllers/shopping_cart_controller.dart';
+import '../../models/shopping_cart.dart';
 import '../widgets/custom_button.dart';
 
 class ProductDetailsPage extends StatelessWidget {
@@ -16,8 +18,8 @@ class ProductDetailsPage extends StatelessWidget {
 
   final Product product;
 
-  // final ProductController productController = Get.put(ProductController());
-  final ProductController productController = Get.find<ProductController>();
+  // final ShoppingCartController controller = Get.find<ShoppingCartController>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -138,9 +140,12 @@ class ProductDetailsPage extends StatelessWidget {
     } else {
       return GetBuilder<ProductController>(
         assignId: true,
-        builder: (productController) {
+        builder: (controller) {
           return CustomButton(
-            onTap: () => productController.addProductToBasket(product),
+            onTap: () =>
+            {
+              // controller.addProductToBasket(product),
+            },
             textSize: 13,
             buttonHeight: 30,
             buttonWidth: 130,
@@ -164,14 +169,18 @@ class ProductDetailsPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           InkWell(
-            onTap: () => productController.addProductToBasket(product),
+            onTap: () {
+              // controller.addProductToBasket(product);
+            },
             child: Icon(Icons.add, size: 20, color: AppColors.deepButtonColor),
           ),
           CustomText(
               text: product.productCountInBasket.toString(),
               textColor: AppColors.deepButtonColor),
           InkWell(
-            onTap: () => productController.removeProductFromBasket(product),
+            onTap: () {
+              // controller.removeProductFromBasket(product)
+            },
             child:
             Icon(Icons.delete, size: 20, color: AppColors.deepButtonColor),
           )

@@ -3,24 +3,16 @@
     {
       "id": 1,
       "userImage": "",
-      "userName": "e@gmail.com",
-      "userPass": "Elham@1234",
+      "userName": "AdminOfApp",
+      "userPass": "123",
       "userPhone": "",
       "userAddress": ""
     },
     {
       "id": 2,
       "userImage": "",
-      "userName": "sde@gmail.com",
-      "userPass": "Elham@1234",
-      "userPhone": "",
-      "userAddress": ""
-    },
-    {
-      "id": 3,
-      "userImage": "",
-      "userName": "sfgde@gmail.com",
-      "userPass": "Elham@1234",
+      "userName": "rr@gmail.com",
+      "userPass": "vdsDFG24#@",
       "userPhone": "",
       "userAddress": ""
     }
@@ -31,7 +23,7 @@
       "userId": 1,
       "shoppingList": [
         {
-          "productId": "1",
+          "productId": 1,
           "productName": "تاید لباس",
           "productImage": "assets/images/powder.png",
           "productDescription": "دارای وزن 300 گرم\nکشور سازنده آلمان \nدارای رایحه لوندر\n مناسب برای لباسشویی",
@@ -48,7 +40,7 @@
   ],
   "product": [
     {
-      "productId": "1",
+      "productId": 1,
       "productName": "تاید لباس",
       "productImage": "assets/images/powder.png",
       "productDescription": "دارای وزن 300 گرم\nکشور سازنده آلمان \nدارای رایحه لوندر\n مناسب برای لباسشویی",
@@ -61,7 +53,7 @@
       "totalProductCount": 0
     },
     {
-      "productId": "2",
+      "productId": 2,
       "productName": "جرمگیر",
       "productImage": "assets/images/powder.png",
       "productDescription": "دارای وزن 300 گرم\nکشور سازنده آلمان \nدارای رایحه لوندر\n مناسب برای لباسشویی",

@@ -19,12 +19,12 @@ class ShoppingCart {
   }
 
   num? id;
-  String? userId;
+  num? userId;
   List<Product>? shoppingList;
 
   ShoppingCart copyWith({
     num? id,
-    String? userId,
+    num? userId,
     List<Product>? shoppingList,
   }) =>
       ShoppingCart(
@@ -128,3 +128,5 @@ class ShoppingList {
     return map;
   }
 }
+
+List<Product> buyBasketList = [];

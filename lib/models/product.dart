@@ -8,7 +8,6 @@ class Product {
     this.productPrice,
     this.isAvailable,
     this.productCategory,
-    this.productSubCategory,
     this.productCountInBasket,
     this.totalProductCount,
   });
@@ -22,12 +21,11 @@ class Product {
     productPrice = json['productPrice'];
     isAvailable = json['isAvailable'];
     productCategory = json['productCategory'];
-    productSubCategory = json['productSubCategory'];
     productCountInBasket = json['productCountInBasket'];
     totalProductCount = json['totalProductCount'];
   }
 
-  String? productId;
+  num? productId;
   String? productName;
   String? productImage;
   String? productDescription;
@@ -35,12 +33,11 @@ class Product {
   num? productPrice;
   bool? isAvailable;
   String? productCategory;
-  String? productSubCategory;
   num? productCountInBasket;
   num? totalProductCount;
 
   Product copyWith({
-    String? productId,
+    num? productId,
     String? productName,
     String? productImage,
     String? productDescription,
@@ -48,7 +45,6 @@ class Product {
     num? productPrice,
     bool? isAvailable,
     String? productCategory,
-    String? productSubCategory,
     num? productCountInBasket,
     num? totalProductCount,
   }) =>
@@ -61,7 +57,6 @@ class Product {
         productPrice: productPrice ?? this.productPrice,
         isAvailable: isAvailable ?? this.isAvailable,
         productCategory: productCategory ?? this.productCategory,
-        productSubCategory: productSubCategory ?? this.productSubCategory,
         productCountInBasket: productCountInBasket ?? this.productCountInBasket,
         totalProductCount: totalProductCount ?? this.totalProductCount,
       );
@@ -76,7 +71,6 @@ class Product {
     map['productPrice'] = productPrice;
     map['isAvailable'] = isAvailable;
     map['productCategory'] = productCategory;
-    map['productSubCategory'] = productSubCategory;
     map['productCountInBasket'] = productCountInBasket;
     map['totalProductCount'] = totalProductCount;
     return map;

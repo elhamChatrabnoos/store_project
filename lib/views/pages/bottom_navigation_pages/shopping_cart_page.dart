@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shop_getx/controllers/shopping_cart_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/views/widgets/custom_button.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
 
 import '../../../controllers/product_controller.dart';
+import '../../../models/shopping_cart.dart';
 import '../../widgets/product_item.dart';
 
-class ShopBasketPage extends StatelessWidget {
-  ShopBasketPage({Key? key}) : super(key: key);
+class ShoppingCartPage extends StatelessWidget {
+  ShoppingCartPage({Key? key}) : super(key: key);
 
-  final ProductController productController = Get.find<ProductController>();
+  // final ShoppingCartController shoppingController =
+  //     Get.put(ShoppingCartController());
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +47,15 @@ class ShopBasketPage extends StatelessWidget {
         itemCount: buyBasketList.length,
         itemBuilder: (context, index) {
           return ProductItem(
-            onAddBtnClick: () =>
-                productController.addProductToBasket(buyBasketList[index]),
+            onAddBtnClick: () {
+              // shoppingController.addProductToBasket(buyBasketList[index]),
+            },
             onRemoveBtnClick: () {
               num? productCount = buyBasketList[index].productCountInBasket;
               //if product count is more than 1 in basket remove 1 else remove product totally
               if (productCount! > 1) {
-                productController.removeProductFromBasket(buyBasketList[index]);
+                // shoppingController
+                //     .removeProductFromBasket(buyBasketList[index]);
               } else {
                 // Todo show dialog before delete
                 buyBasketList.removeAt(index);

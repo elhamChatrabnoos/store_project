@@ -5,18 +5,19 @@ import 'package:shop_getx/controllers/product_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 
 import '../../controllers/user_controller.dart';
-import 'bottom_navigation_pages/buy_basket_page.dart';
+import 'bottom_navigation_pages/shopping_cart_page.dart';
 import 'bottom_navigation_pages/home_page.dart';
 import 'bottom_navigation_pages/profile_page.dart';
 
-class MainPage extends StatelessWidget {
+class MainPage extends GetView<UserController> {
   MainPage({Key? key}) : super(key: key);
 
-  List bottomBarPages = [UserProfilePage(), HomePage(), ShopBasketPage()];
+  List bottomBarPages = [UserProfilePage(), HomePage(), ShoppingCartPage()];
   PageController pageController = PageController(initialPage: 1);
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => UserController());
     return Scaffold(
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),

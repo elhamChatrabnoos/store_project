@@ -25,8 +25,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   @override
   void initState() {
+    print('init state profile');
     super.initState();
-    controller.defineSharedPref();
     controller.userNameController.text = controller.getUserFromPref()['userName'];
     controller.passController.text = controller.getUserFromPref()['userPass'];
     controller.addressController.text = controller.getUserFromPref()['userAddress'];
@@ -35,7 +35,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   // ToDo it has error when come from sign up page
   final formKey = GlobalKey<FormState>();
-  UserController controller = Get.put(UserController());
+  UserController controller = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {

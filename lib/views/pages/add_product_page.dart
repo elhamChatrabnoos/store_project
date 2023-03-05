@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:shop_getx/controllers/product_controller.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/models/user.dart';
 
@@ -15,17 +16,18 @@ import '../widgets/custom_button.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/profile_image.dart';
-import 'login_page.dart';
 
-class SignUpPage extends GetView<UserController> {
-  SignUpPage({Key? key}) : super(key: key);
+
+class AddProductPage extends GetView<ProductController> {
+  AddProductPage( {Key? key}) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
-  ProfileImageController profileController = Get.put(ProfileImageController());
+  // final bool isAddAction;
+  // ProfileImageController profileController = Get.put(ProfileImageController());
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => UserController());
+    Get.lazyPut(() => ProductController());
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -62,11 +64,6 @@ class SignUpPage extends GetView<UserController> {
                     AppSizes.normalSizeBox2,
                     _createAccountButton(context, logic),
                     AppSizes.normalSizeBox2,
-                    CustomText(
-                        textDecoration: TextDecoration.underline,
-                        text: 'قبلا حساب ایجاد کرده ام.',
-                        onClickText: () => Get.off(LoginPage()),
-                        textColor: Colors.blue)
                   ],
                 );
               },
@@ -109,24 +106,15 @@ class SignUpPage extends GetView<UserController> {
             Get.snackbar('کاربر تکراری', 'نام کاربری موجود است.');
           } else {
             // prepare user image and information
-            String userImage = '';
-
-            if (profileController.profileImage != null) {
-              File imageFile = File(profileController.profileImage!.path);
-              List<int> imageBytes = imageFile.readAsBytesSync();
-              String base64Image = base64Encode(imageBytes);
-              userImage = base64Image;
-            }
 
             User user = User(
-                userImage: userImage,
                 userName: logic.userNameController.text,
                 userPass: logic.passController.text,
                 userAddress: logic.addressController.text,
                 userPhone: logic.phoneNumController.text);
 
             logic.addUser(user);
-            Get.off(() => LoginPage());
+            // Get.off(LoginPage());
           }
         }
       },

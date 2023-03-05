@@ -30,6 +30,19 @@ class AppTexts {
   static String userAddFailed = 'خطایی هنگام ذخیره اطلاعات رخ داده است.';
   static String warning = 'خطا!';
 
+  // add product page text
+  static String productName = 'نام محصول';
+  static String productImage = 'عکس محصول';
+  static String productDescription = 'توضیحات محصول';
+  static String productDiscount = 'تخفیف';
+  static String productPrice = 'قیمت محصول';
+  static String isAvailable = 'موجود';
+  static String isNotAvailable = 'نا موجود';
+  static String? productCategory = '';
+  static String? productSubCategory;
+  static String? productCountInBasket;
+  static String? totalProductCount;
+
 
 
 }
