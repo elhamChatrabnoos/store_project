@@ -69,10 +69,7 @@ class UserController extends GetxController {
   }
 
   Future<void> addUser(User user) async {
-    await _userRepository.addUser(newUser: user).then((value) {
-      // ShoppingCart cart = ShoppingCart(userId: value.id, shoppingList: []);
-      // shoppingController.addCart(cart);
-    });
+    await _userRepository.addUser(newUser: user);
   }
 
   void getUsers() {

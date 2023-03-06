@@ -87,7 +87,7 @@ class ShoppingCartController extends GetxController {
 
   bool searchProductInBasket(Product product) {
     for (var i = 0; i < buyBasketList.length; ++i) {
-      if (product.productId == buyBasketList[i].productId) {
+      if (product.id == buyBasketList[i].id) {
         targetProduct = buyBasketList[i];
         return true;
       }
@@ -113,8 +113,8 @@ class ShoppingCartController extends GetxController {
   bool allProductStock() {
     for (var cartProduct in buyBasketList) {
       for (var product in productList) {
-        if (cartProduct.productId == product.productId) {
-          if (!(cartProduct.productCountInBasket! <
+        if (cartProduct.id == product.id) {
+          if (!(cartProduct.productCountInBasket! <=
               product.totalProductCount!)) {
             return false;
           }

@@ -14,8 +14,8 @@ import '../../widgets/product_item.dart';
 class ShoppingCartPage extends GetView<ShoppingCartController> {
   ShoppingCartPage({Key? key}) : super(key: key);
 
-  // final ProductController productController = Get.put(ProductController());
-  final ProductController productController = Get.find<ProductController>();
+  final ProductController productController = Get.put(ProductController());
+  // final ProductController productController = Get.find<ProductController>();
 
   @override
   Widget build(BuildContext context) {
@@ -92,18 +92,7 @@ class ShoppingCartPage extends GetView<ShoppingCartController> {
           CustomButton(
             onTap: () {
               if (controller.allProductStock()) {
-                for (var cartProduct in buyBasketList) {
-                  for (var product in productList) {
-                    if ((cartProduct.productId == product.productId) &&
-                        (cartProduct.productCountInBasket! <=
-                            product.totalProductCount!)) {
-                      product.totalProductCount = product.totalProductCount! -
-                          cartProduct.productCountInBasket!;
-                      productController.editProduct(product);
-                    }
-                  }
-                }
-                controller.emptyShoppingCart();
+                _emptyShoppingCart(controller);
               } else {
                 Get.dialog(CustomAlertDialog(
                   messageTxt: 'موجودی محصولات انتخابی کافی نیست.',
@@ -126,5 +115,21 @@ class ShoppingCartPage extends GetView<ShoppingCartController> {
         ],
       ),
     );
+  }
+
+  void _emptyShoppingCart(ShoppingCartController controller) {
+    for (var cartProduct in buyBasketList) {
+      for (var product in productList) {
+        if ((cartProduct.id == product.id) &&
+            (cartProduct.productCountInBasket! <=
+                product.totalProductCount!)) {
+          product.totalProductCount = product.totalProductCount! -
+              cartProduct.productCountInBasket!;
+          product.productCountInBasket = 0;
+          productController.editProduct(product);
+        }
+      }
+    }
+    controller.emptyShoppingCart();
   }
 }

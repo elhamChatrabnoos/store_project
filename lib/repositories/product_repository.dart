@@ -33,7 +33,7 @@ class ProductRepository {
       {required Product targetProduct}) async {
     try {
       var response =
-      await dioBaseUrl.put('product/${targetProduct.productId.toString()}', data: targetProduct.toJson());
+      await dioBaseUrl.put('product/${targetProduct.id.toString()}', data: targetProduct.toJson());
       Product? updatedProduct = Product.fromJson(response.data);
       return updatedProduct;
     } catch (e) {

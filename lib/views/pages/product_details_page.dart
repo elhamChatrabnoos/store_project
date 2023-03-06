@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shop_getx/core/app_colors.dart';
@@ -9,7 +8,6 @@ import 'package:shop_getx/views/widgets/custom_text.dart';
 import 'package:shop_getx/views/widgets/home_poduct_item.dart';
 
 import '../../controllers/product_controller.dart';
-import '../../controllers/shopping_cart_controller.dart';
 import '../../models/shopping_cart.dart';
 import '../widgets/custom_button.dart';
 

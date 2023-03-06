@@ -1,6 +1,6 @@
 class Product {
   Product({
-    this.productId,
+    this.id,
     this.productName,
     this.productImage,
     this.productDescription,
@@ -13,7 +13,7 @@ class Product {
   });
 
   Product.fromJson(dynamic json) {
-    productId = json['productId'];
+    id = json['id'];
     productName = json['productName'];
     productImage = json['productImage'];
     productDescription = json['productDescription'];
@@ -25,7 +25,7 @@ class Product {
     totalProductCount = json['totalProductCount'];
   }
 
-  num? productId;
+  num? id;
   String? productName;
   String? productImage;
   String? productDescription;
@@ -37,7 +37,7 @@ class Product {
   num? totalProductCount;
 
   Product copyWith({
-    num? productId,
+    num? id,
     String? productName,
     String? productImage,
     String? productDescription,
@@ -49,7 +49,7 @@ class Product {
     num? totalProductCount,
   }) =>
       Product(
-        productId: productId ?? this.productId,
+        id: id ?? this.id,
         productName: productName ?? this.productName,
         productImage: productImage ?? this.productImage,
         productDescription: productDescription ?? this.productDescription,
@@ -63,7 +63,7 @@ class Product {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['productId'] = productId;
+    map['id'] = id;
     map['productName'] = productName;
     map['productImage'] = productImage;
     map['productDescription'] = productDescription;

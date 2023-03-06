@@ -29,6 +29,8 @@ class ProductController extends GetxController {
     });
   }
 
+
+
 }
 
 List<Product> productList = [];

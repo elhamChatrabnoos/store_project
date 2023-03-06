@@ -15,6 +15,7 @@ class MainPage extends GetView<UserController> {
 
   List bottomBarPages = [UserProfilePage(), HomePage(), ShoppingCartPage()];
   PageController pageController = PageController(initialPage: 1);
+  ShoppingCartController shoppingController = Get.put(ShoppingCartController());
 
   @override
   Widget build(BuildContext context) {
