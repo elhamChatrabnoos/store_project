@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shop_getx/controllers/favorites_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_keys.dart';
+import 'package:shop_getx/models/favorites.dart';
 import 'package:shop_getx/shared_class/shared_prefrences.dart';
 import 'package:shop_getx/views/pages/add_product_page.dart';
 import 'package:shop_getx/views/pages/product_details_page.dart';
@@ -14,6 +16,8 @@ import '../../shared_class/custom_search.dart';
 class AllProductListPage extends GetView<ShoppingCartController> {
   AllProductListPage({Key? key}) : super(key: key);
 
+  FavoritesController favController = Get.put(FavoritesController());
+  // FavoritesController favController = Get.find<FavoritesController>();
 
   @override
   Widget build(BuildContext context) {
@@ -43,20 +47,28 @@ class AllProductListPage extends GetView<ShoppingCartController> {
     return GetBuilder<ShoppingCartController>(
       assignId: true,
       builder: (shoppingController) {
-        return ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: productList.length,
-            itemBuilder: (context, index) {
-              return _productItem(index, shoppingController);
-            });
+        return GetBuilder<FavoritesController>(
+          assignId: true,
+          builder: (favoritesController) {
+            return ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: productList.length,
+                itemBuilder: (context, index) {
+                  return _productItem(
+                      index, favoritesController, shoppingController);
+                });
+          },
+        );
       },
     );
   }
 
-  Widget _productItem(int index, ShoppingCartController shoppingController) {
+  Widget _productItem(int index, FavoritesController favController,
+      ShoppingCartController shoppingController) {
     return AppSharedPreference.isUserAdminPref!.getBool(AppKeys.isUserAdmin)!
         ? ProductItem(
+            iconLike: false,
             onItemClick: () {
               Get.to(() => AddProductPage());
             },
@@ -64,6 +76,10 @@ class AllProductListPage extends GetView<ShoppingCartController> {
             productIndex: index,
           )
         : ProductItem(
+            onIconLikeTap: () {
+              favController.editFavoriteList(productList[index]);
+            },
+            iconLike: favController.searchItemInFavorites(productList[index]),
             onItemClick: () {
               Get.to(() => ProductDetailsPage(product: productList[index]));
             },
@@ -77,8 +93,8 @@ class AllProductListPage extends GetView<ShoppingCartController> {
             },
             onRemoveBtnClick: () {
               shoppingController.searchProductInBasket(productList[index]);
-              shoppingController.removeProductFromBasket(
-                  shoppingController.targetProduct!);
+              shoppingController
+                  .removeProductFromBasket(shoppingController.targetProduct!);
             },
             product:
                 shoppingController.searchProductInBasket(productList[index])
@@ -104,4 +120,6 @@ class AllProductListPage extends GetView<ShoppingCartController> {
       return const SizedBox();
     }
   }
+
+
 }

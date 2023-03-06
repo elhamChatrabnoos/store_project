@@ -6,12 +6,11 @@ import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/views/pages/all_product_list_page.dart';
 import 'package:shop_getx/views/pages/product_details_page.dart';
+import 'package:shop_getx/views/pages/profile_page.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
 import 'package:shop_getx/views/widgets/custom_text_field.dart';
 import 'package:shop_getx/views/widgets/home_poduct_item.dart';
 
-import '../../../controllers/shopping_cart_controller.dart';
-import '../../../controllers/user_controller.dart';
 import '../../../shared_class/custom_search.dart';
 
 class HomePage extends StatelessWidget {
@@ -19,33 +18,43 @@ class HomePage extends StatelessWidget {
 
   List<String> sliderImages = [
     'assets/images/slider2.jpg',
-    'assets/images/slider3.jpg'];
+    'assets/images/slider3.jpg'
+  ];
 
   @override
   Widget build(BuildContext context) {
-    // Get.lazyPut(() => ProductController());
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          backgroundColor: AppColors.grayColor,
-            appBar: AppBar(
-              automaticallyImplyLeading: false,
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    // method to show the search bar
-                    showSearch(
-                      context: context,
-                      delegate: CustomSearchDelegate(),
-                      // delegate to customize the search bar
-                    );
-                  },
-                  icon: const Icon(Icons.search),
-                )
-              ],
-            ),
-              body: _bodyItems(context))
-        );
+            backgroundColor: AppColors.grayColor,
+            appBar: _appBarView(context),
+            body: _bodyItems(context)));
+  }
+
+  AppBar _appBarView(BuildContext context) {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      actions: [
+        IconButton(
+            onPressed: () => Get.to(() => const UserProfilePage()),
+            icon: const Icon(Icons.account_circle, size: 30)),
+        const Spacer(),
+        IconButton(
+          onPressed: () {
+            // method to show the search bar
+            showSearch(
+              context: context,
+              delegate: CustomSearchDelegate(),
+              // delegate to customize the search bar
+            );
+          },
+          icon: const Icon(
+            Icons.search,
+            size: 30,
+          ),
+        )
+      ],
+    );
   }
 
   Widget _bodyItems(BuildContext context) {
@@ -88,28 +97,25 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _productOfCategories(BuildContext context) {
-    return
-      SizedBox(
-        height: MediaQuery.of(context).size.height/2.5,
-            child:
-            ListView.builder(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemCount: productList.length,
-              itemBuilder: (context, index) {
-                return index == 4
-                    ? _moreButton()
-                    : HomeProductItem(
-                        onItemClick: () {
-                          Get.to(() => ProductDetailsPage(
+    return SizedBox(
+        height: MediaQuery.of(context).size.height / 2.5,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          itemCount: productList.length,
+          itemBuilder: (context, index) {
+            return index == 4
+                ? _moreButton()
+                : HomeProductItem(
+                    onItemClick: () {
+                      Get.to(() => ProductDetailsPage(
                             product: productList[index],
                           ));
-                        },
-                        product: productList[index],
-                      );
-              },
-            )
-    );
+                    },
+                    product: productList[index],
+                  );
+          },
+        ));
     // );
   }
 

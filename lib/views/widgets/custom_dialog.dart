@@ -28,31 +28,39 @@ class CustomAlertDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            CustomText(
-              text: messageTxt,
-            ),
+            CustomText(text: messageTxt),
             AppSizes.littleSizeBox,
-            CustomButton(
+            _rowButtons()
+          ],
+        ),
+      ),
+    );
+  }
+
+  Row _rowButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        CustomButton(
+            buttonHeight: 30,
+            buttonWidth: 100,
+            textSize: 12,
+            buttonColor: AppColors.primaryColor,
+            textColor: Colors.white,
+            buttonText: confirmBtnTxt,
+            onTap: onOkTap),
+        AppSizes.littleSizeBoxWidth,
+        negativeBtnTxt != null
+            ? CustomButton(
                 buttonHeight: 30,
                 buttonWidth: 100,
                 textSize: 12,
                 buttonColor: AppColors.primaryColor,
                 textColor: Colors.white,
-                buttonText: confirmBtnTxt,
-                onTap: onOkTap),
-            negativeBtnTxt != null
-                ? CustomButton(
-                    buttonHeight: 30,
-                    buttonWidth: 100,
-                    textSize: 12,
-                    buttonColor: AppColors.primaryColor,
-                    textColor: Colors.white,
-                    buttonText: negativeBtnTxt!,
-                    onTap: onNoTap)
-                : const SizedBox()
-          ],
-        ),
-      ),
+                buttonText: negativeBtnTxt!,
+                onTap: onNoTap)
+            : const SizedBox()
+      ],
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:shop_getx/views/pages/login_page.dart';
 import 'package:shop_getx/views/pages/main_page.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
 
+import '../../controllers/favorites_controller.dart';
 import '../../controllers/product_controller.dart';
 import '../../controllers/shopping_cart_controller.dart';
 import '../../controllers/user_controller.dart';
@@ -25,6 +26,7 @@ class _SplashPageState extends State<SplashPage> {
   UserController userController = Get.put(UserController());
   final ProductController productController = Get.put(ProductController());
   ShoppingCartController shoppingController = Get.put(ShoppingCartController());
+  FavoritesController favoritesController = Get.put(FavoritesController());
 
   @override
   void initState() {

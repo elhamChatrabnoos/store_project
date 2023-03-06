@@ -14,8 +14,7 @@ import '../../widgets/product_item.dart';
 class ShoppingCartPage extends GetView<ShoppingCartController> {
   ShoppingCartPage({Key? key}) : super(key: key);
 
-  final ProductController productController = Get.put(ProductController());
-  // final ProductController productController = Get.find<ProductController>();
+  final ProductController productController = Get.find<ProductController>();
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +53,7 @@ class ShoppingCartPage extends GetView<ShoppingCartController> {
         itemCount: buyBasketList.length,
         itemBuilder: (context, index) {
           return ProductItem(
+            iconLike: false,
             onAddBtnClick: () {
               shoppingController.editShoppingCart(buyBasketList[index]);
             },

@@ -4,7 +4,6 @@ import 'package:shop_getx/repositories/product_repository.dart';
 import '../models/product.dart';
 
 class ProductController extends GetxController {
-
   final ProductRepository _productRepository = ProductRepository();
 
   @override
@@ -13,24 +12,15 @@ class ProductController extends GetxController {
     super.onInit();
   }
 
-  void getProducts(){
-    _productRepository.getProducts().then((value){
+  void getProducts() {
+    _productRepository.getProducts().then((value) {
       productList = value;
     });
   }
 
   void editProduct(Product product) {
-    _productRepository
-        .editProduct(targetProduct: product)
-        .then((value) {
-      product = value;
-      print('success update');
-      update();
-    });
+    _productRepository.editProduct(targetProduct: product);
   }
-
-
-
 }
 
 List<Product> productList = [];

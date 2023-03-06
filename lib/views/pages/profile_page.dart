@@ -3,14 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shop_getx/views/pages/login_page.dart';
 
-import '../../../controllers/user_controller.dart';
-import '../../../core/app_colors.dart';
-import '../../../core/app_sizes.dart';
-import '../../../core/app_texts.dart';
-import '../../../models/user.dart';
-import '../../widgets/custom_text.dart';
-import '../../widgets/custom_text_field.dart';
-import '../../widgets/profile_image.dart';
+import '../../controllers/user_controller.dart';
+import '../../core/app_colors.dart';
+import '../../core/app_sizes.dart';
+import '../../core/app_texts.dart';
+import '../../models/user.dart';
+import '../widgets/custom_text.dart';
+import '../widgets/custom_text_field.dart';
+import '../widgets/profile_image.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
@@ -39,6 +39,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
+          appBar: AppBar(),
             backgroundColor: Colors.white,
             resizeToAvoidBottomInset: false,
             body: _bodyOfPage(context)));
@@ -80,8 +81,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
           text: 'خروج از حساب',
           onClickText: () {
             controller.removeUserFromPref();
-            Get.off(LoginPage());
-            // Get.to(LoginPage());
+            Get.offAll(() => LoginPage());
           },
         ),
       ],

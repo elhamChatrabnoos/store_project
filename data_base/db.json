@@ -12,24 +12,9 @@
       "id": 2,
       "userImage": "",
       "userName": "e@gmail.com",
-      "userPass": "Elham@E123",
+      "userPass": "qw!@#324ASFGDH",
       "userPhone": "",
       "userAddress": ""
-    },
-    {
-      "id": 3,
-      "userImage": "",
-      "userName": "r@gmail.com",
-      "userPass": "ewf23LKN#$#",
-      "userPhone": "",
-      "userAddress": ""
-    }
-  ],
-  "shoppingCart": [
-    {
-      "id": 1,
-      "userId": 3,
-      "shoppingList": []
     }
   ],
   "product": [
@@ -56,6 +41,33 @@
       "productCategory": "شوینده",
       "productCountInBasket": 0,
       "totalProductCount": 3
+    }
+  ],
+  "shoppingCart": [
+    {
+      "id": 1,
+      "userId": 2,
+      "shoppingList": [
+        {
+          "id": 2,
+          "productName": "جرمگیر",
+          "productImage": "assets/images/powder.png",
+          "productDescription": "دارای وزن 300 گرم\nکشور سازنده آلمان \nدارای رایحه لوندر\n مناسب برای لباسشویی",
+          "productDiscount": 5,
+          "productPrice": 30000,
+          "isAvailable": true,
+          "productCategory": "شوینده",
+          "productCountInBasket": 1,
+          "totalProductCount": 3
+        }
+      ]
+    }
+  ],
+  "favorites": [
+    {
+      "id": 1,
+      "userId": 2,
+      "favoritesProduct": []
     }
   ]
 }

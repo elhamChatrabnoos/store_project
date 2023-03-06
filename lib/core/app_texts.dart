@@ -44,5 +44,9 @@ class AppTexts {
   static String? totalProductCount;
 
 
+  // favorite page texts
+  static String noFavoriteTxt = 'علاقه مندی ای ثبت نشده است.';
+
+
 
 }

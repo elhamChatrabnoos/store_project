@@ -4,4 +4,5 @@ class AppSharedPreference{
   static SharedPreferences? isUserAdminPref;
   static SharedPreferences? userPref;
   static SharedPreferences? shoppingCartPref;
+  static SharedPreferences? favoritePref;
 }

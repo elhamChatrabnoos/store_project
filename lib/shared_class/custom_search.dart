@@ -53,6 +53,7 @@ class CustomSearchDelegate extends SearchDelegate {
       itemBuilder: (context, index) {
         var result = matchQuery[index];
         return ProductItem(
+          iconLike: false,
           onItemClick: () => Get.to(
             ProductDetailsPage(product: productList[index]),
           ),

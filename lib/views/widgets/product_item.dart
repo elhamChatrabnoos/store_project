@@ -18,13 +18,17 @@ class ProductItem extends StatelessWidget {
       this.onItemClick,
       this.onAddBtnClick,
       this.onRemoveBtnClick,
-      required this.productIndex})
+      required this.productIndex,
+      this.onIconLikeTap,
+        required this.iconLike})
       : super(key: key);
 
   final Function()? addToBasketClick;
   final Function()? onItemClick;
   final Function()? onAddBtnClick;
   final Function()? onRemoveBtnClick;
+  final Function()? onIconLikeTap;
+  final bool iconLike;
   Product product;
   final int productIndex;
 
@@ -74,7 +78,6 @@ class ProductItem extends StatelessWidget {
   }
 
   Widget _checkProductInBasket() {
-    print(product.productCountInBasket);
     if (product.productCountInBasket! > 0) {
       return _addDeleteProduct();
     } else {
@@ -155,13 +158,19 @@ class ProductItem extends StatelessWidget {
   }
 
   Widget _productImage() {
-    return Align(
-        alignment: Alignment.center,
-        child: Image.asset(
+    return Column(
+      children: [
+        Image.asset(
           product.productImage!,
           width: 100,
           height: 100,
-        ));
+        ),
+        IconButton(
+          onPressed: onIconLikeTap,
+          icon: iconLike! ? Icon(Icons.favorite) : Icon(Icons.favorite_border),
+        )
+      ],
+    );
   }
 
   Widget _addDeleteProduct() {

@@ -1,21 +1,20 @@
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shop_getx/controllers/product_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
+import 'package:shop_getx/views/pages/bottom_navigation_pages/favorits_page.dart';
 
 import '../../controllers/shopping_cart_controller.dart';
 import '../../controllers/user_controller.dart';
-import 'bottom_navigation_pages/shopping_cart_page.dart';
 import 'bottom_navigation_pages/home_page.dart';
-import 'bottom_navigation_pages/profile_page.dart';
+import 'bottom_navigation_pages/shopping_cart_page.dart';
 
 class MainPage extends GetView<UserController> {
+// class MainPage extends StatelessWidget {
   MainPage({Key? key}) : super(key: key);
 
-  List bottomBarPages = [UserProfilePage(), HomePage(), ShoppingCartPage()];
+  List bottomBarPages = [FavoritesPage(), HomePage(), ShoppingCartPage()];
   PageController pageController = PageController(initialPage: 1);
-  ShoppingCartController shoppingController = Get.put(ShoppingCartController());
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +40,11 @@ class MainPage extends GetView<UserController> {
       pageController: pageController,
       bottomBarItems: [
         BottomBarItem(
-            itemLabel: 'پروفایل',
-            inActiveItem: Icon(Icons.account_box_outlined,
+            itemLabel: 'موردعلاقه',
+            inActiveItem: Icon(Icons.favorite_border,
                 color: AppColors.navInactiveItemColor),
             activeItem:
-                Icon(Icons.account_box, color: AppColors.navActiveItemColor)),
+                Icon(Icons.favorite, color: AppColors.navActiveItemColor)),
         BottomBarItem(
             itemLabel: 'خانه',
             inActiveItem: Icon(
