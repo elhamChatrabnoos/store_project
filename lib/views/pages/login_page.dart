@@ -12,7 +12,7 @@ import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/models/shopping_cart.dart';
 import 'package:shop_getx/models/user.dart';
 import 'package:shop_getx/views/pages/bottom_navigation_pages/home_page.dart';
-import 'package:shop_getx/views/pages/profile_page.dart';
+import 'package:shop_getx/views/pages/user_info_page.dart';
 import 'package:shop_getx/views/pages/sign_up_page.dart';
 
 import '../../controllers/product_controller.dart';

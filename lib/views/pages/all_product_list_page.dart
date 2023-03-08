@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:shop_getx/controllers/favorites_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_keys.dart';
-import 'package:shop_getx/models/favorites.dart';
 import 'package:shop_getx/shared_class/shared_prefrences.dart';
 import 'package:shop_getx/views/pages/add_product_page.dart';
 import 'package:shop_getx/views/pages/product_details_page.dart';
@@ -11,17 +10,26 @@ import 'package:shop_getx/views/widgets/product_item.dart';
 
 import '../../controllers/product_controller.dart';
 import '../../controllers/shopping_cart_controller.dart';
+import '../../models/product.dart';
 import '../../shared_class/custom_search.dart';
 
-class AllProductListPage extends GetView<ShoppingCartController> {
-  AllProductListPage({Key? key}) : super(key: key);
+class AllProductListPage extends GetView{
+  AllProductListPage(
+      this.productList,
+      this.categoryName,
+      {Key? key}) : super(key: key);
 
-  FavoritesController favController = Get.put(FavoritesController());
-  // FavoritesController favController = Get.find<FavoritesController>();
+  final List<Product> productList;
+  final String categoryName;
+
+  bool isUserAdmin = AppSharedPreference.isUserAdminPref!.getBool(AppKeys.isUserAdmin)!;
+  // FavoritesController favController = Get.put(FavoritesController());
+  // ShoppingCartController shoppingCartController = Get.put(ShoppingCartController());
 
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => ShoppingCartController());
+    Get.lazyPut(() => FavoritesController());
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -66,7 +74,7 @@ class AllProductListPage extends GetView<ShoppingCartController> {
 
   Widget _productItem(int index, FavoritesController favController,
       ShoppingCartController shoppingController) {
-    return AppSharedPreference.isUserAdminPref!.getBool(AppKeys.isUserAdmin)!
+    return isUserAdmin
         ? ProductItem(
             iconLike: false,
             onItemClick: () {
@@ -105,7 +113,7 @@ class AllProductListPage extends GetView<ShoppingCartController> {
   }
 
   Widget _floatingActionButton() {
-    if (AppSharedPreference.isUserAdminPref!.getBool(AppKeys.isUserAdmin)!) {
+    if (isUserAdmin) {
       return FloatingActionButton(
         backgroundColor: AppColors.primaryColor,
         onPressed: () {

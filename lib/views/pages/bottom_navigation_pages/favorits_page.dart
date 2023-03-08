@@ -12,7 +12,7 @@ import '../../../core/app_texts.dart';
 import '../../widgets/custom_text.dart';
 
 class FavoritesPage extends GetView {
-  FavoritesPage({Key? key}) : super(key: key);
+  const FavoritesPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

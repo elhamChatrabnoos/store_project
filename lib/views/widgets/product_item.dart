@@ -13,7 +13,7 @@ import '../../controllers/product_controller.dart';
 class ProductItem extends StatelessWidget {
   ProductItem(
       {Key? key,
-      required this.product,
+       required this.product,
       this.addToBasketClick,
       this.onItemClick,
       this.onAddBtnClick,

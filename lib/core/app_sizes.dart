@@ -5,6 +5,7 @@ class AppSizes{
   static SizedBox bigSizeBox = const SizedBox(height: 100);
   static SizedBox normalSizeBox = const SizedBox(height: 50);
   static SizedBox normalSizeBox2 = const SizedBox(height: 30);
+  static SizedBox normalSizeBox3 = const SizedBox(height: 20);
   static SizedBox littleSizeBox = const SizedBox(height: 10);
   static SizedBox littleSizeBox2 = const SizedBox(height: 5);
 

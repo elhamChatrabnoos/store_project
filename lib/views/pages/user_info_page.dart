@@ -94,12 +94,14 @@ class _UserProfilePageState extends State<UserProfilePage> {
       text: AppTexts.updateAccount,
       onClickText: () {
         if (formKey.currentState!.validate()) {
+
           User user = User(
               id: UserController.getUserFromPref()['userId'],
               userName: controller.userNameController.text,
               userPass: controller.passController.text,
               userAddress: controller.addressController.text,
               userPhone: controller.phoneNumController.text);
+
           controller.editUser(user);
           Get.snackbar(AppTexts.updateAccount, AppTexts.userEditedSuccessful);
         }

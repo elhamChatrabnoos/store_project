@@ -1,36 +1,37 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shop_getx/controllers/product_controller.dart';
 import 'package:shop_getx/core/app_sizes.dart';
-import 'package:shop_getx/models/user.dart';
 
 import '../../controllers/profile_image_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../core/app_colors.dart';
 import '../../core/app_texts.dart';
 import '../widgets/custom_button.dart';
-import '../widgets/custom_text.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/profile_image.dart';
 
 
-class AddProductPage extends GetView<ProductController> {
-  AddProductPage( {Key? key}) : super(key: key);
+class AddProductPage extends GetView {
+  AddProductPage({Key? key}) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
-  // final bool isAddAction;
   // ProfileImageController profileController = Get.put(ProfileImageController());
+  // ProfileImageController profileController = Get.find<ProfileImageController>();
+
 
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => ProductController());
+    Get.lazyPut(() => ProfileImageController());
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text('افزودن محصول جدید'),
+          ),
             backgroundColor: Colors.white,
             resizeToAvoidBottomInset: false,
             body: _bodyOfPage(context)));
@@ -44,35 +45,26 @@ class AddProductPage extends GetView<ProductController> {
           key: formKey,
           // Todo delete thumb and show keyboard and textField together
           child: SingleChildScrollView(
-            child: GetBuilder<UserController>(
-              assignId: true,
-              builder: (logic) {
-                return Column(
-                  children: [
-                    AppSizes.littleSizeBox,
-                    CustomText(text: AppTexts.createAccountBtn, textSize: 30),
-                    AppSizes.littleSizeBox,
-                    _profileImage(context),
-                    AppSizes.normalSizeBox2,
-                    _emailTextField(logic),
-                    AppSizes.normalSizeBox2,
-                    _passwordTextField(logic),
-                    AppSizes.normalSizeBox2,
-                    _phoneNumberTextField(logic),
-                    AppSizes.normalSizeBox2,
-                    _addressTextField(logic),
-                    AppSizes.normalSizeBox2,
-                    _createAccountButton(context, logic),
-                    AppSizes.normalSizeBox2,
-                  ],
-                );
-              },
-            ),
+              child: Column(
+                children: [
+                _productImage(context),
+                AppSizes.normalSizeBox3,
+                _textField(AppTexts.productName, false),
+                AppSizes.normalSizeBox3,
+                _textField(AppTexts.productDescription, false),
+                AppSizes.normalSizeBox3,
+                _textField(AppTexts.productPrice, true),
+                AppSizes.normalSizeBox3,
+                _textField(AppTexts.productDiscount, true),
+                AppSizes.normalSizeBox3,
+                // _createAccountButton(context, logic),
+                ],
+              )
           ),
         ));
   }
 
-  Widget _profileImage(BuildContext context) {
+  Widget _productImage(BuildContext context) {
     return GetBuilder<ProfileImageController>(
       assignId: true,
       builder: (logic) {
@@ -95,28 +87,27 @@ class AddProductPage extends GetView<ProductController> {
     );
   }
 
-  Widget _createAccountButton(BuildContext context, UserController logic) {
+  Widget _createAccountButton(BuildContext context, ProductController logic) {
     return CustomButton(
       textColor: Colors.white,
       buttonText: AppTexts.createAccountBtn,
       buttonColor: AppColors.loginBtnColor,
       onTap: () {
-        if (formKey.currentState!.validate()) {
-          if (logic.checkUserNameExist(logic.userNameController.text)) {
-            Get.snackbar('کاربر تکراری', 'نام کاربری موجود است.');
-          } else {
-            // prepare user image and information
-
-            User user = User(
-                userName: logic.userNameController.text,
-                userPass: logic.passController.text,
-                userAddress: logic.addressController.text,
-                userPhone: logic.phoneNumController.text);
-
-            logic.addUser(user);
-            // Get.off(LoginPage());
-          }
-        }
+        // if (formKey.currentState!.validate()) {
+        //   if (logic.checkUserNameExist(logic.userNameController.text)) {
+        //     Get.snackbar('کاربر تکراری', 'نام کاربری موجود است.');
+        //   } else {
+        //     // prepare user image and information
+        //     User user = User(
+        //         userName: logic.userNameController.text,
+        //         userPass: logic.passController.text,
+        //         userAddress: logic.addressController.text,
+        //         userPhone: logic.phoneNumController.text);
+        //
+        //     logic.addUser(user);
+        //     // Get.off(LoginPage());
+        //   }
+        // }
       },
       textSize: AppSizes.normalTextSize2,
     );
@@ -158,25 +149,61 @@ class AddProductPage extends GetView<ProductController> {
     });
   }
 
-  Widget _emailTextField(UserController logic) {
+  Widget _textField(String text, bool isNumberField) {
     return CustomTextField(
-      controller: logic.userNameController,
       checkValidation: (value) {
-        if (!logic
-            .checkEmailValidation(value!)
-            .value) {
+        if (value!.isEmpty) {
           return AppTexts.emailError;
         }
       },
-      labelText: AppTexts.emailTxt,
-      secure: false,
-      onChanged: (value) => logic.checkEmailValidation(value!),
-      icon: logic.correctEmail.value
-          ? const Icon(Icons.check)
-          : const Icon(Icons.email_outlined),
+      // inputFormatters: [isNumberField  ? FilteringTextInputFormatter.digitsOnly : ]  ,
+      labelText: text,
+      // onChanged: (value) => logic.checkEmailValidation(value!),
       borderColor: AppColors.textFieldColor,
     );
   }
+
+  // Widget _productDescription() {
+  //   return CustomTextField(
+  //     checkValidation: (value) {
+  //       if (value!.isEmpty) {
+  //         return AppTexts.emailError;
+  //       }
+  //     },
+  //     inputFormatters: [isNumberField  ? FilteringTextInputFormatter.digitsOnly : ]  ,
+  //     labelText: text,
+  //     // onChanged: (value) => logic.checkEmailValidation(value!),
+  //     borderColor: AppColors.textFieldColor,
+  //   );
+  // }
+
+  // Widget _productPrice() {
+  //   return CustomTextField(
+  //     checkValidation: (value) {
+  //       if (value!.isEmpty) {
+  //         return AppTexts.emailError;
+  //       }
+  //     },
+  //     inputFormatters: [isNumberField  ? FilteringTextInputFormatter.digitsOnly : ]  ,
+  //     labelText: text,
+  //     // onChanged: (value) => logic.checkEmailValidation(value!),
+  //     borderColor: AppColors.textFieldColor,
+  //   );
+  // }
+  //
+  // Widget _productDiscount() {
+  //   return CustomTextField(
+  //     checkValidation: (value) {
+  //       if (value!.isEmpty) {
+  //         return AppTexts.emailError;
+  //       }
+  //     },
+  //     inputFormatters: [isNumberField  ? FilteringTextInputFormatter.digitsOnly : ]  ,
+  //     labelText: text,
+  //     // onChanged: (value) => logic.checkEmailValidation(value!),
+  //     borderColor: AppColors.textFieldColor,
+  //   );
+  // }
 
   Widget _addressTextField(UserController logic) {
     return CustomTextField(

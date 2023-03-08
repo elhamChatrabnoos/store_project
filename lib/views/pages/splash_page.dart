@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shop_getx/controllers/category_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_sizes.dart';
-import 'package:shop_getx/core/app_texts.dart';
-import 'package:shop_getx/views/pages/login_page.dart';
-import 'package:shop_getx/views/pages/main_page.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
 
 import '../../controllers/favorites_controller.dart';
@@ -12,6 +10,8 @@ import '../../controllers/product_controller.dart';
 import '../../controllers/shopping_cart_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../shared_class/shared_prefrences.dart';
+import 'login_page.dart';
+import 'main_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -37,8 +37,8 @@ class _SplashPageState extends State<SplashPage> {
   void _specifyPage() {
     Future.delayed(const Duration(seconds: 4)).then((value) {
       AppSharedPreference.userPref!.getString('user') != null
-          ? Get.to(() => MainPage())
-          : Get.to(() => LoginPage());
+          ? Get.off(() => MainPage())
+      : Get.off(() => LoginPage());
     });
   }
 

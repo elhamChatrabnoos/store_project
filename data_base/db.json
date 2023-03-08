@@ -61,6 +61,11 @@
           "totalProductCount": 3
         }
       ]
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "shoppingList": []
     }
   ],
   "favorites": [
@@ -68,6 +73,12 @@
       "id": 1,
       "userId": 2,
       "favoritesProduct": []
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "favoritesProduct": []
     }
-  ]
+  ],
+  "productCategory": []
 }

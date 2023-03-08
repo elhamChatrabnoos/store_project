@@ -24,15 +24,13 @@ class CustomAlertDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CustomText(text: messageTxt),
-            AppSizes.littleSizeBox,
-            _rowButtons()
-          ],
-        ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CustomText(text: messageTxt),
+          AppSizes.littleSizeBox,
+          _rowButtons()
+        ],
       ),
     );
   }

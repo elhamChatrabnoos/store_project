@@ -2,18 +2,24 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shop_getx/controllers/product_controller.dart';
+import 'package:shop_getx/controllers/user_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
+import 'package:shop_getx/core/app_keys.dart';
 import 'package:shop_getx/core/app_sizes.dart';
+import 'package:shop_getx/shared_class/shared_prefrences.dart';
+import 'package:shop_getx/views/widgets/add_edit_category_dialog.dart';
 import 'package:shop_getx/views/pages/all_product_list_page.dart';
 import 'package:shop_getx/views/pages/product_details_page.dart';
-import 'package:shop_getx/views/pages/profile_page.dart';
+import 'package:shop_getx/views/pages/user_info_page.dart';
+import 'package:shop_getx/views/widgets/category_item.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
 import 'package:shop_getx/views/widgets/custom_text_field.dart';
 import 'package:shop_getx/views/widgets/home_poduct_item.dart';
 
+import '../../../controllers/category_controller.dart';
 import '../../../shared_class/custom_search.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends GetView<CategoryController> {
   HomePage({Key? key}) : super(key: key);
 
   List<String> sliderImages = [
@@ -21,8 +27,12 @@ class HomePage extends StatelessWidget {
     'assets/images/slider3.jpg'
   ];
 
+  bool isUserAdmin =
+      AppSharedPreference.isUserAdminPref!.getBool(AppKeys.isUserAdmin)!;
+
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => CategoryController());
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -59,7 +69,7 @@ class HomePage extends StatelessWidget {
 
   Widget _bodyItems(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -67,13 +77,72 @@ class HomePage extends StatelessWidget {
           children: [
             _imagesSlider(),
             AppSizes.normalSizeBox2,
-            _categoryTitle('شوینده ها'),
+            _addNewCategory(),
+            AppSizes.littleSizeBox,
+            _listOfCategories(),
+            // AppSizes.normalSizeBox,
+            _categoryTitle('کالاهای اساسی'),
             _productOfCategories(context),
             AppSizes.bigSizeBox,
           ],
         ),
       ),
     );
+  }
+
+  Widget _addNewCategory() {
+    return UserController.getUserFromPref()['userId'] == 1
+        ? TextButton(
+            onPressed: () {
+              Get.dialog(AddEditCategoryDialog(isActionEdit: false));
+            },
+            child: const Text('افزودن دسته بندی'))
+        : const CustomText(text: 'دسته بندی ها');
+  }
+
+  Widget _listOfCategories() {
+    return GetBuilder<CategoryController>(
+      assignId: true,
+      builder: (cateController) {
+        return GridView.builder(
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(10),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            childAspectRatio: 1.2,
+          ),
+          itemCount: categoryList.length,
+          itemBuilder: (context, index) {
+            return CategoryItem(
+              onDeleteClick: () =>
+                  cateController.deleteCategory(categoryList[index]),
+              showEdit: isUserAdmin,
+              onEditClick: () {
+                _showEditDialog(cateController, index);
+              },
+              text: categoryList[index].name!,
+              onTapItem: () => _goProductsPage(index),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<dynamic>? _goProductsPage(int index) {
+    return Get.to(() => AllProductListPage(
+          categoryList[index].productsList ?? [],
+          categoryList[index].name!,
+        ));
+  }
+
+  void _showEditDialog(CategoryController cateController, int index) {
+    cateController.categoryName.text = categoryList[index].name!;
+    Get.dialog(AddEditCategoryDialog(
+      isActionEdit: true,
+      categoryIndex: index,
+      targetCategory: categoryList[index],
+    ));
   }
 
   Widget _categoryTitle(String categoryTitle) {
@@ -84,7 +153,7 @@ class HomePage extends StatelessWidget {
         const Spacer(),
         InkWell(
           onTap: () {
-            Get.to(() => AllProductListPage());
+            // Get.to(() => AllProductListPage());
           },
           child: CustomText(
               text: 'مشاهده همه',
@@ -123,7 +192,7 @@ class HomePage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: GestureDetector(
-        onTap: () => Get.to(() => AllProductListPage()),
+        // onTap: () => Get.to(() => AllProductListPage()),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
@@ -153,24 +222,5 @@ class HomePage extends StatelessWidget {
               child: Image.asset(sliderImages[index]));
         },
         options: CarouselOptions(autoPlay: false));
-  }
-
-  PreferredSize _appBarWithSearch() {
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(95),
-      child: AppBar(
-        automaticallyImplyLeading: false,
-        flexibleSpace: Container(
-            margin:
-                const EdgeInsets.only(top: 50, left: 10, right: 10, bottom: 10),
-            child: CustomTextField(
-              radius: 5,
-              fillColor: Colors.white38,
-              icon: const Icon(Icons.search),
-              borderColor: Colors.grey,
-              hintText: 'جست و جوی محصول',
-            )),
-      ),
-    );
   }
 }
