@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/models/user.dart';
 
-import '../../controllers/profile_image_controller.dart';
+import '../../controllers/image_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../core/app_colors.dart';
 import '../../core/app_texts.dart';
@@ -21,7 +20,7 @@ class SignUpPage extends GetView<UserController> {
   SignUpPage({Key? key}) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
-  ProfileImageController profileController = Get.put(ProfileImageController());
+  ImageController profileController = Get.put(ImageController());
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +75,7 @@ class SignUpPage extends GetView<UserController> {
   }
 
   Widget _profileImage(BuildContext context) {
-    return GetBuilder<ProfileImageController>(
+    return GetBuilder<ImageController>(
       assignId: true,
       builder: (logic) {
         return ProfileImageShape(
@@ -92,7 +91,7 @@ class SignUpPage extends GetView<UserController> {
             logic.removeProfileImage();
             Navigator.pop(context);
           },
-          imageFile: logic.profileImage,
+          // imageFile: logic.imageAsString!,
         );
       },
     );
@@ -111,12 +110,12 @@ class SignUpPage extends GetView<UserController> {
             // prepare user image and information
             String userImage = '';
 
-            if (profileController.profileImage != null) {
-              File imageFile = File(profileController.profileImage!.path);
-              List<int> imageBytes = imageFile.readAsBytesSync();
-              String base64Image = base64Encode(imageBytes);
-              userImage = base64Image;
-            }
+            // if (profileController.imageFile != null) {
+            //   File imageFile = File(profileController.profileImage!.path);
+            //   List<int> imageBytes = profileController.imageFile!.readAsBytes();
+            //   String base64Image = base64Encode(imageBytes);
+            //   userImage = base64Image;
+            // }
 
             User user = User(
                 userImage: userImage,

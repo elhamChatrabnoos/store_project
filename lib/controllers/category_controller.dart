@@ -23,20 +23,23 @@ class CategoryController extends GetxController {
   }
 
   void addCategory(ProductCategory category) {
-    _categoryRepository.addCategory(newCategory: category);
-    categoryList.add(category);
+    _categoryRepository.addCategory(newCategory: category).then((value){
+      getCategories();
+    });
     update();
   }
 
   void deleteCategory(ProductCategory category){
-    _categoryRepository.deleteCategory(targetCategory: category);
-    categoryList.remove(category);
+    _categoryRepository.deleteCategory(targetCategory: category).then((value){
+      getCategories();
+    });
     update();
   }
 
-  void editCategory(ProductCategory category, int categoryIndex){
-    _categoryRepository.editCategory(targetCategory: category);
-    categoryList[categoryIndex] = category;
+  void editCategory(ProductCategory category){
+    _categoryRepository.editCategory(targetCategory: category).then((value){
+      getCategories();
+    });
     update();
   }
 

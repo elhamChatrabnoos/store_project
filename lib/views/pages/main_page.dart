@@ -16,7 +16,6 @@ class MainPage extends GetView {
   List bottomBarPages = [FavoritesPage(), HomePage(), ShoppingCartPage()];
   PageController pageController = PageController(initialPage: 1);
 
-
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => ShoppingCartController());

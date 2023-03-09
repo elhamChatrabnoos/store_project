@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shop_getx/controllers/category_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
@@ -8,6 +7,7 @@ import 'package:shop_getx/views/widgets/custom_text.dart';
 import '../../controllers/favorites_controller.dart';
 import '../../controllers/product_controller.dart';
 import '../../controllers/shopping_cart_controller.dart';
+import '../../controllers/tag_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../shared_class/shared_prefrences.dart';
 import 'login_page.dart';
@@ -27,6 +27,8 @@ class _SplashPageState extends State<SplashPage> {
   final ProductController productController = Get.put(ProductController());
   ShoppingCartController shoppingController = Get.put(ShoppingCartController());
   FavoritesController favoritesController = Get.put(FavoritesController());
+  TagController _tagController = Get.put(TagController());
+
 
   @override
   void initState() {

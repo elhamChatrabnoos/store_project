@@ -1,4 +1,4 @@
-
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,24 +6,28 @@ import 'package:shop_getx/controllers/category_controller.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/models/product_category.dart';
 
-import '../../controllers/profile_image_controller.dart';
+import '../../controllers/image_controller.dart';
 import '../../core/app_colors.dart';
 import 'custom_button.dart';
 import 'custom_text_field.dart';
 import 'profile_image.dart';
 
-class AddEditCategoryDialog extends GetView<ProfileImageController>{
-  AddEditCategoryDialog({this.categoryIndex,this.targetCategory, required this.isActionEdit, Key? key}) : super(key: key);
+class AddEditCategoryDialog extends GetView<ImageController> {
+  AddEditCategoryDialog({
+    this.targetCategory,
+    required this.isActionEdit,
+    Key? key})
+      : super(key: key);
+
+  final bool isActionEdit;
+  final ProductCategory? targetCategory;
 
   final formKey = GlobalKey<FormState>();
   CategoryController catController = Get.find<CategoryController>();
-  final bool isActionEdit;
-  final ProductCategory? targetCategory;
-  final int? categoryIndex;
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => ProfileImageController());
+    Get.lazyPut(() => ImageController());
 
     return AlertDialog(
       content: Form(
@@ -43,23 +47,29 @@ class AddEditCategoryDialog extends GetView<ProfileImageController>{
   }
 
   Widget _categoryImage(BuildContext context) {
-    return GetBuilder<ProfileImageController>(
+    return GetBuilder<ImageController>(
+      initState: (state) {
+        if(targetCategory != null){
+          controller.imageFile = targetCategory!.image;
+        }
+      },
       assignId: true,
-      builder: (logic) {
+      builder: (controller) {
         return ProfileImageShape(
           tapOnGallery: () {
-            logic.selectProfileImage(false);
+            controller.selectProfileImage(false);
             Navigator.pop(context);
           },
           tapOnCamera: () {
-            logic.selectProfileImage(true);
+            controller.selectProfileImage(true);
             Navigator.pop(context);
           },
           tapOnDelete: () {
-            logic.removeProfileImage();
+            controller.removeProfileImage();
             Navigator.pop(context);
           },
-          imageFile: logic.profileImage,
+          imageFile: controller.imageFile != null ? controller
+              .stringToImage(controller.imageFile) : null,
         );
       },
     );
@@ -80,11 +90,16 @@ class AddEditCategoryDialog extends GetView<ProfileImageController>{
 
   Widget _saveButton(BuildContext context) {
     return CustomButton(
+      buttonWidth: 100,
+      buttonHeight: 40,
       textColor: Colors.white,
       buttonText: isActionEdit ? 'ویرایش' : 'ذخیره',
       buttonColor: AppColors.loginBtnColor,
       onTap: () {
-        if (formKey.currentState!.validate()) {
+        if (formKey.currentState!.validate()
+        // &&
+        // controller.imageFile != null
+        ) {
           !isActionEdit ? _addCategory() : _editCategory();
           Get.back();
         }
@@ -93,24 +108,21 @@ class AddEditCategoryDialog extends GetView<ProfileImageController>{
     );
   }
 
-  void _addCategory(){
+  void _addCategory() {
     ProductCategory category = ProductCategory(
         name: catController.categoryName.text,
-        image: "",
+        image: controller.imageFile!,
         productsList: []);
     catController.addCategory(category);
   }
 
-  void _editCategory(){
+  void _editCategory() {
     ProductCategory category = ProductCategory(
         id: targetCategory!.id,
         name: catController.categoryName.text,
-        image:  "controller.profileImage",
+        image: controller.imageFile,
         productsList: targetCategory!.productsList);
 
-    catController.editCategory(category, categoryIndex!);
+    catController.editCategory(category);
   }
-
-
-
 }

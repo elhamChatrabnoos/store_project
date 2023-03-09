@@ -39,7 +39,6 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final TextEditingController? controller;
 
-  FocusNode focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {

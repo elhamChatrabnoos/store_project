@@ -54,7 +54,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
           child: Column(
             children: [
               AppSizes.littleSizeBox,
-              ProfileImageShape(),
+              // ProfileImageShape(imageFile: ''),
               AppSizes.normalSizeBox2,
               _userNameTextField(),
               AppSizes.normalSizeBox2,

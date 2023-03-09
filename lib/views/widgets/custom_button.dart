@@ -8,16 +8,19 @@ class CustomButton extends StatelessWidget {
       required this.buttonText,
       this.buttonWidth,
       this.buttonHeight,
-      this.onTap, this.textSize})
+      this.onTap, this.textSize,
+        this.borderColor})
       : super(key: key);
 
   final Color? buttonColor;
   final Color? textColor;
+  final Color? borderColor;
   final String buttonText;
   final double? textSize;
   double? buttonWidth;
   double? buttonHeight;
   final Function()? onTap;
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,7 @@ class CustomButton extends StatelessWidget {
             onPressed: onTap,
             style: OutlinedButton.styleFrom(
               backgroundColor: buttonColor ?? Colors.white,
-              side: const BorderSide(width: 1, color: Colors.blueAccent),
+              side:  BorderSide(width: 1, color: borderColor ?? Colors.blueAccent),
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20))),
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:shop_getx/core/app_colors.dart';
+import 'package:shop_getx/views/pages/main_page.dart';
 import 'package:shop_getx/views/pages/splash_page.dart';
 
 void main() {

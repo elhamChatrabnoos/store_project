@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:shop_getx/controllers/product_controller.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 
-import '../../controllers/profile_image_controller.dart';
+import '../../controllers/image_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../core/app_colors.dart';
 import '../../core/app_texts.dart';
@@ -24,7 +24,7 @@ class AddProductPage extends GetView {
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => ProductController());
-    Get.lazyPut(() => ProfileImageController());
+    Get.lazyPut(() => ImageController());
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -65,7 +65,7 @@ class AddProductPage extends GetView {
   }
 
   Widget _productImage(BuildContext context) {
-    return GetBuilder<ProfileImageController>(
+    return GetBuilder<ImageController>(
       assignId: true,
       builder: (logic) {
         return ProfileImageShape(
@@ -81,7 +81,7 @@ class AddProductPage extends GetView {
             logic.removeProfileImage();
             Navigator.pop(context);
           },
-          imageFile: logic.profileImage,
+          // imageFile: logic.imageAsString!,
         );
       },
     );

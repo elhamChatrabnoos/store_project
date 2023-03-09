@@ -1,19 +1,21 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shop_getx/controllers/image_controller.dart';
 import 'package:shop_getx/controllers/product_controller.dart';
-import 'package:shop_getx/controllers/user_controller.dart';
+import 'package:shop_getx/controllers/tag_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_keys.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/shared_class/shared_prefrences.dart';
-import 'package:shop_getx/views/widgets/add_edit_category_dialog.dart';
 import 'package:shop_getx/views/pages/all_product_list_page.dart';
 import 'package:shop_getx/views/pages/product_details_page.dart';
 import 'package:shop_getx/views/pages/user_info_page.dart';
+import 'package:shop_getx/views/widgets/add_edit_category_dialog.dart';
+import 'package:shop_getx/views/widgets/add_edit_tag_dialog.dart';
 import 'package:shop_getx/views/widgets/category_item.dart';
+import 'package:shop_getx/views/widgets/custom_button.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
-import 'package:shop_getx/views/widgets/custom_text_field.dart';
 import 'package:shop_getx/views/widgets/home_poduct_item.dart';
 
 import '../../../controllers/category_controller.dart';
@@ -27,8 +29,13 @@ class HomePage extends GetView<CategoryController> {
     'assets/images/slider3.jpg'
   ];
 
+  //????
+  ImageController imageController = Get.put(ImageController());
+
   bool isUserAdmin =
-      AppSharedPreference.isUserAdminPref!.getBool(AppKeys.isUserAdmin)!;
+  AppSharedPreference.isUserAdminPref!.getBool(AppKeys.isUserAdmin)!;
+
+  final TagController _tagController = Get.find<TagController>();
 
   @override
   Widget build(BuildContext context) {
@@ -75,14 +82,16 @@ class HomePage extends GetView<CategoryController> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            AppSizes.littleSizeBox,
+            _addTagText(),
+            _listOfTags(),
             _imagesSlider(),
             AppSizes.normalSizeBox2,
             _addNewCategory(),
             AppSizes.littleSizeBox,
             _listOfCategories(),
-            // AppSizes.normalSizeBox,
             _categoryTitle('کالاهای اساسی'),
-            _productOfCategories(context),
+            _listOfProduct(context),
             AppSizes.bigSizeBox,
           ],
         ),
@@ -90,13 +99,70 @@ class HomePage extends GetView<CategoryController> {
     );
   }
 
-  Widget _addNewCategory() {
-    return UserController.getUserFromPref()['userId'] == 1
+  Widget _addTagText() {
+    return isUserAdmin
         ? TextButton(
-            onPressed: () {
-              Get.dialog(AddEditCategoryDialog(isActionEdit: false));
+        onPressed: () {
+          _tagController.tagName.text = '';
+          Get.dialog(AddEditTagDialog(isActionEdit: false));
+        },
+        child: const Text('افزودن تگ'))
+        : const SizedBox();
+  }
+
+  Widget _listOfTags() {
+    return SizedBox(
+      height: 30,
+      child:
+      GetBuilder<TagController>(
+        assignId: true,
+        builder: (tagController) {
+          return ListView.builder(
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            itemCount: tagsList.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: InkWell(
+                  onLongPress: () {
+                    tagController.removeTag(tagsList[index]);
+                  },
+                  onTap: () {
+                    if (isUserAdmin) {
+                      tagController.tagName.text = tagsList[index].name!;
+                      Get.dialog(AddEditTagDialog(
+                        tagIndex: index,
+                        isActionEdit: true,
+                        targetTag: tagsList[index],
+                      ));
+                    }
+                  },
+                  child: CustomButton(
+                    buttonColor: AppColors.grayColor,
+                    borderColor: AppColors.darkGrayColor,
+                    buttonWidth: 70,
+                    buttonHeight: 10,
+                    buttonText: tagsList[index].name ?? 'tag',
+                  ),
+                ),
+              );
             },
-            child: const Text('افزودن دسته بندی'))
+          );
+        },
+      ),
+
+    );
+  }
+
+  Widget _addNewCategory() {
+    return isUserAdmin
+        ? TextButton(
+        onPressed: () {
+          controller.categoryName.text = '';
+          Get.dialog(AddEditCategoryDialog(isActionEdit: false));
+        },
+        child: const Text('افزودن دسته بندی'))
         : const CustomText(text: 'دسته بندی ها');
   }
 
@@ -109,16 +175,18 @@ class HomePage extends GetView<CategoryController> {
           padding: const EdgeInsets.all(10),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
-            childAspectRatio: 1.2,
+            childAspectRatio: 0.5,
           ),
           itemCount: categoryList.length,
           itemBuilder: (context, index) {
             return CategoryItem(
+              categoryImage:
+              imageController.stringToImage(categoryList[index].image!),
               onDeleteClick: () =>
-                  cateController.deleteCategory(categoryList[index]),
+                  controller.deleteCategory(categoryList[index]),
               showEdit: isUserAdmin,
               onEditClick: () {
-                _showEditDialog(cateController, index);
+                _showEditDialog(index);
               },
               text: categoryList[index].name!,
               onTapItem: () => _goProductsPage(index),
@@ -130,17 +198,17 @@ class HomePage extends GetView<CategoryController> {
   }
 
   Future<dynamic>? _goProductsPage(int index) {
-    return Get.to(() => AllProductListPage(
+    return Get.to(() =>
+        AllProductListPage(
           categoryList[index].productsList ?? [],
           categoryList[index].name!,
         ));
   }
 
-  void _showEditDialog(CategoryController cateController, int index) {
-    cateController.categoryName.text = categoryList[index].name!;
+  void _showEditDialog(int index) {
+    controller.categoryName.text = categoryList[index].name!;
     Get.dialog(AddEditCategoryDialog(
       isActionEdit: true,
-      categoryIndex: index,
       targetCategory: categoryList[index],
     ));
   }
@@ -165,9 +233,12 @@ class HomePage extends GetView<CategoryController> {
     );
   }
 
-  Widget _productOfCategories(BuildContext context) {
+  Widget _listOfProduct(BuildContext context) {
     return SizedBox(
-        height: MediaQuery.of(context).size.height / 2.5,
+        height: MediaQuery
+            .of(context)
+            .size
+            .height / 2.5,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
@@ -176,13 +247,14 @@ class HomePage extends GetView<CategoryController> {
             return index == 4
                 ? _moreButton()
                 : HomeProductItem(
-                    onItemClick: () {
-                      Get.to(() => ProductDetailsPage(
-                            product: productList[index],
-                          ));
-                    },
-                    product: productList[index],
-                  );
+              onItemClick: () {
+                Get.to(() =>
+                    ProductDetailsPage(
+                      product: productList[index],
+                    ));
+              },
+              product: productList[index],
+            );
           },
         ));
     // );

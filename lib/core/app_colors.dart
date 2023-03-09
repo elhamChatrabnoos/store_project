@@ -6,6 +6,7 @@ class AppColors{
 
   static Color textFieldColor = const Color.fromARGB(255, 152, 152, 187);
   static Color backColor = const Color.fromARGB(255, 215, 215, 215);
+  static Color darkGrayColor = const Color.fromARGB(255, 150, 146, 146);
   static Color loginBtnColor = const Color.fromARGB(255, 26, 24, 68);
   static Color loginTextColor = const Color.fromARGB(255, 255, 255, 255);
   static Color bottomNavBackColor = const Color.fromARGB(255, 169, 169, 169);
