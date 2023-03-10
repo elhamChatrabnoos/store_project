@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:shop_getx/controllers/product_controller.dart';
+import 'package:shop_getx/controllers/radio_button_controller.dart';
+import 'package:shop_getx/controllers/tag_controller.dart';
 import 'package:shop_getx/core/app_sizes.dart';
+import 'package:shop_getx/views/widgets/custom_text.dart';
 
 import '../../controllers/image_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../core/app_colors.dart';
 import '../../core/app_texts.dart';
+import '../../models/Tag.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/profile_image.dart';
 
-
-class AddProductPage extends GetView {
+class AddProductPage extends GetView<ImageController> {
   AddProductPage({Key? key}) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
-  // ProfileImageController profileController = Get.put(ProfileImageController());
-  // ProfileImageController profileController = Get.find<ProfileImageController>();
-
+  TagController tagController = Get.find<TagController>();
+  RadioBtnController radioController = Get.put(RadioBtnController());
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => ProductController());
     Get.lazyPut(() => ImageController());
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: Text('افزودن محصول جدید'),
-          ),
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text('افزودن محصول جدید'),
+            ),
             backgroundColor: Colors.white,
             resizeToAvoidBottomInset: false,
             body: _bodyOfPage(context)));
@@ -47,20 +47,24 @@ class AddProductPage extends GetView {
           child: SingleChildScrollView(
               child: Column(
                 children: [
-                _productImage(context),
-                AppSizes.normalSizeBox3,
-                _textField(AppTexts.productName, false),
-                AppSizes.normalSizeBox3,
-                _textField(AppTexts.productDescription, false),
-                AppSizes.normalSizeBox3,
-                _textField(AppTexts.productPrice, true),
-                AppSizes.normalSizeBox3,
-                _textField(AppTexts.productDiscount, true),
-                AppSizes.normalSizeBox3,
-                // _createAccountButton(context, logic),
+                  _productImage(context),
+                  AppSizes.normalSizeBox3,
+                  _textField(AppTexts.productName, false),
+                  AppSizes.normalSizeBox3,
+                  _productDescription(AppTexts.productDescription),
+                  AppSizes.normalSizeBox3,
+                  _productPrice(AppTexts.productPrice),
+                  AppSizes.normalSizeBox3,
+                  _productDiscount(AppTexts.productDiscount),
+                  AppSizes.normalSizeBox3,
+                  _productTotalCount(AppTexts.totalProductCount),
+                  AppSizes.normalSizeBox3,
+                  _productTag(context, AppTexts.productTag),
+                  AppSizes.normalSizeBox3,
+                  _isProductHide(),
+                  _saveButton(context),
                 ],
-              )
-          ),
+              )),
         ));
   }
 
@@ -81,13 +85,15 @@ class AddProductPage extends GetView {
             logic.removeProfileImage();
             Navigator.pop(context);
           },
-          // imageFile: logic.imageAsString!,
+          imageFile: controller.imageFile != null
+              ? controller.stringToImage(controller.imageFile)
+              : null,
         );
       },
     );
   }
 
-  Widget _createAccountButton(BuildContext context, ProductController logic) {
+  Widget _saveButton(BuildContext context) {
     return CustomButton(
       textColor: Colors.white,
       buttonText: AppTexts.createAccountBtn,
@@ -129,26 +135,6 @@ class AddProductPage extends GetView {
     );
   }
 
-  Widget _passwordTextField(UserController logic) {
-    return Obx(() {
-      return CustomTextField(
-        controller: logic.passController,
-        labelText: AppTexts.passwordTxt,
-        checkValidation: (value) {
-          if (!logic
-              .checkPasswordFormat(value!)
-              .value) {
-            return AppTexts.passwordError;
-          }
-        },
-        icon: const Icon(Icons.remove_red_eye),
-        onTapIcon: () => logic.showHidePass(),
-        secure: logic.secureTextPass.value,
-        borderColor: AppColors.textFieldColor,
-      );
-    });
-  }
-
   Widget _textField(String text, bool isNumberField) {
     return CustomTextField(
       checkValidation: (value) {
@@ -156,67 +142,145 @@ class AddProductPage extends GetView {
           return AppTexts.emailError;
         }
       },
-      // inputFormatters: [isNumberField  ? FilteringTextInputFormatter.digitsOnly : ]  ,
       labelText: text,
-      // onChanged: (value) => logic.checkEmailValidation(value!),
       borderColor: AppColors.textFieldColor,
     );
   }
 
-  // Widget _productDescription() {
-  //   return CustomTextField(
-  //     checkValidation: (value) {
-  //       if (value!.isEmpty) {
-  //         return AppTexts.emailError;
-  //       }
-  //     },
-  //     inputFormatters: [isNumberField  ? FilteringTextInputFormatter.digitsOnly : ]  ,
-  //     labelText: text,
-  //     // onChanged: (value) => logic.checkEmailValidation(value!),
-  //     borderColor: AppColors.textFieldColor,
-  //   );
-  // }
-
-  // Widget _productPrice() {
-  //   return CustomTextField(
-  //     checkValidation: (value) {
-  //       if (value!.isEmpty) {
-  //         return AppTexts.emailError;
-  //       }
-  //     },
-  //     inputFormatters: [isNumberField  ? FilteringTextInputFormatter.digitsOnly : ]  ,
-  //     labelText: text,
-  //     // onChanged: (value) => logic.checkEmailValidation(value!),
-  //     borderColor: AppColors.textFieldColor,
-  //   );
-  // }
-  //
-  // Widget _productDiscount() {
-  //   return CustomTextField(
-  //     checkValidation: (value) {
-  //       if (value!.isEmpty) {
-  //         return AppTexts.emailError;
-  //       }
-  //     },
-  //     inputFormatters: [isNumberField  ? FilteringTextInputFormatter.digitsOnly : ]  ,
-  //     labelText: text,
-  //     // onChanged: (value) => logic.checkEmailValidation(value!),
-  //     borderColor: AppColors.textFieldColor,
-  //   );
-  // }
-
-  Widget _addressTextField(UserController logic) {
+  Widget _productDescription(String text) {
     return CustomTextField(
-      controller: logic.addressController,
       checkValidation: (value) {
-        if (value!.isNotEmpty && !(value.length >= 10)) {
-          return AppTexts.addressError;
+        if (value!.isEmpty) {
+          return AppTexts.emailError;
         }
       },
-      labelText: AppTexts.addressTxt,
-      secure: false,
-      icon: const Icon(Icons.home),
+      maxLines: 5,
+      labelText: text,
       borderColor: AppColors.textFieldColor,
     );
   }
+
+  Widget _productPrice(String text) {
+    return CustomTextField(
+      checkValidation: (value) {
+        if (value!.isEmpty) {
+          return AppTexts.emailError;
+        }
+      },
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+      labelText: text,
+      borderColor: AppColors.textFieldColor,
+    );
+  }
+
+  Widget _productDiscount(String text) {
+    return CustomTextField(
+      checkValidation: (value) {
+        if (value!.isEmpty) {
+          return AppTexts.emailError;
+        }
+      },
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+      labelText: text,
+      borderColor: AppColors.textFieldColor,
+    );
+  }
+
+  Widget _productTotalCount(String text) {
+    return CustomTextField(
+      checkValidation: (value) {
+        if (value!.isEmpty) {
+          return AppTexts.emailError;
+        }
+      },
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+      labelText: text,
+      borderColor: AppColors.textFieldColor,
+    );
+  }
+
+
+  Widget _productTag(BuildContext context, String text) {
+    return Container(
+        color: AppColors.grayColor,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width,
+        child: DropdownButtonHideUnderline(
+          child: ButtonTheme(
+            alignedDropdown: true,
+            child: GetBuilder<TagController>(
+              assignId: true,
+              builder: (logic) {
+                return DropdownButton<Tag>(
+                  hint: Text(text),
+                  // if any term click to edit disable this button
+                  onChanged: (Tag? value) {
+                    tagController.changeDropDown(value!);
+                  },
+                  value: tagController.tag,
+                  items: tagsList.map((Tag item) {
+                    return DropdownMenuItem<Tag>(
+                        value: item, child: Text(item.name!));
+                  }).toList(),
+                );
+              },
+            ),
+          ),
+        ));
+  }
+
+
+  Widget _isProductHide() {
+    return GetBuilder<RadioBtnController>(
+      assignId: true,
+      builder: (logic) {
+        return Row(
+          children: [
+            CustomText(text: 'محصول پنهان باشد؟'),
+            ListTile(
+              title: const Text('بله'),
+              leading: Radio<String>(
+                value: 'بله',
+                groupValue: radioController.radioGroupValue,
+                onChanged: (value) {
+                  radioController.changeRadioValue(value.toString());
+                },
+              ),
+            ),
+
+            ListTile(
+              title: const Text('خیر'),
+              leading: Radio<String>(
+                value: 'خیر',
+                groupValue: radioController.radioGroupValue,
+                onChanged: (value) {
+                  radioController.changeRadioValue(value.toString());
+                },
+              ),
+            ),
+            // RadioListTile(
+            //   title: Text('بله'),
+            //   value: 'بله',
+            //   groupValue: radioController.radioGroupValue,
+            //   onChanged: (value) {
+            //     radioController.changeRadioValue(value.toString());
+            //   },
+            // ),
+            //
+            // RadioListTile(
+            //   title: Text('خیر'),
+            //   value: 'خیر',
+            //   groupValue: radioController.radioGroupValue,
+            //   onChanged: (value) {
+            //     radioController.changeRadioValue(value.toString());
+            //   },
+            // ),
+          ],
+        );
+      },
+    );
+  }
+
 }

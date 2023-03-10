@@ -24,6 +24,7 @@ class CategoryItem extends StatelessWidget {
     return InkWell(
       onTap: onTapItem,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -37,14 +38,15 @@ class CategoryItem extends StatelessWidget {
 
   Widget _itemImage() {
     if(categoryImage == null){
-      Image.asset('assets/images/shop_image.png',width: 200, height: 70);
+      return Image.asset('assets/images/shop_image.png', width: 100, height: 100);
     }
-    return
-      FutureBuilder(
+    else{
+      return FutureBuilder(
         future: categoryImage,
         builder: (context, snapshot) {
-          return Image.memory(snapshot.data!, width: 200, height: 70);
+          return Image.memory(snapshot.data!, width: 100, height: 100);
         },);
+    }
 
   }
 

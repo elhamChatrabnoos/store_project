@@ -10,7 +10,8 @@ import 'custom_button.dart';
 import 'custom_text_field.dart';
 
 class AddEditTagDialog extends StatelessWidget {
-  AddEditTagDialog({Key? key, required this.isActionEdit, this.targetTag, this.tagIndex})
+  AddEditTagDialog(
+      {Key? key, required this.isActionEdit, this.targetTag, this.tagIndex})
       : super(key: key);
 
   final formKey = GlobalKey<FormState>();
@@ -59,24 +60,13 @@ class AddEditTagDialog extends StatelessWidget {
   }
 
   void _addTag() {
-    int newTagId;
-    if(tagsList.isNotEmpty){
-       newTagId = tagsList.last.id! + 1;
-    }
-    else{
-      newTagId = 1;
-    }
-
-    Tag tag = Tag(id: newTagId, name: tagController.tagName.text);
+    Tag tag = Tag( name: tagController.tagName.text);
     tagController.addTag(tag);
   }
 
   void _editCategory() {
-    Tag tag = Tag(
-        id: targetTag!.id,
-        name: tagController.tagName.text);
+    Tag tag = Tag(id: targetTag!.id, name: tagController.tagName.text);
     tagController.editTag(tag, tagIndex!);
   }
-
 
 }

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:shop_getx/controllers/category_controller.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/models/product_category.dart';
+import 'package:shop_getx/views/widgets/custom_dialog.dart';
 
 import '../../controllers/image_controller.dart';
 import '../../core/app_colors.dart';
@@ -96,12 +97,12 @@ class AddEditCategoryDialog extends GetView<ImageController> {
       buttonText: isActionEdit ? 'ویرایش' : 'ذخیره',
       buttonColor: AppColors.loginBtnColor,
       onTap: () {
-        if (formKey.currentState!.validate()
-        // &&
-        // controller.imageFile != null
-        ) {
+        if (formKey.currentState!.validate() && controller.imageFile != null) {
           !isActionEdit ? _addCategory() : _editCategory();
           Get.back();
+        }
+        else{
+          Get.snackbar('عدم تکمیل فیلدها', 'لطفا نام و تصویر را انتخاب کنید.');
         }
       },
       textSize: AppSizes.normalTextSize2,

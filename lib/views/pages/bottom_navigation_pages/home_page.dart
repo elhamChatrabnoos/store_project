@@ -29,17 +29,16 @@ class HomePage extends GetView<CategoryController> {
     'assets/images/slider3.jpg'
   ];
 
-  //????
-  ImageController imageController = Get.put(ImageController());
 
   bool isUserAdmin =
-  AppSharedPreference.isUserAdminPref!.getBool(AppKeys.isUserAdmin)!;
-
+      AppSharedPreference.isUserAdminPref!.getBool(AppKeys.isUserAdmin)!;
   final TagController _tagController = Get.find<TagController>();
+  ImageController imageController = Get.put(ImageController());
 
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => CategoryController());
+    Get.lazyPut(() => TagController());
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -102,19 +101,18 @@ class HomePage extends GetView<CategoryController> {
   Widget _addTagText() {
     return isUserAdmin
         ? TextButton(
-        onPressed: () {
-          _tagController.tagName.text = '';
-          Get.dialog(AddEditTagDialog(isActionEdit: false));
-        },
-        child: const Text('افزودن تگ'))
+            onPressed: () {
+              _tagController.tagName.text = '';
+              Get.dialog(AddEditTagDialog(isActionEdit: false));
+            },
+            child: const Text('افزودن تگ'))
         : const SizedBox();
   }
 
   Widget _listOfTags() {
     return SizedBox(
       height: 30,
-      child:
-      GetBuilder<TagController>(
+      child: GetBuilder<TagController>(
         assignId: true,
         builder: (tagController) {
           return ListView.builder(
@@ -130,7 +128,7 @@ class HomePage extends GetView<CategoryController> {
                   },
                   onTap: () {
                     if (isUserAdmin) {
-                      tagController.tagName.text = tagsList[index].name!;
+                      _tagController.tagName.text = tagsList[index].name!;
                       Get.dialog(AddEditTagDialog(
                         tagIndex: index,
                         isActionEdit: true,
@@ -151,19 +149,24 @@ class HomePage extends GetView<CategoryController> {
           );
         },
       ),
-
     );
   }
 
   Widget _addNewCategory() {
     return isUserAdmin
         ? TextButton(
-        onPressed: () {
-          controller.categoryName.text = '';
-          Get.dialog(AddEditCategoryDialog(isActionEdit: false));
-        },
-        child: const Text('افزودن دسته بندی'))
-        : const CustomText(text: 'دسته بندی ها');
+            onPressed: () {
+              controller.categoryName.text = '';
+              Get.dialog(AddEditCategoryDialog(isActionEdit: false));
+            },
+            child: CustomText(
+              text: 'افزودن دسته بندی',
+              textSize: AppSizes.normalTextSize2,
+            ))
+        : CustomText(
+            text: 'دسته بندی ها',
+            textSize: AppSizes.normalTextSize2,
+          );
   }
 
   Widget _listOfCategories() {
@@ -172,22 +175,20 @@ class HomePage extends GetView<CategoryController> {
       builder: (cateController) {
         return GridView.builder(
           shrinkWrap: true,
-          padding: const EdgeInsets.all(10),
+          // padding: const EdgeInsets.all(10),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
-            childAspectRatio: 0.5,
+            childAspectRatio: 0.9,
           ),
           itemCount: categoryList.length,
           itemBuilder: (context, index) {
             return CategoryItem(
               categoryImage:
-              imageController.stringToImage(categoryList[index].image!),
+                  imageController.stringToImage(categoryList[index].image!),
               onDeleteClick: () =>
                   controller.deleteCategory(categoryList[index]),
               showEdit: isUserAdmin,
-              onEditClick: () {
-                _showEditDialog(index);
-              },
+              onEditClick: () => _showEditDialog(index),
               text: categoryList[index].name!,
               onTapItem: () => _goProductsPage(index),
             );
@@ -198,11 +199,7 @@ class HomePage extends GetView<CategoryController> {
   }
 
   Future<dynamic>? _goProductsPage(int index) {
-    return Get.to(() =>
-        AllProductListPage(
-          categoryList[index].productsList ?? [],
-          categoryList[index].name!,
-        ));
+    return Get.to(() => AllProductListPage(categoryList[index]));
   }
 
   void _showEditDialog(int index) {
@@ -217,7 +214,9 @@ class HomePage extends GetView<CategoryController> {
     return Row(
       children: [
         CustomText(
-            text: categoryTitle, textSize: 20, textWeight: FontWeight.bold),
+            text: categoryTitle,
+            textSize: AppSizes.normalTextSize2,
+            textWeight: FontWeight.bold),
         const Spacer(),
         InkWell(
           onTap: () {
@@ -226,7 +225,7 @@ class HomePage extends GetView<CategoryController> {
           child: CustomText(
               text: 'مشاهده همه',
               textColor: AppColors.buttonColor,
-              textSize: 17,
+              textSize: AppSizes.normalTextSize2,
               textWeight: FontWeight.normal),
         )
       ],
@@ -235,10 +234,7 @@ class HomePage extends GetView<CategoryController> {
 
   Widget _listOfProduct(BuildContext context) {
     return SizedBox(
-        height: MediaQuery
-            .of(context)
-            .size
-            .height / 2.5,
+        height: MediaQuery.of(context).size.height / 2.5,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
@@ -247,14 +243,13 @@ class HomePage extends GetView<CategoryController> {
             return index == 4
                 ? _moreButton()
                 : HomeProductItem(
-              onItemClick: () {
-                Get.to(() =>
-                    ProductDetailsPage(
-                      product: productList[index],
-                    ));
-              },
-              product: productList[index],
-            );
+                    onItemClick: () {
+                      Get.to(() => ProductDetailsPage(
+                            product: productList[index],
+                          ));
+                    },
+                    product: productList[index],
+                  );
           },
         ));
     // );

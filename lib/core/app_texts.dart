@@ -38,10 +38,9 @@ class AppTexts {
   static String productPrice = 'قیمت محصول';
   static String isAvailable = 'موجود';
   static String isNotAvailable = 'نا موجود';
-  static String? productCategory = '';
-  static String? productSubCategory;
-  static String? productCountInBasket;
-  static String? totalProductCount;
+  static String productTag = 'تگ محصول';
+  static String productCountInBasket = '';
+  static String totalProductCount = 'تعداد محصول';
 
 
   // favorite page texts
