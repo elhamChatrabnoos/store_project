@@ -13,7 +13,7 @@ import '../../core/app_texts.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/custom_text_field.dart';
-import '../widgets/profile_image.dart';
+import '../widgets/image_picker.dart';
 import 'login_page.dart';
 
 class SignUpPage extends GetView<UserController> {
@@ -78,7 +78,7 @@ class SignUpPage extends GetView<UserController> {
     return GetBuilder<ImageController>(
       assignId: true,
       builder: (logic) {
-        return ProfileImageShape(
+        return ImagePicker(
           tapOnGallery: () {
             logic.selectProfileImage(false);
             Navigator.pop(context);
@@ -102,6 +102,7 @@ class SignUpPage extends GetView<UserController> {
       textColor: Colors.white,
       buttonText: AppTexts.createAccountBtn,
       buttonColor: AppColors.loginBtnColor,
+      buttonHeight:  MediaQuery.of(context).size.height / 12,
       onTap: () {
         if (formKey.currentState!.validate()) {
           if (logic.checkUserNameExist(logic.userNameController.text)) {
@@ -109,13 +110,6 @@ class SignUpPage extends GetView<UserController> {
           } else {
             // prepare user image and information
             String userImage = '';
-
-            // if (profileController.imageFile != null) {
-            //   File imageFile = File(profileController.profileImage!.path);
-            //   List<int> imageBytes = profileController.imageFile!.readAsBytes();
-            //   String base64Image = base64Encode(imageBytes);
-            //   userImage = base64Image;
-            // }
 
             User user = User(
                 userImage: userImage,

@@ -10,7 +10,7 @@ import '../../core/app_texts.dart';
 import '../../models/user.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/custom_text_field.dart';
-import '../widgets/profile_image.dart';
+import '../widgets/image_picker.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);

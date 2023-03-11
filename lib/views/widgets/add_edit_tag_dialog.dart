@@ -9,6 +9,7 @@ import '../../models/Tag.dart';
 import 'custom_button.dart';
 import 'custom_text_field.dart';
 
+// class AddEditTagDialog extends GetView<TagController> {
 class AddEditTagDialog extends StatelessWidget {
   AddEditTagDialog(
       {Key? key, required this.isActionEdit, this.targetTag, this.tagIndex})
@@ -16,12 +17,14 @@ class AddEditTagDialog extends StatelessWidget {
 
   final formKey = GlobalKey<FormState>();
   final bool isActionEdit;
-  TagController tagController = Get.find<TagController>();
   final Tag? targetTag;
   final int? tagIndex;
 
+  TagController tagController = Get.find<TagController>();
+
   @override
   Widget build(BuildContext context) {
+    // Get.lazyPut(() => TagController());
     return AlertDialog(
       content: Form(
         key: formKey,

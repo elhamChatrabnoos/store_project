@@ -5,14 +5,16 @@ import 'package:shop_getx/repositories/tag_repository.dart';
 import '../models/Tag.dart';
 
 class TagController extends GetxController {
+
   final TagRepository _tagRepository = TagRepository();
   TextEditingController tagName = TextEditingController();
+
   Tag? tag ;
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
+    print('init state in controller : ');
     getTags();
   }
 
@@ -45,6 +47,9 @@ class TagController extends GetxController {
     tag = selectedTag;
     update();
   }
+
+
 }
+
 
 List<Tag> tagsList = [];

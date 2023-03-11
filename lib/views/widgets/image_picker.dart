@@ -4,8 +4,10 @@ import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
 
-class ProfileImageShape extends StatelessWidget {
-  ProfileImageShape(
+import 'future_image.dart';
+
+class ImagePicker extends StatelessWidget {
+  ImagePicker(
       {Key? key,
       this.tapOnCamera,
       this.imageFile,
@@ -72,31 +74,17 @@ class ProfileImageShape extends StatelessWidget {
   }
 
   Widget _profileAvatar(double imageSize) {
-    print(imageFile);
     if (imageFile == null) {
       return CircleAvatar(
         radius: 60,
         child: ClipOval(
           clipBehavior: Clip.antiAlias,
-          child: Image.asset('assets/images/userImage.png',
+          child: Image.asset('assets/images/default.png',
               width: imageSize, height: imageSize),
         ),
       );
     } else {
-      return FutureBuilder(
-        future: imageFile,
-        builder: (context, snapshot) {
-          return Image.memory(snapshot.data!, width: 200, height: 100);
-        });
-      // return CircleAvatar(
-      //     backgroundColor: AppColors.grayColor,
-      //     radius: 60,
-      //     child: ClipOval(
-      //         child: kIsWeb
-      //             ? Image.network(imageFile!.path,
-      //                 width: imageSize, height: imageSize)
-      //             : Image.file(File(imageFile!.path),
-      //                 width: imageSize, height: imageSize)));
-    }
+      return FutureImage(future: imageFile!);
+   }
   }
 }

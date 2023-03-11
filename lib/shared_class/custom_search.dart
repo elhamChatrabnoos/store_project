@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../controllers/product_controller.dart';
 import '../models/product.dart';
@@ -8,6 +7,9 @@ import '../views/pages/product_details_page.dart';
 import '../views/widgets/product_item.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
+
+  List<Product> targetList;
+
 // clear the search text
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -63,4 +65,6 @@ class CustomSearchDelegate extends SearchDelegate {
       },
     );
   }
+
+  CustomSearchDelegate({required this.targetList});
 }

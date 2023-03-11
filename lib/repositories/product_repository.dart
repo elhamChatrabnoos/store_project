@@ -11,6 +11,7 @@ class ProductRepository {
       }).toList();
       return productResult;
     } catch (e) {
+      print('*** product get error: ${e.toString()}***');
       return throw e.toString();
     }
   }
@@ -37,7 +38,20 @@ class ProductRepository {
       Product? updatedProduct = Product.fromJson(response.data);
       return updatedProduct;
     } catch (e) {
-      print('error of update product: ${e.toString()}');
+      print('*** edit product error***: ${e.toString()}');
+      return throw e.toString();
+    }
+  }
+
+
+  Future<Product> deleteProduct({required Product targetProduct}) async {
+    try {
+      var response = await dioBaseUrl.delete('product/${targetProduct.id.toString()}',
+          data: targetProduct.toJson());
+      Product retrievedProduct = Product.fromJson(response.data);
+      return retrievedProduct;
+    } catch (e) {
+      print('***delete product error*** ${e.toString()}');
       return throw e.toString();
     }
   }

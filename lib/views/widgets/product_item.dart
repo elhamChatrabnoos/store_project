@@ -2,25 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:shop_getx/controllers/image_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/models/product.dart';
 import 'package:shop_getx/views/widgets/custom_button.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
+import 'package:shop_getx/views/widgets/future_image.dart';
 
 import '../../controllers/product_controller.dart';
 
-class ProductItem extends StatelessWidget {
+class ProductItem extends GetView<ImageController> {
   ProductItem(
       {Key? key,
-       required this.product,
+      required this.product,
       this.addToBasketClick,
       this.onItemClick,
       this.onAddBtnClick,
       this.onRemoveBtnClick,
       required this.productIndex,
       this.onIconLikeTap,
-        required this.iconLike})
+      required this.iconLike})
       : super(key: key);
 
   final Function()? addToBasketClick;
@@ -32,10 +34,9 @@ class ProductItem extends StatelessWidget {
   Product product;
   final int productIndex;
 
-  final ProductController productController = Get.put(ProductController());
-
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => ImageController());
     return Directionality(
       textDirection: TextDirection.rtl,
       child: InkWell(
@@ -49,6 +50,7 @@ class ProductItem extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       _productImage(),
+                      AppSizes.normalSizeBoxWidth,
                       _titleAndDescription(),
                       const Spacer(),
                       _buyAndCost()
@@ -70,7 +72,7 @@ class ProductItem extends StatelessWidget {
       children: [
         _priceText(),
         AppSizes.littleSizeBox2,
-        product.productDiscount != null ? _productDiscount() : const SizedBox(),
+        product.productDiscount != 0 ? _productDiscount() : const SizedBox(),
         AppSizes.normalSizeBox2,
         _checkProductInBasket(),
       ],
@@ -115,11 +117,11 @@ class ProductItem extends StatelessWidget {
   }
 
   Widget _isAvailableProduct() {
-    return CustomText(
-      text: product.isAvailable! ? 'موجود در انبار' : 'موجودی به اتمام رسیده',
+    return const CustomText(
+      text: 'موجود در انبار',
       textSize: 15,
       textWeight: FontWeight.normal,
-      textColor: product.isAvailable! ? Colors.green : Colors.red,
+      textColor: Colors.green,
     );
   }
 
@@ -160,14 +162,12 @@ class ProductItem extends StatelessWidget {
   Widget _productImage() {
     return Column(
       children: [
-        Image.asset(
-          product.productImage!,
-          width: 100,
-          height: 100,
-        ),
+        FutureImage(future: controller.stringToImage(product.productImage)),
         IconButton(
           onPressed: onIconLikeTap,
-          icon: iconLike! ? Icon(Icons.favorite) : Icon(Icons.favorite_border),
+          icon: iconLike
+              ? const Icon(Icons.favorite)
+              : const Icon(Icons.favorite_border),
         )
       ],
     );

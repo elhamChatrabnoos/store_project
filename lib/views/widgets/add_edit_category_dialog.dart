@@ -11,7 +11,7 @@ import '../../controllers/image_controller.dart';
 import '../../core/app_colors.dart';
 import 'custom_button.dart';
 import 'custom_text_field.dart';
-import 'profile_image.dart';
+import 'image_picker.dart';
 
 class AddEditCategoryDialog extends GetView<ImageController> {
   AddEditCategoryDialog({
@@ -24,7 +24,9 @@ class AddEditCategoryDialog extends GetView<ImageController> {
   final ProductCategory? targetCategory;
 
   final formKey = GlobalKey<FormState>();
-  CategoryController catController = Get.find<CategoryController>();
+
+  // CategoryController controller = Get.find<CategoryController>();
+  CategoryController cateController = Get.put(CategoryController());
 
   @override
   Widget build(BuildContext context) {
@@ -33,16 +35,16 @@ class AddEditCategoryDialog extends GetView<ImageController> {
     return AlertDialog(
       content: Form(
         key: formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _categoryImage(context),
-            AppSizes.normalSizeBox3,
-            _textField(),
-            AppSizes.normalSizeBox3,
-            _saveButton(context),
-          ],
-        ),
+        child:  Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _categoryImage(context),
+              AppSizes.normalSizeBox3,
+              _textField(),
+              AppSizes.normalSizeBox3,
+              _saveButton(context),
+            ],
+          )
       ),
     );
   }
@@ -50,13 +52,13 @@ class AddEditCategoryDialog extends GetView<ImageController> {
   Widget _categoryImage(BuildContext context) {
     return GetBuilder<ImageController>(
       initState: (state) {
-        if(targetCategory != null){
+        if (targetCategory != null) {
           controller.imageFile = targetCategory!.image;
         }
       },
       assignId: true,
       builder: (controller) {
-        return ProfileImageShape(
+        return ImagePicker(
           tapOnGallery: () {
             controller.selectProfileImage(false);
             Navigator.pop(context);
@@ -78,7 +80,7 @@ class AddEditCategoryDialog extends GetView<ImageController> {
 
   Widget _textField() {
     return CustomTextField(
-      controller: catController.categoryName,
+      controller: cateController.categoryName,
       checkValidation: (value) {
         if (value!.isEmpty) {
           return 'نام دسته بندی نمیتواند خالی باشد.';
@@ -97,11 +99,12 @@ class AddEditCategoryDialog extends GetView<ImageController> {
       buttonText: isActionEdit ? 'ویرایش' : 'ذخیره',
       buttonColor: AppColors.loginBtnColor,
       onTap: () {
-        if (formKey.currentState!.validate() && controller.imageFile != null) {
+        if (formKey.currentState!.validate() &&
+            this.controller.imageFile != null) {
           !isActionEdit ? _addCategory() : _editCategory();
           Get.back();
         }
-        else{
+        else {
           Get.snackbar('عدم تکمیل فیلدها', 'لطفا نام و تصویر را انتخاب کنید.');
         }
       },
@@ -111,19 +114,19 @@ class AddEditCategoryDialog extends GetView<ImageController> {
 
   void _addCategory() {
     ProductCategory category = ProductCategory(
-        name: catController.categoryName.text,
+        name: cateController.categoryName.text,
         image: controller.imageFile!,
         productsList: []);
-    catController.addCategory(category);
+    cateController.addCategory(category);
   }
 
   void _editCategory() {
     ProductCategory category = ProductCategory(
         id: targetCategory!.id,
-        name: catController.categoryName.text,
-        image: controller.imageFile,
+        name: cateController.categoryName.text,
+        image: this.controller.imageFile,
         productsList: targetCategory!.productsList);
 
-    catController.editCategory(category);
+    cateController.editCategory(category);
   }
 }

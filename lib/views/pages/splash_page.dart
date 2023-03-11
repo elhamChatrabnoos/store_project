@@ -29,6 +29,8 @@ class _SplashPageState extends State<SplashPage> {
   ShoppingCartController shoppingController = Get.put(ShoppingCartController());
   FavoritesController favoritesController = Get.put(FavoritesController());
   TagController tagController = Get.put(TagController());
+  CategoryController cateController = Get.put(CategoryController());
+
 
   @override
   void initState() {

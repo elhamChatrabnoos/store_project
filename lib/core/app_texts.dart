@@ -41,6 +41,9 @@ class AppTexts {
   static String productTag = 'تگ محصول';
   static String productCountInBasket = '';
   static String totalProductCount = 'تعداد محصول';
+  static String addProductError = 'مقدار نامعتبر';
+  static String saveBtn = 'ذخیره';
+  static String editBtn = 'ویرایش';
 
 
   // favorite page texts

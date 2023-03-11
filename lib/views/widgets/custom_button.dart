@@ -25,8 +25,8 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: buttonHeight ?? MediaQuery.of(context).size.height / 12,
-        width: buttonWidth ?? MediaQuery.of(context).size.width,
+        height: buttonHeight,
+        width: buttonWidth,
         child: OutlinedButton(
             onPressed: onTap,
             style: OutlinedButton.styleFrom(

@@ -79,6 +79,7 @@ class _LoginPageState extends State<LoginPage> {
         CustomButton(
           textSize: AppSizes.normalTextSize2,
           buttonWidth: MediaQuery.of(context).size.width / 3,
+          buttonHeight:  MediaQuery.of(context).size.height / 12,
           textColor: AppColors.loginTextColor,
           buttonText: AppTexts.loginBtnTxt,
           buttonColor: AppColors.loginBtnColor,
@@ -93,6 +94,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         CustomButton(
             textSize: AppSizes.normalTextSize2,
+            buttonHeight:  MediaQuery.of(context).size.height / 12,
             buttonWidth: MediaQuery.of(context).size.width / 3,
             textColor: AppColors.loginBtnColor,
             buttonText: AppTexts.signUpBtnTxt,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'dart:typed_data';
 
@@ -27,12 +28,12 @@ class ImageController extends GetxController {
 
   Future<String>? imageToString(XFile image) async {
     Uint8List imgByte = await image.readAsBytes();
-    return base64.encode(imgByte);
+    return base64Encode(imgByte);
   }
 
   Future<Uint8List?> stringToImage(String? imageString) async {
     if (imageString != null) {
-      return await base64.decode(imageString);
+      return await base64Decode(imageString);
     }
     return null;
   }
