@@ -84,7 +84,11 @@ class ImagePicker extends StatelessWidget {
         ),
       );
     } else {
-      return FutureImage(future: imageFile!);
+      return
+        ClipOval(
+          clipBehavior: Clip.antiAlias,
+          child: FutureImage(future: imageFile!, imageSize: imageSize)
+        );
    }
   }
 }

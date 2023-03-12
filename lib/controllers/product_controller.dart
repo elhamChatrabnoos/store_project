@@ -49,6 +49,8 @@ class ProductController extends GetxController {
         .then((value) => getProducts());
     update();
   }
+
+
 }
 
 List<Product> productList = [];

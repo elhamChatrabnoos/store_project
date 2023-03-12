@@ -34,6 +34,7 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
   final formKey = GlobalKey<FormState>();
 
   TagController tagController = Get.put(TagController());
+
   ProductController productController = Get.find<ProductController>();
   CategoryController cateController = Get.find<CategoryController>();
   ImageController controller = Get.put(ImageController());
@@ -335,7 +336,7 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
       productController.totalCountController.text =
           widget.product!.totalProductCount.toString();
 
-      if(widget.product!.productTag != null){
+      if(tagsList.isNotEmpty && widget.product!.productTag != null){
         tagController.tag = tagsList.first;
         tagController.tag!.name = widget.product!.productTag;
         print('tag name is :${tagController.tag!.name!}');

@@ -162,7 +162,9 @@ class ProductItem extends GetView<ImageController> {
   Widget _productImage() {
     return Column(
       children: [
-        FutureImage(future: controller.stringToImage(product.productImage)),
+        FutureImage(
+            future: controller.stringToImage(product.productImage),
+            imageSize: 100),
         IconButton(
           onPressed: onIconLikeTap,
           icon: iconLike

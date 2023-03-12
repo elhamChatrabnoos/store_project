@@ -1,8 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_getx/controllers/favorites_controller.dart';
 import 'package:shop_getx/controllers/shopping_cart_controller.dart';
 import 'package:shop_getx/controllers/user_controller.dart';
@@ -10,12 +7,8 @@ import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_images.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/models/shopping_cart.dart';
-import 'package:shop_getx/models/user.dart';
-import 'package:shop_getx/views/pages/bottom_navigation_pages/home_page.dart';
-import 'package:shop_getx/views/pages/user_info_page.dart';
 import 'package:shop_getx/views/pages/sign_up_page.dart';
 
-import '../../controllers/product_controller.dart';
 import '../../core/app_texts.dart';
 import '../../models/favorites.dart';
 import '../widgets/custom_button.dart';
@@ -33,8 +26,9 @@ class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
 
   UserController userController = Get.find<UserController>();
-  ShoppingCartController shoppingController = Get.find<ShoppingCartController>();
-  FavoritesController favoritesController = Get.find<FavoritesController>();
+
+  ShoppingCartController shoppingController = Get.put(ShoppingCartController());
+  FavoritesController favoritesController = Get.put(FavoritesController());
 
   @override
   void initState() {

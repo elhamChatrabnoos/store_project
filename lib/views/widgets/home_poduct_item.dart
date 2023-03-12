@@ -9,7 +9,7 @@ import 'package:shop_getx/views/widgets/custom_text.dart';
 import 'future_image.dart';
 
 class HomeProductItem extends GetView<ImageController> {
-  HomeProductItem({
+  HomeProductItem({this.onLongPress,
     Key? key,
     required this.product,
     this.onItemClick,
@@ -17,12 +17,14 @@ class HomeProductItem extends GetView<ImageController> {
 
   Function()? onItemClick;
   final Product product;
+  final Function()? onLongPress;
 
 
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => ImageController());
     return InkWell(
+      onLongPress: onLongPress,
       onTap: onItemClick,
       child: Card(
           elevation: 10,
@@ -102,6 +104,6 @@ class HomeProductItem extends GetView<ImageController> {
     return Align(
         alignment: Alignment.center,
         child: FutureImage(
-            future: controller.stringToImage(product.productImage)));
+            future: controller.stringToImage(product.productImage), imageSize: 100,));
   }
 }

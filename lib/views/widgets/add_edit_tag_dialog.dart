@@ -20,7 +20,8 @@ class AddEditTagDialog extends StatelessWidget {
   final Tag? targetTag;
   final int? tagIndex;
 
-  TagController tagController = Get.find<TagController>();
+  // TagController tagController = Get.find<TagController>();
+  TagController tagController = Get.put(TagController());
 
   @override
   Widget build(BuildContext context) {
@@ -71,5 +72,6 @@ class AddEditTagDialog extends StatelessWidget {
     Tag tag = Tag(id: targetTag!.id, name: tagController.tagName.text);
     tagController.editTag(tag, tagIndex!);
   }
+
 
 }

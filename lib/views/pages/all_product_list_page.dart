@@ -12,6 +12,7 @@ import 'package:shop_getx/views/pages/product_details_page.dart';
 import 'package:shop_getx/views/widgets/product_item.dart';
 
 import '../../controllers/shopping_cart_controller.dart';
+import '../../controllers/tag_controller.dart';
 import '../../shared_class/custom_search.dart';
 
 class AllProductListPage extends GetView {
@@ -19,17 +20,19 @@ class AllProductListPage extends GetView {
 
   final ProductCategory category;
   bool isUserAdmin =
-  AppSharedPreference.isUserAdminPref!.getBool(AppKeys.isUserAdmin)!;
-  ProductController productController = Get.put(ProductController());
+      AppSharedPreference.isUserAdminPref!.getBool(AppKeys.isUserAdmin)!;
+
+  ProductController productController = Get.find<ProductController>();
 
   // FavoritesController favController = Get.put(FavoritesController());
   // ShoppingCartController shoppingCartController = Get.put(ShoppingCartController());
 
   @override
   Widget build(BuildContext context) {
+
     Get.lazyPut(() => ShoppingCartController());
     Get.lazyPut(() => FavoritesController());
-    Get.lazyPut(() => CategoryController());
+
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -39,7 +42,7 @@ class AllProductListPage extends GetView {
               showSearch(
                 context: context,
                 delegate:
-                CustomSearchDelegate(targetList: category.productsList!),
+                    CustomSearchDelegate(targetList: category.productsList!),
                 // delegate to customize the search bar
               );
             },
@@ -59,17 +62,18 @@ class AllProductListPage extends GetView {
         return GetBuilder<FavoritesController>(
           assignId: true,
           builder: (favoritesController) {
-            return GetBuilder<CategoryController>(builder: (categoryController) {
+            return GetBuilder<CategoryController>(
+                builder: (categoryController) {
               return ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemCount: category.productsList!.length,
                   itemBuilder: (context, index) {
                     return isUserAdmin
-                        ? _removableItem(
-                        index, favoritesController, shoppingController,categoryController )
+                        ? _removableItem(index, favoritesController,
+                            shoppingController, categoryController)
                         : _noRemovableItem(
-                        index, favoritesController, shoppingController);
+                            index, favoritesController, shoppingController);
                   });
             });
           },
@@ -78,8 +82,11 @@ class AllProductListPage extends GetView {
     );
   }
 
-  Widget _removableItem(int index, FavoritesController favoritesController,
-      ShoppingCartController shoppingController, CategoryController categoryController) {
+  Widget _removableItem(
+      int index,
+      FavoritesController favoritesController,
+      ShoppingCartController shoppingController,
+      CategoryController categoryController) {
     return Dismissible(
         key: UniqueKey(),
         direction: DismissDirection.endToStart,
@@ -102,10 +109,8 @@ class AllProductListPage extends GetView {
         child: ProductItem(
           iconLike: false,
           onItemClick: () {
-            Get.off(() =>
-                AddEditProductPage(
-                    product: category.productsList![index],
-                    category: category));
+            Get.off(() => AddEditProductPage(
+                product: category.productsList![index], category: category));
           },
           product: category.productsList![index],
           productIndex: index,
@@ -119,11 +124,10 @@ class AllProductListPage extends GetView {
         favController.editFavoriteList(category.productsList![index]);
       },
       iconLike:
-      favController.searchItemInFavorites(category.productsList![index]),
+          favController.searchItemInFavorites(category.productsList![index]),
       onItemClick: () {
-        Get.to(
-                () =>
-                ProductDetailsPage(product: category.productsList![index]));
+        // Get.to(
+        //     () => ProductDetailsPage(product: category.productsList![index]));
       },
       addToBasketClick: () {
         shoppingController.editShoppingCart(category.productsList![index]);
@@ -138,7 +142,7 @@ class AllProductListPage extends GetView {
             .removeProductFromBasket(shoppingController.targetProduct!);
       },
       product: shoppingController
-          .searchProductInBasket(category.productsList![index])
+              .searchProductInBasket(category.productsList![index])
           ? shoppingController.targetProduct!
           : category.productsList![index],
       productIndex: index,
@@ -150,8 +154,7 @@ class AllProductListPage extends GetView {
       return FloatingActionButton(
         backgroundColor: AppColors.primaryColor,
         onPressed: () {
-          Get.off(() =>
-              AddEditProductPage(
+          Get.off(() => AddEditProductPage(
                 category: category,
               ));
         },

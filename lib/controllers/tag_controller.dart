@@ -14,7 +14,6 @@ class TagController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    print('init state in controller : ');
     getTags();
   }
 

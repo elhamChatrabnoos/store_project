@@ -20,7 +20,8 @@ class CustomTextField extends StatelessWidget {
       this.labelText,
       this.radius,
       this.keyboardType,
-      this.controller, this.maxLines})
+      this.controller,
+      this.maxLines})
       : super(key: key);
 
   final Function(String?)? onChanged;
@@ -40,7 +41,6 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController? controller;
   final int? maxLines;
 
-
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -50,7 +50,6 @@ class CustomTextField extends StatelessWidget {
       initialValue: initialValue,
       onChanged: onChanged,
       validator: checkValidation,
-      maxLines: maxLines,
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,
@@ -69,7 +68,8 @@ class CustomTextField extends StatelessWidget {
               width: 1,
             )),
       ),
-      obscureText: maxLines != null ? secure ?? false : false,
+      obscureText: secure != null ? secure! : false ,
     );
   }
+
 }

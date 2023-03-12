@@ -8,7 +8,6 @@ import 'package:shop_getx/core/app_keys.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/shared_class/shared_prefrences.dart';
 import 'package:shop_getx/views/pages/all_product_list_page.dart';
-import 'package:shop_getx/views/pages/product_details_page.dart';
 import 'package:shop_getx/views/pages/user_info_page.dart';
 import 'package:shop_getx/views/widgets/add_edit_category_dialog.dart';
 import 'package:shop_getx/views/widgets/add_edit_tag_dialog.dart';
@@ -20,7 +19,7 @@ import 'package:shop_getx/views/widgets/home_poduct_item.dart';
 import '../../../controllers/category_controller.dart';
 import '../../../shared_class/custom_search.dart';
 
-class HomePage extends GetView<ProductController> {
+class HomePage extends GetView {
   HomePage({Key? key}) : super(key: key);
 
   List<String> sliderImages = [
@@ -30,13 +29,13 @@ class HomePage extends GetView<ProductController> {
 
   bool isUserAdmin =
       AppSharedPreference.isUserAdminPref!.getBool(AppKeys.isUserAdmin)!;
-  TagController _tagController = Get.find<TagController>();
-  CategoryController cateController = Get.find<CategoryController>();
+
+  ProductController productController = Get.find<ProductController>();
 
   @override
   Widget build(BuildContext context) {
-    // Get.lazyPut(() => CategoryController());
-    Get.lazyPut(() => ProductController());
+    Get.lazyPut(() => CategoryController());
+    Get.lazyPut(() => TagController());
 
     return Directionality(
         textDirection: TextDirection.rtl,
@@ -88,7 +87,7 @@ class HomePage extends GetView<ProductController> {
             _addNewCategory(),
             AppSizes.littleSizeBox,
             _listOfCategories(),
-            _categoryTitle('کالاهای اساسی'),
+            _categoryTitle('همه محصولات'),
             _listOfProduct(context),
             AppSizes.bigSizeBox,
           ],
@@ -112,10 +111,8 @@ class HomePage extends GetView<ProductController> {
 
   Widget _listOfTags() {
     return SizedBox(
-      height: 30,
-      child: GetBuilder<TagController>(
-        assignId: true,
-        builder: (tagController) {
+        height: 30,
+        child: GetBuilder<TagController>(builder: (logic) {
           return ListView.builder(
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
@@ -125,11 +122,11 @@ class HomePage extends GetView<ProductController> {
                 padding: const EdgeInsets.only(left: 10),
                 child: InkWell(
                   onLongPress: () {
-                    isUserAdmin ? tagController.removeTag(tagsList[index]) : null;
+                    isUserAdmin ? logic.removeTag(tagsList[index]) : null;
                   },
                   onTap: () {
                     if (isUserAdmin) {
-                      tagController.tagName.text = tagsList[index].name!;
+                      logic.tagName.text = tagsList[index].name!;
                       Get.dialog(AddEditTagDialog(
                         tagIndex: index,
                         isActionEdit: true,
@@ -146,53 +143,22 @@ class HomePage extends GetView<ProductController> {
               );
             },
           );
-        },
-      ),
-    );
-  }
-
-  Widget _tagItem(TagController tagController, int index) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 10),
-      child: InkWell(
-          onTap: () {
-            if (isUserAdmin) {
-              tagController.tagName.text = tagsList[index].name!;
-              Get.dialog(AddEditTagDialog(
-                tagIndex: index,
-                isActionEdit: true,
-                targetTag: tagsList[index],
-              ));
-            }
-          },
-          child: Row(
-            children: [
-              isUserAdmin
-                  ? IconButton(
-                  icon: const Icon(Icons.delete),
-                  onPressed: () => tagController.removeTag(tagsList[index]))
-                  : const SizedBox(),
-              CustomButton(
-                buttonColor: AppColors.grayColor,
-                borderColor: AppColors.darkGrayColor,
-                buttonText: tagsList[index].name ?? 'tag',
-              ),
-            ],
-          )),
-    );
+        }));
   }
 
   Widget _addNewCategory() {
     return isUserAdmin
-        ? TextButton(
-            onPressed: () {
-              cateController.categoryName.text = '';
-              Get.dialog(AddEditCategoryDialog(isActionEdit: false));
-            },
-            child: CustomText(
-              text: 'افزودن دسته بندی',
-              textSize: AppSizes.normalTextSize2,
-            ))
+        ? GetBuilder<CategoryController>(builder: (logic) {
+            return TextButton(
+                onPressed: () {
+                  logic.categoryName.text = '';
+                  Get.dialog(AddEditCategoryDialog(isActionEdit: false));
+                },
+                child: CustomText(
+                  text: 'افزودن دسته بندی',
+                  textSize: AppSizes.normalTextSize2,
+                ));
+          })
         : CustomText(
             text: 'دسته بندی ها',
             textSize: AppSizes.normalTextSize2,
@@ -202,7 +168,7 @@ class HomePage extends GetView<ProductController> {
   Widget _listOfCategories() {
     return GetBuilder<CategoryController>(
       assignId: true,
-      builder: (categoryController) {
+      builder: (logic) {
         return GridView.builder(
           shrinkWrap: true,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -213,10 +179,11 @@ class HomePage extends GetView<ProductController> {
           itemBuilder: (context, index) {
             return CategoryItem(
               categoryImage: categoryList[index].image!,
-              onDeleteClick: () =>
-                  cateController.deleteCategory(categoryList[index]),
+              onDeleteClick: () {
+                _deleteCategory(index, logic);
+              },
               showEdit: isUserAdmin,
-              onEditClick: () => _showEditDialog(index),
+              onEditClick: () => _showEditDialog(index, logic),
               text: categoryList[index].name!,
               onTapItem: () => _goProductsPage(index),
             );
@@ -226,12 +193,23 @@ class HomePage extends GetView<ProductController> {
     );
   }
 
+  void _deleteCategory(int index, CategoryController controller) {
+    for (var product in productList) {
+      for (var categoryProduct in categoryList[index].productsList!) {
+        if (product == categoryProduct) {
+          // productController.deleteProduct(product);
+        }
+      }
+    }
+    controller.deleteCategory(categoryList[index]);
+  }
+
   Future<dynamic>? _goProductsPage(int index) {
     return Get.to(() => AllProductListPage(categoryList[index]));
   }
 
-  void _showEditDialog(int index) {
-    cateController.categoryName.text = categoryList[index].name!;
+  void _showEditDialog(int index, CategoryController catController) {
+    catController.categoryName.text = categoryList[index].name!;
     Get.dialog(AddEditCategoryDialog(
       isActionEdit: true,
       targetCategory: categoryList[index],
@@ -272,10 +250,12 @@ class HomePage extends GetView<ProductController> {
               return index == 4
                   ? _moreButton()
                   : HomeProductItem(
+                      onLongPress: () =>
+                          isUserAdmin ? logic.deleteProduct(productList[index]) : null,
                       onItemClick: () {
-                        Get.to(() => ProductDetailsPage(
-                              product: productList[index],
-                            ));
+                        // Get.to(() => ProductDetailsPage(
+                        //       product: productList[index],
+                        //     ));
                       },
                       product: productList[index],
                     );

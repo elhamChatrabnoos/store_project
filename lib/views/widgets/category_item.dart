@@ -34,7 +34,9 @@ class CategoryItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          FutureImage(future: imageController.stringToImage(categoryImage)),
+          FutureImage(
+              future: imageController.stringToImage(categoryImage),
+              imageSize: 100),
           Text(text),
           showEdit ? _addDeleteIcons() : const SizedBox(),
         ],

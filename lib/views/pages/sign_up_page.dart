@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -20,7 +18,7 @@ class SignUpPage extends GetView<UserController> {
   SignUpPage({Key? key}) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
-  ImageController profileController = Get.put(ImageController());
+  ImageController imageController = Get.put(ImageController());
 
   @override
   Widget build(BuildContext context) {
@@ -36,21 +34,21 @@ class SignUpPage extends GetView<UserController> {
   Padding _bodyOfPage(BuildContext context) {
     return Padding(
         padding:
-        const EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 10),
+            const EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 10),
         child: Form(
           key: formKey,
           // Todo delete thumb and show keyboard and textField together
           child: SingleChildScrollView(
-            child: GetBuilder<UserController>(
-              assignId: true,
-              builder: (logic) {
+              child: Column(
+            children: [
+              AppSizes.littleSizeBox,
+              CustomText(text: AppTexts.createAccountBtn, textSize: 30),
+              AppSizes.littleSizeBox,
+              _profileImage(context),
+              AppSizes.normalSizeBox2,
+              GetBuilder<UserController>(builder: (logic) {
                 return Column(
                   children: [
-                    AppSizes.littleSizeBox,
-                    CustomText(text: AppTexts.createAccountBtn, textSize: 30),
-                    AppSizes.littleSizeBox,
-                    _profileImage(context),
-                    AppSizes.normalSizeBox2,
                     _emailTextField(logic),
                     AppSizes.normalSizeBox2,
                     _passwordTextField(logic),
@@ -61,17 +59,21 @@ class SignUpPage extends GetView<UserController> {
                     AppSizes.normalSizeBox2,
                     _createAccountButton(context, logic),
                     AppSizes.normalSizeBox2,
-                    CustomText(
-                        textDecoration: TextDecoration.underline,
-                        text: 'قبلا حساب ایجاد کرده ام.',
-                        onClickText: () => Get.off(LoginPage()),
-                        textColor: Colors.blue)
+                    _haveAccount()
                   ],
                 );
-              },
-            ),
-          ),
+              })
+            ],
+          )),
         ));
+  }
+
+  CustomText _haveAccount() {
+    return CustomText(
+        textDecoration: TextDecoration.underline,
+        text: 'قبلا حساب ایجاد کرده ام.',
+        onClickText: () => Get.off(LoginPage()),
+        textColor: Colors.blue);
   }
 
   Widget _profileImage(BuildContext context) {
@@ -91,7 +93,9 @@ class SignUpPage extends GetView<UserController> {
             logic.removeProfileImage();
             Navigator.pop(context);
           },
-          // imageFile: logic.imageAsString!,
+          imageFile: imageController.imageFile != null
+              ? imageController.stringToImage(imageController.imageFile)
+              : null,
         );
       },
     );
@@ -102,17 +106,15 @@ class SignUpPage extends GetView<UserController> {
       textColor: Colors.white,
       buttonText: AppTexts.createAccountBtn,
       buttonColor: AppColors.loginBtnColor,
-      buttonHeight:  MediaQuery.of(context).size.height / 12,
+      buttonHeight: MediaQuery.of(context).size.height / 12,
       onTap: () {
         if (formKey.currentState!.validate()) {
           if (logic.checkUserNameExist(logic.userNameController.text)) {
             Get.snackbar('کاربر تکراری', 'نام کاربری موجود است.');
           } else {
             // prepare user image and information
-            String userImage = '';
-
             User user = User(
-                userImage: userImage,
+                userImage: imageController.imageFile,
                 userName: logic.userNameController.text,
                 userPass: logic.passController.text,
                 userAddress: logic.addressController.text,
@@ -149,9 +151,7 @@ class SignUpPage extends GetView<UserController> {
         controller: logic.passController,
         labelText: AppTexts.passwordTxt,
         checkValidation: (value) {
-          if (!logic
-              .checkPasswordFormat(value!)
-              .value) {
+          if (!logic.checkPasswordFormat(value!).value) {
             return AppTexts.passwordError;
           }
         },
@@ -167,18 +167,13 @@ class SignUpPage extends GetView<UserController> {
     return CustomTextField(
       controller: logic.userNameController,
       checkValidation: (value) {
-        if (!logic
-            .checkEmailValidation(value!)
-            .value) {
+        if (!logic.checkEmailValidation(value!).value) {
           return AppTexts.emailError;
         }
       },
       labelText: AppTexts.emailTxt,
       secure: false,
-      onChanged: (value) => logic.checkEmailValidation(value!),
-      icon: logic.correctEmail.value
-          ? const Icon(Icons.check)
-          : const Icon(Icons.email_outlined),
+      icon: const Icon(Icons.email_outlined),
       borderColor: AppColors.textFieldColor,
     );
   }

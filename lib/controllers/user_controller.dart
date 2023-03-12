@@ -10,6 +10,7 @@ import 'package:shop_getx/shared_class/shared_prefrences.dart';
 import '../models/user.dart';
 
 class UserController extends GetxController {
+
   RxBool correctEmail = false.obs;
   RxBool secureTextPass = true.obs;
   RxBool secureTextConfPass = true.obs;
@@ -78,9 +79,10 @@ class UserController extends GetxController {
     });
   }
 
-  void editUser(User user) {
-    _userRepository.editUser(targetUser: user, userId: user.id!);
-    saveUserToPref(user);
+  Future<void> editUser(User user) async{
+    await _userRepository.editUser(targetUser: user, userId: user.id!).then((value){
+      saveUserToPref(user);
+    });
   }
 
   bool userExist(String userName, String pass) {

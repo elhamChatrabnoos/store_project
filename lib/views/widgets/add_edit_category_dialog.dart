@@ -100,7 +100,7 @@ class AddEditCategoryDialog extends GetView<ImageController> {
       buttonColor: AppColors.loginBtnColor,
       onTap: () {
         if (formKey.currentState!.validate() &&
-            this.controller.imageFile != null) {
+            controller.imageFile != null) {
           !isActionEdit ? _addCategory() : _editCategory();
           Get.back();
         }
@@ -124,7 +124,7 @@ class AddEditCategoryDialog extends GetView<ImageController> {
     ProductCategory category = ProductCategory(
         id: targetCategory!.id,
         name: cateController.categoryName.text,
-        image: this.controller.imageFile,
+        image: controller.imageFile,
         productsList: targetCategory!.productsList);
 
     cateController.editCategory(category);

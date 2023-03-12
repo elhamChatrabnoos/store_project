@@ -1,12 +1,10 @@
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shop_getx/controllers/category_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/views/pages/bottom_navigation_pages/favorits_page.dart';
 
 import '../../controllers/shopping_cart_controller.dart';
-import '../../controllers/user_controller.dart';
 import 'bottom_navigation_pages/home_page.dart';
 import 'bottom_navigation_pages/shopping_cart_page.dart';
 
