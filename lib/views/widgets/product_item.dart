@@ -14,7 +14,8 @@ import '../../controllers/product_controller.dart';
 
 class ProductItem extends GetView<ImageController> {
   ProductItem(
-      {Key? key,
+      {required this.isFade,
+      Key? key,
       required this.product,
       this.addToBasketClick,
       this.onItemClick,
@@ -33,6 +34,7 @@ class ProductItem extends GetView<ImageController> {
   final bool iconLike;
   Product product;
   final int productIndex;
+  final bool isFade;
 
   @override
   Widget build(BuildContext context) {
@@ -41,27 +43,38 @@ class ProductItem extends GetView<ImageController> {
       textDirection: TextDirection.rtl,
       child: InkWell(
         onTap: onItemClick,
-        child: Padding(
-            padding: const EdgeInsets.only(top: 10, right: 10, left: 20),
-            child: Column(
-              children: [
-                Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _productImage(),
-                      AppSizes.normalSizeBoxWidth,
-                      _titleAndDescription(),
-                      const Spacer(),
-                      _buyAndCost()
-                    ]),
-                AppSizes.littleSizeBox,
-                const Divider(
-                  height: 15,
-                  color: Colors.grey,
-                ),
-              ],
-            )),
+        child: Stack(
+          children: [
+            Padding(
+                padding: const EdgeInsets.only(top: 10, right: 10, left: 20),
+                child: Column(
+                  children: [
+                    Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _productImage(),
+                          AppSizes.normalSizeBoxWidth,
+                          _titleAndDescription(),
+                          const Spacer(),
+                          _buyAndCost()
+                        ]),
+                    AppSizes.littleSizeBox,
+                    const Divider(
+                      height: 15,
+                      color: Colors.grey,
+                    ),
+                  ],
+                )),
+            Card(
+              color: Color(0x6ea6a3a3),
+              child: isFade ? SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 160,
+              ): SizedBox(),
+            )
+          ],
+        ),
       ),
     );
   }

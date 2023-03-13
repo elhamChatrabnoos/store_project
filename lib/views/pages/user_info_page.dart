@@ -51,29 +51,31 @@ class _UserProfilePageState extends State<UserProfilePage> {
             body: _bodyOfPage(context)));
   }
 
-  Padding _bodyOfPage(BuildContext context) {
-    return Padding(
-        padding:
-        const EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 10),
-        child: Form(
-          key: formKey,
-          child: Column(
-            children: [
-              AppSizes.littleSizeBox,
-              _userImage(),
-              AppSizes.normalSizeBox2,
-              _userNameTextField(),
-              AppSizes.normalSizeBox2,
-              _passwordTextField(),
-              AppSizes.normalSizeBox2,
-              _phoneNumberTextField(),
-              AppSizes.normalSizeBox2,
-              _addressTextField(),
-              AppSizes.normalSizeBox2,
-              _buttons(),
-            ],
-          ),
-        ));
+  Widget _bodyOfPage(BuildContext context) {
+    return SingleChildScrollView(
+      child: Padding(
+          padding:
+          const EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 10),
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                AppSizes.littleSizeBox,
+                _userImage(),
+                AppSizes.normalSizeBox2,
+                _userNameTextField(),
+                AppSizes.normalSizeBox2,
+                _passwordTextField(),
+                AppSizes.normalSizeBox2,
+                _phoneNumberTextField(),
+                AppSizes.normalSizeBox2,
+                _addressTextField(),
+                AppSizes.normalSizeBox2,
+                _buttons(),
+              ],
+            ),
+          )),
+    );
   }
 
   Widget _buttons() {

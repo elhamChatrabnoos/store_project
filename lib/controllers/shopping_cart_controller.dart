@@ -63,7 +63,6 @@ class ShoppingCartController extends GetxController {
     _shoppingCartRepository.editShoppingCart(targetShoppingCart: editedCart).then((value){
       getShoppingCarts();
     });
-
   }
 
   bool searchUserShoppingCart(num userId) {

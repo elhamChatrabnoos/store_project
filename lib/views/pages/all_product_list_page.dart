@@ -66,8 +66,7 @@ class AllProductListPage extends GetView {
                   itemCount: category.productsList!.length,
                   itemBuilder: (context, index) {
                     return isUserAdmin
-                        ? _removableItem(index, favoritesController,
-                            shoppingController, categoryController)
+                        ? _removableItem(index, categoryController)
                         : _noRemovableItem(
                             index, favoritesController, shoppingController);
                   });
@@ -78,16 +77,14 @@ class AllProductListPage extends GetView {
     );
   }
 
-  Widget _removableItem(
-      int index,
-      FavoritesController favoritesController,
-      ShoppingCartController shoppingController,
-      CategoryController categoryController) {
+  Widget _removableItem(int index, CategoryController categoryController) {
     return Dismissible(
         key: UniqueKey(),
         direction: DismissDirection.endToStart,
         onDismissed: (_) {
-          productController.deleteProduct(category.productsList![index]).then((value){
+          productController
+              .deleteProduct(category.productsList![index])
+              .then((value) {
             category.productsList!.remove(category.productsList![index]);
             categoryController.editCategory(category);
           });
@@ -102,8 +99,8 @@ class AllProductListPage extends GetView {
             color: Colors.white,
           ),
         ),
-        // Display item's title, price...
         child: ProductItem(
+          isFade: false,
           iconLike: false,
           onItemClick: () {
             Get.off(() => AddEditProductPage(
@@ -116,34 +113,45 @@ class AllProductListPage extends GetView {
 
   Widget _noRemovableItem(int index, FavoritesController favController,
       ShoppingCartController shoppingController) {
-    return ProductItem(
-      onIconLikeTap: () {
-        favController.editFavoriteList(category.productsList![index]);
-      },
-      iconLike:
-          favController.searchItemInFavorites(category.productsList![index]),
-      onItemClick: () {
-        // Get.to(
-        //     () => ProductDetailsPage(product: category.productsList![index]));
-      },
-      addToBasketClick: () {
-        shoppingController.editShoppingCart(category.productsList![index]);
-      },
-      onAddBtnClick: () {
-        shoppingController.searchProductInBasket(category.productsList![index]);
-        shoppingController.editShoppingCart(shoppingController.targetProduct!);
-      },
-      onRemoveBtnClick: () {
-        shoppingController.searchProductInBasket(category.productsList![index]);
-        shoppingController
-            .removeProductFromBasket(shoppingController.targetProduct!);
-      },
-      product: shoppingController
-              .searchProductInBasket(category.productsList![index])
-          ? shoppingController.targetProduct!
-          : category.productsList![index],
-      productIndex: index,
-    );
+    return category.productsList![index].isProductHide!
+        ? ProductItem(
+            isFade: true,
+            product: category.productsList![index],
+            productIndex: index,
+            iconLike: false)
+        : ProductItem(
+            isFade: false,
+            onIconLikeTap: () {
+              favController.editFavoriteList(category.productsList![index]);
+            },
+            iconLike: favController
+                .searchItemInFavorites(category.productsList![index]),
+            onItemClick: () {
+              // Get.to(
+              //     () => ProductDetailsPage(product: category.productsList![index]));
+            },
+            addToBasketClick: () {
+              shoppingController
+                  .editShoppingCart(category.productsList![index]);
+            },
+            onAddBtnClick: () {
+              shoppingController
+                  .searchProductInBasket(category.productsList![index]);
+              shoppingController
+                  .editShoppingCart(shoppingController.targetProduct!);
+            },
+            onRemoveBtnClick: () {
+              shoppingController
+                  .searchProductInBasket(category.productsList![index]);
+              shoppingController
+                  .removeProductFromBasket(shoppingController.targetProduct!);
+            },
+            product: shoppingController
+                    .searchProductInBasket(category.productsList![index])
+                ? shoppingController.targetProduct!
+                : category.productsList![index],
+            productIndex: index,
+          );
   }
 
   Widget _floatingActionButton() {

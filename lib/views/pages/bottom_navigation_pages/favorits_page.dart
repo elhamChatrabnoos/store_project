@@ -89,7 +89,7 @@ class FavoritesPage extends GetView {
       product: shoppingController.searchProductInBasket(favoritesList[index])
           ? shoppingController.targetProduct!
           : favoritesList[index],
-      productIndex: index,
+      productIndex: index, isFade: false,
     );
   }
 }

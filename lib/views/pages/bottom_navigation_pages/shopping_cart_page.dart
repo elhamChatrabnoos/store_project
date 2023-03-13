@@ -58,6 +58,7 @@ class ShoppingCartPage extends GetView {
         itemBuilder: (context, index) {
           return ProductItem(
             iconLike: false,
+            isFade: false,
             onAddBtnClick: () {
               shoppingController.editShoppingCart(buyBasketList[index]);
             },
