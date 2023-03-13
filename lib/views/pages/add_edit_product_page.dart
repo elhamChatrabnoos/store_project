@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:multi_line_field_package/multi_line_field_package.dart';
 import 'package:shop_getx/controllers/category_controller.dart';
 import 'package:shop_getx/controllers/radio_button_controller.dart';
 import 'package:shop_getx/controllers/tag_controller.dart';
@@ -9,7 +10,6 @@ import 'package:shop_getx/models/product.dart';
 import 'package:shop_getx/models/product_category.dart';
 import 'package:shop_getx/views/pages/all_product_list_page.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
-import 'package:shop_getx/views/widgets/multiLine_text_filed.dart';
 
 import '../../controllers/image_controller.dart';
 import '../../controllers/product_controller.dart';

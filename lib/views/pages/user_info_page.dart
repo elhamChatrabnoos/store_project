@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:multi_line_field_package/multi_line_field_package.dart';
 import 'package:shop_getx/controllers/image_controller.dart';
 import 'package:shop_getx/views/pages/login_page.dart';
-import 'package:shop_getx/views/widgets/multiLine_text_filed.dart';
 
 import '../../controllers/user_controller.dart';
 import '../../core/app_colors.dart';
@@ -119,7 +119,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
   }
 
   Widget _addressTextField() {
-    return MultiLineField(
+    return  MultiLineField(
       maxLines: 5,
       controller: controller.addressController,
       validation: (value) {
@@ -129,6 +129,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
       },
       labelText: AppTexts.addressTxt,
       borderColor: AppColors.textFieldColor,
+      suffixIcon: const Icon(Icons.home),
     );
   }
 

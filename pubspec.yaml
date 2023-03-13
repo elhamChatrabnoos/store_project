@@ -39,6 +39,8 @@ dependencies:
   dartz: ^0.10.1
   lottie: ^2.2.0
   shared_preferences: ^2.0.18
+  multi_line_field_package:
+    path: packages/multi_line_field_package
 
 
   # The following adds the Cupertino Icons font to your application.
