@@ -61,6 +61,11 @@ class CustomTextField extends StatelessWidget {
         filled: true,
         fillColor: fillColor,
         suffixIcon: InkWell(onTap: onTapIcon, child: icon ?? const SizedBox()),
+        errorBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+                width: 1,
+                color: Color.fromARGB(190, 255, 0, 0)),
+            borderRadius: BorderRadius.circular(15)),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(radius ?? 15),
             borderSide: BorderSide(

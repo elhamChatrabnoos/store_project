@@ -36,8 +36,9 @@ class CategoryController extends GetxController {
     update();
   }
 
-  void editCategory(ProductCategory category){
-    _categoryRepository.editCategory(targetCategory: category).then((value){
+  Future<void> editCategory(ProductCategory category) async{
+    await _categoryRepository.editCategory(targetCategory: category).then((value){
+      print('update category');
       getCategories();
     });
     update();

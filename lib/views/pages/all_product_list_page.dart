@@ -24,12 +24,8 @@ class AllProductListPage extends GetView {
 
   ProductController productController = Get.find<ProductController>();
 
-  // FavoritesController favController = Get.put(FavoritesController());
-  // ShoppingCartController shoppingCartController = Get.put(ShoppingCartController());
-
   @override
   Widget build(BuildContext context) {
-
     Get.lazyPut(() => ShoppingCartController());
     Get.lazyPut(() => FavoritesController());
 
@@ -91,9 +87,10 @@ class AllProductListPage extends GetView {
         key: UniqueKey(),
         direction: DismissDirection.endToStart,
         onDismissed: (_) {
-          productController.deleteProduct(category.productsList![index]);
-          category.productsList!.remove(category.productsList![index]);
-          categoryController.editCategory(category);
+          productController.deleteProduct(category.productsList![index]).then((value){
+            category.productsList!.remove(category.productsList![index]);
+            categoryController.editCategory(category);
+          });
         },
         background: Container(
           color: AppColors.primaryColor,

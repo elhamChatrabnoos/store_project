@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/models/user.dart';
+import 'package:shop_getx/views/widgets/multiLine_text_filed.dart';
 
 import '../../controllers/image_controller.dart';
 import '../../controllers/user_controller.dart';
@@ -179,16 +180,15 @@ class SignUpPage extends GetView<UserController> {
   }
 
   Widget _addressTextField(UserController logic) {
-    return CustomTextField(
+    return MultiLineField(
       controller: logic.addressController,
-      checkValidation: (value) {
+      validation: (value) {
         if (value!.isNotEmpty && !(value.length >= 10)) {
           return AppTexts.addressError;
         }
       },
       labelText: AppTexts.addressTxt,
-      secure: false,
-      icon: const Icon(Icons.home),
+      suffixIcon: const Icon(Icons.home),
       borderColor: AppColors.textFieldColor,
     );
   }

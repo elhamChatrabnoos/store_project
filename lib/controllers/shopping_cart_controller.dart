@@ -54,14 +54,16 @@ class ShoppingCartController extends GetxController {
 
   void _editCartInServer() {
     num userId = UserController.getUserFromPref()['userId'];
-
     ShoppingCart editedCart = ShoppingCart(
         id: AppSharedPreference.shoppingCartPref!
             .getInt(AppKeys.cartShoppingId),
         userId: userId,
         shoppingList: buyBasketList);
 
-    _shoppingCartRepository.editShoppingCart(targetShoppingCart: editedCart);
+    _shoppingCartRepository.editShoppingCart(targetShoppingCart: editedCart).then((value){
+      getShoppingCarts();
+    });
+
   }
 
   bool searchUserShoppingCart(num userId) {

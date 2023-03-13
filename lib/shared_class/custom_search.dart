@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/product_controller.dart';
 import '../models/product.dart';
 import '../views/pages/product_details_page.dart';
 import '../views/widgets/product_item.dart';
@@ -45,7 +44,7 @@ class CustomSearchDelegate extends SearchDelegate {
 
   Widget _listToShow() {
     List<Product> matchQuery = [];
-    for (var product in productList) {
+    for (var product in targetList) {
       if (product.productName!.toLowerCase().contains(query.toLowerCase())) {
         matchQuery.add(product);
       }
@@ -57,7 +56,7 @@ class CustomSearchDelegate extends SearchDelegate {
         return ProductItem(
           iconLike: false,
           onItemClick: () => Get.to(
-            ProductDetailsPage(product: productList[index]),
+            ProductDetailsPage(product: targetList[index]),
           ),
           product: result,
           productIndex: index,

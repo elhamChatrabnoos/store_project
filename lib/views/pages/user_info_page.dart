@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shop_getx/controllers/image_controller.dart';
 import 'package:shop_getx/views/pages/login_page.dart';
+import 'package:shop_getx/views/widgets/multiLine_text_filed.dart';
 
 import '../../controllers/user_controller.dart';
 import '../../core/app_colors.dart';
@@ -116,29 +117,16 @@ class _UserProfilePageState extends State<UserProfilePage> {
   }
 
   Widget _addressTextField() {
-    return TextFormField(
+    return MultiLineField(
       maxLines: 5,
       controller: controller.addressController,
-      validator: (value) {
+      validation: (value) {
         if (value!.isNotEmpty && !(value.length >= 10)) {
           return AppTexts.addressError;
         }
       },
-      decoration: InputDecoration(
-        labelText: AppTexts.addressTxt,
-        enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 1, color: AppColors.textFieldColor),
-            borderRadius: BorderRadius.circular(15)),
-        border: InputBorder.none,
-        filled: true,
-        suffixIcon: Icon(Icons.home),
-        focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(
-              color: AppColors.textFieldColor,
-              width: 1,
-            )),
-      ),
+      labelText: AppTexts.addressTxt,
+      borderColor: AppColors.textFieldColor,
     );
   }
 

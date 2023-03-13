@@ -36,15 +36,16 @@ class ProductController extends GetxController {
     return newProduct;
   }
 
-  void editProduct(Product product) {
-    _productRepository
+
+  Future<void> editProduct(Product product) async{
+    await _productRepository
         .editProduct(targetProduct: product)
         .then((value) => getProducts());
     update();
   }
 
-  void deleteProduct(Product product) {
-    _productRepository
+  Future<void> deleteProduct(Product product) async{
+    await _productRepository
         .deleteProduct(targetProduct: product)
         .then((value) => getProducts());
     update();

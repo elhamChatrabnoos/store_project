@@ -9,6 +9,7 @@ import 'package:shop_getx/models/product.dart';
 import 'package:shop_getx/models/product_category.dart';
 import 'package:shop_getx/views/pages/all_product_list_page.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
+import 'package:shop_getx/views/widgets/multiLine_text_filed.dart';
 
 import '../../controllers/image_controller.dart';
 import '../../controllers/product_controller.dart';
@@ -163,7 +164,9 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
           cateController.editCategory(widget.category);
         });
 
-      } else {
+      }
+      // edit product in category list
+      else {
         newProduct = Product(
           id: widget.product!.id,
           productImage: controller.imageFile,
@@ -209,9 +212,9 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
   }
 
   Widget _productDescription(String text) {
-    return CustomTextField(
+    return MultiLineField(
       controller: productController.descriptionController,
-      checkValidation: (value) {
+      validation: (value) {
         if (value!.isEmpty && value.length < 6) {
           return AppTexts.addProductError;
         }
