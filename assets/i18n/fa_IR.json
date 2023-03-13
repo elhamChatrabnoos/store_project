@@ -1,5 +1,110 @@
 {
-  "splash_page": {
+  "Splash_page": {
     "shop_name": "مونس مارکت"
+  },
+  "Login_page": {
+    "userName": "نام کاربری",
+    "password": "رمز عبور",
+    "signUpBtn": "ثبت نام",
+    "loginBtn": "ورود",
+    "unavailableEmailError": "نام کاربری موجود نیست",
+    "incorrectPassError": "رمز اشتباه"
+  },
+  "SignUp_page": {
+    "signUpTitle": "ایجاد حساب",
+    "userName": "نام کاربری",
+    "password": "رمز عبور",
+    "phoneNumber": "شماره تلفن",
+    "address": "آدرس",
+    "haveAccount": "قبلا حساب ایجاد کرده ام.",
+    "emailError": "ایمیل نامعتبر",
+    "passwordError": "رمز عبور باید حداقل 8 کارکتر و شامل اعداد و کارکتر خاص باشد",
+    "addressError": "ادرس حداقل باید شامل 10 کارکتر باشد.",
+    "phoneNumError": "شماره تلفن نامعتبر",
+    "availableUserMessage": "نام کاربری موجود است.",
+    "repeatedUser": "کاربر تکراری"
+  },
+  "User_info_page": {
+    "editBtn": "ویرایش",
+    "logOtBtn": "خروج از حساب",
+    "userEditedSuccess": "اطلاعات با موفقیت ویرایش شد.",
+    "userAddFailed": "خطایی هنگام ذخیره اطلاعات رخ داده است."
+  },
+  "HomePage": {
+    "addTagTxt": "افزودن تگ",
+    "addCategoryTxt": "دسته بندی جدید",
+    "categories": "دسته بندی ها",
+    "allProduct": "همه محصولات",
+    "seeAllTxt": "مشاهده همه",
+    "homeBtn": "خانه",
+    "favoritesBtn": "موردعلاقه",
+    "shoppingCartBtn": "سبد خرید",
+    "categoryNameError": "نام دسته بندی نمیتواند خالی باشد.",
+    "completeCategoryInfo": "لطفا نام و تصویر را انتخاب کنید.",
+    "categoryName": "نام دسته بندی",
+    "notCompleteFieldWarning": "عدم تکمیل فیلدها",
+    "tagNameError": "نام تگ نمیتواند خالی باشد.",
+    "tagName": "نام تگ"
+  },
+  "Favorites_page": {
+    "noFavoriteMsg": "علاقه مندی ای ثبت نشده است.",
+    "removeFromFavoriteMsg": "محصول از لیست علاقه مندی ها حذف شود؟"
+  },
+  "ShoppingCart_page": {
+    "noCartMsg": "سبد خرید شما خالی است.",
+    "completeShoppingBtn": "تکمیل خرید",
+    "totalShoppingTxt": "مجموع خریدها",
+    "moneyUnit": "تومان",
+    "unavailableProduct": "موجودی محصولات انتخابی کافی نیست.",
+    "successFullShopping": "خرید با موفقیت انجام شد. از اعتماد شما متشکریم",
+    "lastItemRemove": "محصول از سبد خرید حذف شود؟",
+    "unSuccessFullShopping": "خطایی رخ داده است! لطفا مجددا تلاش کنید."
+  },
+  "Dialogs_message": {
+    "yesBtn": "بله",
+    "noBtn": "خیر",
+    "closeBtn": "بستن",
+    "doneMsg": "انجام شد",
+    "warning": "خطا",
+    "saveBtn": "ذخیره",
+    "editBtn": "ویرایش"
+  },
+
+  "Details_page": {
+    "title": "توضیحات محصول",
+    "similarProduct": "محصولات مشابه"
+  },
+
+  "Product_item": {
+    "moneyUnit": "تومان",
+    "addToShoppingCart": "افزودن به سبد خرید",
+    "available": "موجود در انبار"
+  },
+  "Add_product_page": {
+    "title": "افزودن محصول جدید",
+    "productName": "نام محصول",
+    "productImage": "عکس محصول",
+    "productDescription": "توضیحات محصول",
+    "productDiscount": "تخفیف",
+    "productPrice": "قیمت محصول",
+    "isAvailable": "موجود",
+    "isNotAvailable": "نا موجود",
+    "productTag": "تگ محصول",
+    "totalProductCount": "تعداد محصول",
+    "addProductError": "مقدار نامعتبر",
+    "saveBtn": "ذخیره",
+    "yesBtn": "بله",
+    "noBtn": "خیر",
+    "isProductHide": "محصول پنهان باشد؟",
+    "addImageMsg" : "لطفا عکس محصول را انتخاب کنید.",
+    "imageWarning": "خطای عکس"
+  },
+
+  "image_picker_dialog": {
+    "camera": "دوربین",
+    "gallery": "گالری",
+    "delete": "حذف",
+    "title": "انتخاب پروفایل"
   }
+
 }

@@ -63,8 +63,11 @@ class CustomTextField extends StatelessWidget {
         suffixIcon: InkWell(onTap: onTapIcon, child: icon ?? const SizedBox()),
         errorBorder: OutlineInputBorder(
             borderSide: const BorderSide(
-                width: 1,
-                color: Color.fromARGB(190, 255, 0, 0)),
+                width: 1, color: Color.fromARGB(190, 255, 0, 0)),
+            borderRadius: BorderRadius.circular(15)),
+        focusedErrorBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+                width: 1, color: Color.fromARGB(190, 255, 0, 0)),
             borderRadius: BorderRadius.circular(15)),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(radius ?? 15),
@@ -73,8 +76,7 @@ class CustomTextField extends StatelessWidget {
               width: 1,
             )),
       ),
-      obscureText: secure != null ? secure! : false ,
+      obscureText: secure != null ? secure! : false,
     );
   }
-
 }

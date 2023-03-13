@@ -1,0 +1,110 @@
+{
+  "Splash_page": {
+    "shop_name": "Mones Market"
+  },
+  "Login_page": {
+    "userName": "username",
+    "password": "password",
+    "signUpBtn": "Sign Up",
+    "loginBtn": "login",
+    "unavailableEmailError": "Username not available",
+    "incorrectPassError": "Incorrect password"
+  },
+  "SignUp_page": {
+    "signUpTitle": "Create Account",
+    "userName": "username",
+    "password": "password",
+    "phoneNumber": "Phone Number",
+    "address": "Address",
+    "haveAccount": "I have already created an account.",
+    "emailError": "Invalid email",
+    "passwordError": "Password must be at least 8 characters long and contain numbers and special characters",
+    "addressError": "Address must contain at least 10 characters.",
+    "phoneNumError": "Invalid phone number",
+    "availableUserMessage": "The username is available.",
+    "repeatedUser": "repeated user"
+  },
+  "User_info_page": {
+    "editBtn": "edit",
+    "logOtBtn": "Logout",
+    "userEditedSuccess": "Information edited successfully.",
+    "userAddFailed": "An error occurred while saving information."
+  },
+  "HomePage": {
+    "addTagTxt": "Add Tag",
+    "addCategoryTxt": "New Category",
+    "categories": "categories",
+    "allProduct": "All Products",
+    "seeAllTxt": "see all",
+    "homeBtn": "Home",
+    "favoritesBtn": "favorites",
+    "shoppingCartBtn": "shopping",
+    "categoryNameError": "Category name cannot be empty.",
+    "completeCategoryInfo": "Please select a name and image.",
+    "categoryName": "Category Name",
+    "notCompleteFieldWarning": "Fields not complete",
+    "tagNameError": "Tag name cannot be empty.",
+    "tagName": "Tag Name"
+  },
+  "Favorites_page": {
+    "noFavoriteMsg": "No favorites registered.",
+    "removeFromFavoriteMsg": "Remove product from favorites?"
+  },
+  "ShoppingCart_page": {
+    "noCartMsg": "Your shopping cart is empty.",
+    "completeShoppingBtn": "Complete Shopping",
+    "totalShoppingTxt": "Total Shopping",
+    "moneyUnit": "Toman",
+    "unavailableProduct": "Insufficient stock of selected products.",
+    "successFullShopping": "Shopping was successful. Thank you for your trust",
+    "lastItemRemove": "Remove the product from the shopping cart?",
+    "unSuccessFullShopping": "An error has occurred! Please try again"
+  },
+  "Dialogs_message": {
+    "yesBtn": "Yes",
+    "noBtn": "No",
+    "closeBtn": "close",
+    "doneMsg": "Done",
+    "warning": "Error",
+    "saveBtn": "Save",
+    "editBtn": "Edit"
+  },
+
+  "Details_page": {
+    "title": "Product Description",
+    "similarProduct": "similar products"
+  },
+
+  "Product_item": {
+    "moneyUnit": "Toman",
+    "addToShoppingCart": "Add to shopping cart",
+    "available": "Available in stock"
+  },
+  "Add_product_page": {
+    "title": "Add new product",
+    "productName": "Product Name",
+    "productImage": "Product Image",
+    "productDescription": "Product Description",
+    "productDiscount": "discount",
+    "productPrice": "Product Price",
+    "isAvailable": "Available",
+    "isNotAvailable": "Not Available",
+    "productTag": "Product Tag",
+    "totalProductCount": "Product Count",
+    "addProductError": "Invalid value",
+    "saveBtn": "Save",
+    "yesBtn": "Yes",
+    "noBtn": "No",
+    "isProductHide": "Is the product hidden?",
+    "addImageMsg": "Please select a product image.",
+    "imageWarning": "Image error"
+  },
+
+  "image_picker_dialog": {
+    "camera": "Camera",
+    "gallery": "Gallery",
+    "delete": "Delete",
+    "title": "Select profile"
+  }
+
+}

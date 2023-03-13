@@ -2,6 +2,7 @@ import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_not
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shop_getx/core/app_colors.dart';
+import 'package:shop_getx/generated/locales.g.dart';
 import 'package:shop_getx/views/pages/bottom_navigation_pages/favorits_page.dart';
 
 import '../../controllers/shopping_cart_controller.dart';
@@ -33,19 +34,20 @@ class MainPage extends GetView {
 
   Widget _bottomBarItems() {
     return AnimatedNotchBottomBar(
+
       itemLabelStyle: TextStyle(color: AppColors.navInactiveItemColor),
       color: AppColors.bottomNavBackColor,
       notchColor: AppColors.bottomNavItemColor,
       pageController: pageController,
       bottomBarItems: [
         BottomBarItem(
-            itemLabel: 'موردعلاقه',
+            itemLabel: LocaleKeys.HomePage_favoritesBtn.tr,
             inActiveItem: Icon(Icons.favorite_border,
                 color: AppColors.navInactiveItemColor),
             activeItem:
                 Icon(Icons.favorite, color: AppColors.navActiveItemColor)),
         BottomBarItem(
-            itemLabel: 'خانه',
+            itemLabel: LocaleKeys.HomePage_homeBtn.tr,
             inActiveItem: Icon(
               Icons.home_outlined,
               color: AppColors.navInactiveItemColor,
@@ -53,7 +55,7 @@ class MainPage extends GetView {
             activeItem:
                 Icon(Icons.home_filled, color: AppColors.navActiveItemColor)),
         BottomBarItem(
-            itemLabel: 'سبد خرید',
+            itemLabel: LocaleKeys.HomePage_shoppingCartBtn.tr,
             inActiveItem: Icon(Icons.shopping_basket_outlined,
                 color: AppColors.navInactiveItemColor),
             activeItem: Icon(Icons.shopping_basket,

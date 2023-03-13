@@ -6,6 +6,7 @@ import 'package:shop_getx/controllers/category_controller.dart';
 import 'package:shop_getx/controllers/radio_button_controller.dart';
 import 'package:shop_getx/controllers/tag_controller.dart';
 import 'package:shop_getx/core/app_sizes.dart';
+import 'package:shop_getx/generated/locales.g.dart';
 import 'package:shop_getx/models/product.dart';
 import 'package:shop_getx/models/product_category.dart';
 import 'package:shop_getx/views/pages/all_product_list_page.dart';
@@ -14,7 +15,6 @@ import 'package:shop_getx/views/widgets/custom_text.dart';
 import '../../controllers/image_controller.dart';
 import '../../controllers/product_controller.dart';
 import '../../core/app_colors.dart';
-import '../../core/app_texts.dart';
 import '../../models/Tag.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
@@ -49,16 +49,14 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
+    return Scaffold(
             appBar: AppBar(
               centerTitle: true,
               title: const Text('افزودن محصول جدید'),
             ),
             backgroundColor: Colors.white,
             resizeToAvoidBottomInset: false,
-            body: _bodyOfPage(context)));
+            body: _bodyOfPage(context));
   }
 
   Padding _bodyOfPage(BuildContext context) {
@@ -74,17 +72,19 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
             children: [
               _productImage(context),
               AppSizes.normalSizeBox3,
-              _productName(AppTexts.productName, false),
+              _productName(LocaleKeys.Add_product_page_productName.tr, false),
               AppSizes.normalSizeBox3,
-              _productDescription(AppTexts.productDescription),
+              _productDescription(
+                  LocaleKeys.Add_product_page_productDescription.tr),
               AppSizes.normalSizeBox3,
-              _productPrice(AppTexts.productPrice),
+              _productPrice(LocaleKeys.Add_product_page_productPrice.tr),
               AppSizes.normalSizeBox3,
-              _productDiscount(AppTexts.productDiscount),
+              _productDiscount(LocaleKeys.Add_product_page_productDiscount.tr),
               AppSizes.normalSizeBox3,
-              _productTotalCount(AppTexts.totalProductCount),
+              _productTotalCount(
+                  LocaleKeys.Add_product_page_totalProductCount.tr),
               AppSizes.normalSizeBox3,
-              _productTag(context, AppTexts.productTag),
+              _productTag(context, LocaleKeys.Add_product_page_productTag.tr),
               AppSizes.normalSizeBox3,
               _isProductHide(),
               _saveButton(context),
@@ -121,7 +121,7 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
   Widget _saveButton(BuildContext context) {
     return CustomButton(
       textColor: Colors.white,
-      buttonText: AppTexts.saveBtn,
+      buttonText: LocaleKeys.Dialogs_message_saveBtn.tr,
       buttonColor: AppColors.loginBtnColor,
       onTap: () {
         if (formKey.currentState!.validate()) {
@@ -134,10 +134,13 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
 
   void _addProductToList() {
     if (controller.imageFile == null) {
-      Get.snackbar('خطای عکس', 'لطفا عکس محصول را انتخاب کنید.');
+      Get.snackbar(LocaleKeys.Add_product_page_imageWarning.tr,
+          LocaleKeys.Add_product_page_addImageMsg.tr);
     } else {
-      bool isProductHide =
-          radioController.radioGroupValue == 'بله' ? true : false;
+      bool isProductHide = radioController.radioGroupValue ==
+              LocaleKeys.Dialogs_message_yesBtn.tr
+          ? true
+          : false;
       String? tagName =
           tagController.tag != null ? tagController.tag!.name : null;
       Product newProduct;
@@ -159,11 +162,10 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
           productTag: tagName,
         );
 
-        productController.addProduct(newProduct).then((value){
+        productController.addProduct(newProduct).then((value) {
           widget.category.productsList!.add(value);
           cateController.editCategory(widget.category);
         });
-
       }
       // edit product in category list
       else {
@@ -203,7 +205,7 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
       controller: productController.nameController,
       checkValidation: (value) {
         if (value!.isEmpty) {
-          return AppTexts.addProductError;
+          return LocaleKeys.Add_product_page_addProductError.tr;
         }
       },
       labelText: text,
@@ -216,7 +218,7 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
       controller: productController.descriptionController,
       validation: (value) {
         if (value!.isEmpty && value.length < 6) {
-          return AppTexts.addProductError;
+          return LocaleKeys.Add_product_page_addProductError.tr;
         }
       },
       maxLines: 5,
@@ -232,7 +234,7 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
         if (value!.isEmpty ||
             int.parse(value) < 1000 ||
             int.parse(value) > 100000000) {
-          return AppTexts.addProductError;
+          return LocaleKeys.Add_product_page_addProductError.tr;
         }
       },
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -246,7 +248,7 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
       controller: productController.discountController,
       checkValidation: (value) {
         if (value!.isEmpty || int.parse(value) > 100) {
-          return AppTexts.addProductError;
+          return LocaleKeys.Add_product_page_addProductError.tr;
         }
       },
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -260,7 +262,7 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
       controller: productController.totalCountController,
       checkValidation: (value) {
         if (value!.isEmpty) {
-          return AppTexts.addProductError;
+          return LocaleKeys.Add_product_page_addProductError.tr;
         }
       },
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -304,9 +306,9 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
         return Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const CustomText(text: 'محصول پنهان باشد؟'),
-            _radioButton('بله'),
-            _radioButton('خیر'),
+            CustomText(text: LocaleKeys.Add_product_page_isProductHide.tr),
+            _radioButton(LocaleKeys.Add_product_page_yesBtn.tr),
+            _radioButton(LocaleKeys.Add_product_page_noBtn.tr),
           ],
         );
       },
@@ -327,11 +329,10 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
   }
 
   void _initialControllers() {
-    print('init state in class : ');
     if (widget.product != null) {
       productController.nameController.text = widget.product!.productName!;
       productController.descriptionController.text =
-      widget.product!.productDescription!;
+          widget.product!.productDescription!;
       productController.priceController.text =
           widget.product!.productPrice.toString();
       productController.discountController.text =
@@ -339,18 +340,17 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
       productController.totalCountController.text =
           widget.product!.totalProductCount.toString();
 
-      if(tagsList.isNotEmpty && widget.product!.productTag != null){
+      if (tagsList.isNotEmpty && widget.product!.productTag != null) {
         tagController.tag = tagsList.first;
         tagController.tag!.name = widget.product!.productTag;
-        print('tag name is :${tagController.tag!.name!}');
       }
 
-      radioController.radioGroupValue =
-      widget.product!.isProductHide! ? 'بله' : 'خیر';
+      radioController.radioGroupValue = widget.product!.isProductHide!
+          ? LocaleKeys.Add_product_page_yesBtn.tr
+          : LocaleKeys.Add_product_page_noBtn.tr;
 
       controller.imageFile = widget.product!.productImage;
-    }
-    else{
+    } else {
       productController.nameController.text = '';
       productController.descriptionController.text = '';
       productController.priceController.text = '';
@@ -358,5 +358,4 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
       productController.totalCountController.text = '';
     }
   }
-
 }

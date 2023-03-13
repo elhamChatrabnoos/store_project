@@ -3,12 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:multi_line_field_package/multi_line_field_package.dart';
 import 'package:shop_getx/controllers/image_controller.dart';
+import 'package:shop_getx/generated/locales.g.dart';
 import 'package:shop_getx/views/pages/login_page.dart';
 
 import '../../controllers/user_controller.dart';
 import '../../core/app_colors.dart';
 import '../../core/app_sizes.dart';
-import '../../core/app_texts.dart';
 import '../../models/user.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/custom_text_field.dart';
@@ -26,13 +26,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
   void initState() {
     super.initState();
     controller.userNameController.text =
-    UserController.getUserFromPref()['userName'];
+        UserController.getUserFromPref()['userName'];
     controller.passController.text =
-    UserController.getUserFromPref()['userPass'];
+        UserController.getUserFromPref()['userPass'];
     controller.addressController.text =
-    UserController.getUserFromPref()['userAddress'];
+        UserController.getUserFromPref()['userAddress'];
     controller.phoneNumController.text =
-    UserController.getUserFromPref()['userPhone'];
+        UserController.getUserFromPref()['userPhone'];
   }
 
   // ToDo it has error when come from sign up page
@@ -42,20 +42,18 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
+    return  Scaffold(
             appBar: AppBar(),
             backgroundColor: Colors.white,
             resizeToAvoidBottomInset: false,
-            body: _bodyOfPage(context)));
+            body: _bodyOfPage(context));
   }
 
   Widget _bodyOfPage(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
           padding:
-          const EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 10),
+              const EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 10),
           child: Form(
             key: formKey,
             child: Column(
@@ -86,7 +84,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
         AppSizes.normalSizeBoxWidth2,
         CustomText(
           textColor: Colors.blue,
-          text: 'خروج از حساب',
+          text: LocaleKeys.User_info_page_logOtBtn.tr,
           onClickText: () {
             controller.removeUserFromPref();
             Get.offAll(() => LoginPage());
@@ -99,7 +97,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
   Widget _updateUserInfoButton(BuildContext context) {
     return CustomText(
       textColor: Colors.blue,
-      text: AppTexts.updateAccount,
+      text: LocaleKeys.User_info_page_editBtn.tr,
       onClickText: () {
         if (formKey.currentState!.validate()) {
           User user = User(
@@ -111,7 +109,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
               userPhone: controller.phoneNumController.text);
 
           controller.editUser(user).then((value) {
-            Get.snackbar(AppTexts.updateAccount, AppTexts.userEditedSuccessful);
+            Get.snackbar(LocaleKeys.User_info_page_editBtn.tr,
+                LocaleKeys.User_info_page_userEditedSuccess.tr);
           });
         }
       },
@@ -119,15 +118,15 @@ class _UserProfilePageState extends State<UserProfilePage> {
   }
 
   Widget _addressTextField() {
-    return  MultiLineField(
+    return MultiLineField(
       maxLines: 5,
       controller: controller.addressController,
       validation: (value) {
         if (value!.isNotEmpty && !(value.length >= 10)) {
-          return AppTexts.addressError;
+          return LocaleKeys.SignUp_page_addressError.tr;
         }
       },
-      labelText: AppTexts.addressTxt,
+      labelText: LocaleKeys.SignUp_page_address.tr,
       borderColor: AppColors.textFieldColor,
       suffixIcon: const Icon(Icons.home),
     );
@@ -138,10 +137,10 @@ class _UserProfilePageState extends State<UserProfilePage> {
       controller: controller.phoneNumController,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       keyboardType: TextInputType.number,
-      labelText: AppTexts.phoneTxt,
+      labelText: LocaleKeys.SignUp_page_phoneNumber.tr,
       checkValidation: (value) {
         if (value!.isNotEmpty && !controller.correctPhoneFormat(value)) {
-          return AppTexts.phoneNumError;
+          return LocaleKeys.SignUp_page_phoneNumError.tr;
         }
       },
       icon: const Icon(Icons.phone_android),
@@ -154,12 +153,10 @@ class _UserProfilePageState extends State<UserProfilePage> {
     return Obx(() {
       return CustomTextField(
         controller: controller.passController,
-        labelText: AppTexts.passwordTxt,
+        labelText: LocaleKeys.SignUp_page_password.tr,
         checkValidation: (value) {
-          if (!controller
-              .checkPasswordFormat(value!)
-              .value) {
-            return AppTexts.passwordError;
+          if (!controller.checkPasswordFormat(value!).value) {
+            return  LocaleKeys.SignUp_page_passwordError.tr;
           }
         },
         icon: const Icon(Icons.remove_red_eye),
@@ -171,20 +168,18 @@ class _UserProfilePageState extends State<UserProfilePage> {
   }
 
   Widget _userNameTextField() {
-      return CustomTextField(
-        controller: controller.userNameController,
-        checkValidation: (value) {
-          if (!controller
-              .checkEmailValidation(value!)
-              .value) {
-            return AppTexts.emailError;
-          }
-        },
-        labelText: AppTexts.emailTxt,
-        secure: false,
-        icon: const Icon(Icons.email_outlined),
-        borderColor: AppColors.textFieldColor,
-      );
+    return CustomTextField(
+      controller: controller.userNameController,
+      checkValidation: (value) {
+        if (!controller.checkEmailValidation(value!).value) {
+          return LocaleKeys.SignUp_page_emailError.tr;
+        }
+      },
+      labelText: LocaleKeys.SignUp_page_userName.tr,
+      secure: false,
+      icon: const Icon(Icons.email_outlined),
+      borderColor: AppColors.textFieldColor,
+    );
   }
 
   Widget _userImage() {
@@ -192,7 +187,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
       initState: (state) {
         if (UserController.getUserFromPref()['userImage'] != null) {
           imageController.imageFile =
-          UserController.getUserFromPref()['userImage'];
+              UserController.getUserFromPref()['userImage'];
         }
       },
       assignId: true,

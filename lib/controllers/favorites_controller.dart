@@ -37,7 +37,8 @@ class FavoritesController extends GetxController {
     return false;
   }
 
-  void editFavoriteList(Product product) {
+  Future<void> editFavoriteList(Product product) async {
+    // search product in favorite list
     bool isProductInList = false;
     Product? favoriteProduct;
     for (var element in favoritesList) {
@@ -47,30 +48,41 @@ class FavoritesController extends GetxController {
       }
     }
 
+    // change favorite position
     if (isProductInList) {
       favoritesList.remove(favoriteProduct);
     } else {
       favoritesList.add(product);
     }
 
+    // edit favorite list
     num userId = UserController.getUserFromPref()['userId'];
+    print('id of favor : ' +
+        AppSharedPreference.favoritePref!.getInt(AppKeys.favorId).toString());
     Favorite favorite = Favorite(
         id: AppSharedPreference.favoritePref!.getInt(AppKeys.favorId),
         userId: userId,
         favoritesList: favoritesList);
 
-    _favoritesRepository.editFavoriteList(targetFavorite: favorite);
+    await _favoritesRepository
+        .editFavoriteList(targetFavorite: favorite)
+        .then((value) {
+      getFavorites();
+    });
     update();
   }
 
   void addFavorite(Favorite newFavorite) {
-    _favoritesRepository.addFavorite(newFavorite: newFavorite);
+    _favoritesRepository.addFavorite(newFavorite: newFavorite).then((value) {
+      AppSharedPreference.favoritePref!.setInt(AppKeys.favorId, value.id!);
+    });
   }
 
   void getFavorites() {
     _favoritesRepository.getFavorites().then((value) {
       allFavoriteList = value;
-      searchUserInFavorites(UserController.getUserFromPref()['userId']);
+      update();
+      // searchUserInFavorites(UserController.getUserFromPref()['userId']);
     });
   }
 

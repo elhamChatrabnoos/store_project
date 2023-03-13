@@ -6,10 +6,10 @@ import 'package:shop_getx/controllers/user_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_images.dart';
 import 'package:shop_getx/core/app_sizes.dart';
+import 'package:shop_getx/generated/locales.g.dart';
 import 'package:shop_getx/models/shopping_cart.dart';
 import 'package:shop_getx/views/pages/sign_up_page.dart';
 
-import '../../core/app_texts.dart';
 import '../../models/favorites.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
@@ -38,12 +38,10 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
+    return Scaffold(
             backgroundColor: Colors.white,
             resizeToAvoidBottomInset: false,
-            body: _loginBody(context)));
+            body: _loginBody(context));
   }
 
   Widget _loginBody(BuildContext context) {
@@ -75,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
           buttonWidth: MediaQuery.of(context).size.width / 3,
           buttonHeight:  MediaQuery.of(context).size.height / 12,
           textColor: AppColors.loginTextColor,
-          buttonText: AppTexts.loginBtnTxt,
+          buttonText: LocaleKeys.Login_page_loginBtn.tr,
           buttonColor: AppColors.loginBtnColor,
           onTap: () {
             if (formKey.currentState!.validate()) {
@@ -91,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
             buttonHeight:  MediaQuery.of(context).size.height / 12,
             buttonWidth: MediaQuery.of(context).size.width / 3,
             textColor: AppColors.loginBtnColor,
-            buttonText: AppTexts.signUpBtnTxt,
+            buttonText: LocaleKeys.Login_page_signUpBtn.tr,
             buttonColor: AppColors.loginTextColor,
             onTap: () => Get.off(SignUpPage())),
       ],
@@ -123,12 +121,12 @@ class _LoginPageState extends State<LoginPage> {
       return CustomTextField(
         controller: userController.passController,
         borderColor: AppColors.textFieldColor,
-        labelText: AppTexts.passwordTxt,
+        labelText: LocaleKeys.Login_page_password.tr,
         checkValidation: (value) {
           if (value!.isEmpty ||
               !userController.userExist(userController.userNameController.text,
                   userController.passController.text)) {
-            return AppTexts.incorrectPassMsg;
+            return LocaleKeys.Login_page_incorrectPassError.tr;
           }
         },
         icon: const Icon(Icons.remove_red_eye),
@@ -142,12 +140,12 @@ class _LoginPageState extends State<LoginPage> {
     return CustomTextField(
       controller: userController.userNameController,
       borderColor: AppColors.textFieldColor,
-      labelText: AppTexts.emailTxt,
+      labelText: LocaleKeys.Login_page_userName.tr,
       checkValidation: (value) {
         if (value!.isEmpty ||
             !userController
                 .checkUserNameExist(userController.userNameController.text)) {
-          return AppTexts.unavailableEmailMsg;
+          return LocaleKeys.Login_page_unavailableEmailError.tr;
         }
       },
       secure: false,

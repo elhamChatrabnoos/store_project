@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -51,14 +50,14 @@ class CategoryItem extends StatelessWidget {
       children: [
         IconButton(
           onPressed: onEditClick,
-          icon: Icon(
+          icon: const Icon(
             Icons.edit,
             size: 20,
           ),
         ),
         IconButton(
           onPressed: onDeleteClick,
-          icon: Icon(
+          icon: const Icon(
             Icons.delete,
             size: 20,
           ),

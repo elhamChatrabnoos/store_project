@@ -6,6 +6,7 @@ import 'package:shop_getx/controllers/tag_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_keys.dart';
 import 'package:shop_getx/core/app_sizes.dart';
+import 'package:shop_getx/generated/locales.g.dart';
 import 'package:shop_getx/shared_class/shared_prefrences.dart';
 import 'package:shop_getx/views/pages/all_product_list_page.dart';
 import 'package:shop_getx/views/pages/user_info_page.dart';
@@ -37,12 +38,10 @@ class HomePage extends GetView {
     Get.lazyPut(() => CategoryController());
     Get.lazyPut(() => TagController());
 
-    return Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
+    return Scaffold(
             backgroundColor: AppColors.grayColor,
             appBar: _appBarView(context),
-            body: _bodyItems(context)));
+            body: _bodyItems(context));
   }
 
   AppBar _appBarView(BuildContext context) {
@@ -87,7 +86,7 @@ class HomePage extends GetView {
             _addNewCategory(),
             AppSizes.littleSizeBox,
             _listOfCategories(),
-            _categoryTitle('همه محصولات'),
+            _categoryTitle(LocaleKeys.HomePage_allProduct.tr),
             _listOfProduct(context),
             AppSizes.bigSizeBox,
           ],
@@ -104,7 +103,7 @@ class HomePage extends GetView {
                   logic.tagName.text = '';
                   Get.dialog(AddEditTagDialog(isActionEdit: false));
                 },
-                child: const Text('افزودن تگ'));
+                child:  Text(LocaleKeys.HomePage_addTagTxt.tr));
           })
         : const SizedBox();
   }
@@ -137,7 +136,7 @@ class HomePage extends GetView {
                   child: CustomButton(
                     buttonColor: AppColors.grayColor,
                     borderColor: AppColors.darkGrayColor,
-                    buttonText: tagsList[index].name ?? 'tag',
+                    buttonText: tagsList[index].name!,
                   ),
                 ),
               );
@@ -155,12 +154,12 @@ class HomePage extends GetView {
                   Get.dialog(AddEditCategoryDialog(isActionEdit: false));
                 },
                 child: CustomText(
-                  text: 'افزودن دسته بندی',
+                  text: LocaleKeys.HomePage_addCategoryTxt.tr,
                   textSize: AppSizes.normalTextSize2,
                 ));
           })
         : CustomText(
-            text: 'دسته بندی ها',
+            text: LocaleKeys.HomePage_categories.tr,
             textSize: AppSizes.normalTextSize2,
           );
   }
@@ -229,7 +228,7 @@ class HomePage extends GetView {
             // Get.to(() => AllProductListPage());
           },
           child: CustomText(
-              text: 'مشاهده همه',
+              text: LocaleKeys.HomePage_seeAllTxt.tr,
               textColor: AppColors.buttonColor,
               textSize: AppSizes.normalTextSize2,
               textWeight: FontWeight.normal),
@@ -272,14 +271,14 @@ class HomePage extends GetView {
         // onTap: () => Get.to(() => AllProductListPage()),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children:  [
             CustomText(
               textSize: 15,
-              text: 'همه محصولات',
+              text: LocaleKeys.HomePage_allProduct.tr,
               textColor: Colors.lightBlueAccent,
               textWeight: FontWeight.normal,
             ),
-            Icon(
+            const Icon(
               Icons.arrow_circle_left_outlined,
               size: 40,
               color: Colors.lightBlueAccent,

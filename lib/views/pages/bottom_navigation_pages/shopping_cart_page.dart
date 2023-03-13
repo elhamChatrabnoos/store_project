@@ -4,7 +4,7 @@ import 'package:shop_getx/controllers/category_controller.dart';
 import 'package:shop_getx/controllers/shopping_cart_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_sizes.dart';
-import 'package:shop_getx/models/product_category.dart';
+import 'package:shop_getx/generated/locales.g.dart';
 import 'package:shop_getx/views/widgets/custom_button.dart';
 import 'package:shop_getx/views/widgets/custom_dialog.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
@@ -17,7 +17,6 @@ class ShoppingCartPage extends GetView {
   ShoppingCartPage({Key? key}) : super(key: key);
 
   final ProductController productController = Get.find<ProductController>();
-  // final CategoryController cateController = Get.find<CategoryController>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +30,11 @@ class ShoppingCartPage extends GetView {
           body: buyBasketList.isNotEmpty
               ? _bodyItems(logic)
               : Center(
-            child: CustomText(
-                text: 'سبد خرید شما خالی است',
-                textSize: AppSizes.normalTextSize1,
-                textColor: Colors.black),
-          ),
+                  child: CustomText(
+                      text: LocaleKeys.ShoppingCart_page_noCartMsg.tr,
+                      textSize: AppSizes.normalTextSize1,
+                      textColor: Colors.black),
+                ),
         );
       },
     );
@@ -70,14 +69,14 @@ class ShoppingCartPage extends GetView {
                     .removeProductFromBasket(buyBasketList[index]);
               } else {
                 Get.dialog(CustomAlertDialog(
-                  messageTxt: 'محصول از سبد خرید حذف شود؟',
+                  messageTxt: LocaleKeys.ShoppingCart_page_lastItemRemove.tr,
                   onOkTap: () {
                     Get.back();
                     shoppingController
                         .removeProductFromBasket(buyBasketList[index]);
                   },
-                  confirmBtnTxt: 'بله',
-                  negativeBtnTxt: 'خیر',
+                  confirmBtnTxt: LocaleKeys.Dialogs_message_yesBtn.tr,
+                  negativeBtnTxt: LocaleKeys.Dialogs_message_noBtn.tr,
                   onNoTap: () => Get.back(),
                 ));
               }
@@ -101,13 +100,14 @@ class ShoppingCartPage extends GetView {
                   _emptyShoppingCart(controller, logic);
                 } else {
                   Get.dialog(CustomAlertDialog(
-                    messageTxt: 'موجودی محصولات انتخابی کافی نیست.',
+                    messageTxt:
+                        LocaleKeys.ShoppingCart_page_unavailableProduct.tr,
                     onOkTap: () => Get.back(),
-                    confirmBtnTxt: 'بستن',
+                    confirmBtnTxt: LocaleKeys.Dialogs_message_closeBtn.tr,
                   ));
                 }
               },
-              buttonText: 'تکمیل خرید',
+              buttonText: LocaleKeys.ShoppingCart_page_completeShoppingBtn.tr,
               buttonColor: AppColors.primaryColor,
               textColor: Colors.white,
               buttonWidth: 150,
@@ -118,36 +118,35 @@ class ShoppingCartPage extends GetView {
           const Spacer(),
           CustomText(
               text:
-              'مجموع خریدها: ${controller.totalShoppingCart()
-                  .toString()} تومان '),
+                  '${LocaleKeys.ShoppingCart_page_totalShoppingTxt.tr} ${controller.totalShoppingCart().toString()} ${LocaleKeys.ShoppingCart_page_moneyUnit.tr} '),
         ],
       ),
     );
   }
 
-  Future<void> _emptyShoppingCart(ShoppingCartController catController, CategoryController categoryController) async {
-
+  Future<void> _emptyShoppingCart(ShoppingCartController catController,
+      CategoryController categoryController) async {
     int allShopping = 0;
     // search each item in product and check their availability
     for (var cartProduct in buyBasketList) {
       for (var product in productList) {
         if ((cartProduct.id == product.id) &&
-            (cartProduct.productCountInBasket! <=
-                product.totalProductCount!)) {
-
+            (cartProduct.productCountInBasket! <= product.totalProductCount!)) {
           // reduce product availability
-          product.totalProductCount = product.totalProductCount! -
-              cartProduct.productCountInBasket!;
+          product.totalProductCount =
+              product.totalProductCount! - cartProduct.productCountInBasket!;
           product.productCountInBasket = 0;
 
           await productController.editProduct(product).then((value) async {
             // find product in categories and delete its availability from it
             for (var category in categoryList) {
               if (category.name == product.productCategory) {
-                for (int i = 0; i< category.productsList!.length ; i++) {
+                for (int i = 0; i < category.productsList!.length; i++) {
                   if (category.productsList![i].id == product.id) {
                     category.productsList![i] = product;
-                    await categoryController.editCategory(category).then((value){
+                    await categoryController
+                        .editCategory(category)
+                        .then((value) {
                       allShopping += 1;
                     });
                     break;
@@ -160,13 +159,12 @@ class ShoppingCartPage extends GetView {
       }
     }
 
-    if(allShopping == buyBasketList.length){
+    if (allShopping == buyBasketList.length) {
       catController.emptyShoppingCart();
-      Get.snackbar('انجام شد', '***خرید با موفقیت انجام شد. از اعتماد شما متشکریم***');
+      Get.snackbar(
+          LocaleKeys.Dialogs_message_doneMsg.tr, LocaleKeys.ShoppingCart_page_successFullShopping.tr);
+    } else {
+      Get.snackbar(LocaleKeys.Dialogs_message_warning.tr, LocaleKeys.ShoppingCart_page_unSuccessFullShopping.tr);
     }
-    else{
-      Get.snackbar('خطا', 'خطایی رخ داده است! لطفا مجددا تلاش کنید.');
-    }
-
   }
 }

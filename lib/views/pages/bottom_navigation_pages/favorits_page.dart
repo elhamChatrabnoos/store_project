@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shop_getx/controllers/favorites_controller.dart';
 import 'package:shop_getx/controllers/shopping_cart_controller.dart';
+import 'package:shop_getx/generated/locales.g.dart';
 import 'package:shop_getx/models/favorites.dart';
 import 'package:shop_getx/views/pages/product_details_page.dart';
 import 'package:shop_getx/views/widgets/custom_dialog.dart';
 import 'package:shop_getx/views/widgets/product_item.dart';
 
 import '../../../core/app_sizes.dart';
-import '../../../core/app_texts.dart';
 import '../../widgets/custom_text.dart';
 
 class FavoritesPage extends GetView {
@@ -22,12 +22,12 @@ class FavoritesPage extends GetView {
       appBar: AppBar(
           centerTitle: true,
           automaticallyImplyLeading: false,
-          title: const Text('علاقه مندی ها')),
+          title: Text(LocaleKeys.HomePage_favoritesBtn.tr)),
       body: favoritesList.isNotEmpty
           ? _favoritesList()
           : Center(
               child: CustomText(
-                  text: AppTexts.noFavoriteTxt,
+                  text: LocaleKeys.Favorites_page_noFavoriteMsg.tr,
                   textSize: AppSizes.normalTextSize1,
                   textColor: Colors.black),
             ),
@@ -60,13 +60,13 @@ class FavoritesPage extends GetView {
     return ProductItem(
       onIconLikeTap: () {
         Get.dialog(CustomAlertDialog(
-          messageTxt: 'محصول از لیست علاقه مندی ها حذف شود؟',
+          messageTxt: LocaleKeys.Favorites_page_removeFromFavoriteMsg.tr,
           onOkTap: () {
             Get.back();
             favController.editFavoriteList(favoritesList[index]);
           },
-          confirmBtnTxt: 'بله',
-          negativeBtnTxt: 'خیر',
+          confirmBtnTxt: LocaleKeys.Dialogs_message_yesBtn.tr,
+          negativeBtnTxt: LocaleKeys.Dialogs_message_noBtn.tr,
           onNoTap: () => Get.back(),
         ));
       },

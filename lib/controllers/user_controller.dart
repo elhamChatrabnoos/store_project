@@ -76,6 +76,8 @@ class UserController extends GetxController {
   void getUsers() {
     _userRepository.getUsers().then((value) {
       userList = value;
+      print('user list len: ${userList!.length}');
+      update();
     });
   }
 

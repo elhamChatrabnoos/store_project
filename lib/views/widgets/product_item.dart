@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:shop_getx/controllers/image_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_sizes.dart';
+import 'package:shop_getx/generated/locales.g.dart';
 import 'package:shop_getx/models/product.dart';
 import 'package:shop_getx/views/widgets/custom_button.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
 import 'package:shop_getx/views/widgets/future_image.dart';
-
-import '../../controllers/product_controller.dart';
 
 class ProductItem extends GetView<ImageController> {
   ProductItem(
@@ -39,42 +36,41 @@ class ProductItem extends GetView<ImageController> {
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => ImageController());
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: InkWell(
-        onTap: onItemClick,
-        child: Stack(
-          children: [
-            Padding(
-                padding: const EdgeInsets.only(top: 10, right: 10, left: 20),
-                child: Column(
-                  children: [
-                    Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          _productImage(),
-                          AppSizes.normalSizeBoxWidth,
-                          _titleAndDescription(),
-                          const Spacer(),
-                          _buyAndCost()
-                        ]),
-                    AppSizes.littleSizeBox,
-                    const Divider(
-                      height: 15,
-                      color: Colors.grey,
-                    ),
-                  ],
-                )),
-            Card(
-              color: Color(0x6ea6a3a3),
-              child: isFade ? SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 160,
-              ): SizedBox(),
-            )
-          ],
-        ),
+    return InkWell(
+      onTap: onItemClick,
+      child: Stack(
+        children: [
+          Padding(
+              padding: const EdgeInsets.only(top: 10, right: 10, left: 20),
+              child: Column(
+                children: [
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _productImage(),
+                        AppSizes.normalSizeBoxWidth,
+                        _titleAndDescription(),
+                        const Spacer(),
+                        _buyAndCost()
+                      ]),
+                  AppSizes.littleSizeBox,
+                  const Divider(
+                    height: 15,
+                    color: Colors.grey,
+                  ),
+                ],
+              )),
+          Card(
+            color: Color(0x6ea6a3a3),
+            child: isFade
+                ? SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 160,
+                  )
+                : SizedBox(),
+          )
+        ],
       ),
     );
   }
@@ -100,8 +96,7 @@ class ProductItem extends GetView<ImageController> {
         onTap: addToBasketClick,
         textSize: 13,
         buttonHeight: 30,
-        buttonWidth: 130,
-        buttonText: 'افزودن به سبد خرید',
+        buttonText: LocaleKeys.Product_item_addToShoppingCart.tr,
         textColor: Colors.blue,
       );
     }
@@ -130,8 +125,8 @@ class ProductItem extends GetView<ImageController> {
   }
 
   Widget _isAvailableProduct() {
-    return const CustomText(
-      text: 'موجود در انبار',
+    return CustomText(
+      text: LocaleKeys.Product_item_available.tr,
       textSize: 15,
       textWeight: FontWeight.normal,
       textColor: Colors.green,
@@ -141,8 +136,8 @@ class ProductItem extends GetView<ImageController> {
   Widget _priceText() {
     return CustomText(
         text: product.productDiscount != null
-            ? '${product.productPrice! - product.productPrice! * product.productDiscount! ~/ 100} تومان '
-            : '${product.productPrice} تومان ',
+            ? '${product.productPrice! - product.productPrice! * product.productDiscount! ~/ 100} ${LocaleKeys.Product_item_moneyUnit.tr} '
+            : '${product.productPrice} ${LocaleKeys.Product_item_moneyUnit.tr} ',
         textSize: 18);
   }
 

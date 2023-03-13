@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_sizes.dart';
-import 'package:shop_getx/core/app_texts.dart';
 import 'package:shop_getx/models/product.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
 import 'package:shop_getx/views/widgets/home_poduct_item.dart';
 
 import '../../controllers/product_controller.dart';
+import '../../generated/locales.g.dart';
 import '../../models/shopping_cart.dart';
 import '../widgets/custom_button.dart';
 
@@ -18,16 +18,13 @@ class ProductDetailsPage extends StatelessWidget {
 
   // final ShoppingCartController controller = Get.find<ShoppingCartController>();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xFFECE9EB),
-        appBar:
-        AppBar(centerTitle: true, title: Text(AppTexts.productDetailTitle)),
-        body: Directionality(
-          textDirection: TextDirection.rtl,
-          child: SingleChildScrollView(
+        appBar: AppBar(
+            centerTitle: true, title: Text(LocaleKeys.Details_page_title)),
+        body: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,7 +34,7 @@ class ProductDetailsPage extends StatelessWidget {
                   _bottomPartPage()
                 ],
               )),
-        ));
+        );
   }
 
   Widget _bottomPartPage() {
@@ -47,8 +44,8 @@ class ProductDetailsPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CustomText(
-              text: ' توضیحات محصول',
+          CustomText(
+              text: LocaleKeys.Add_product_page_productDescription.tr,
               textColor: Colors.blue,
               textSize: 17,
               textWeight: FontWeight.normal),
@@ -58,7 +55,8 @@ class ProductDetailsPage extends StatelessWidget {
           const Divider(height: 20, color: Color(0xFF5CC2FA)),
           AppSizes.littleSizeBox,
           CustomText(
-              text: 'محصولات مشابه', textSize: AppSizes.subTitleTextSize),
+              text: LocaleKeys.Details_page_similarProduct.tr,
+              textSize: AppSizes.subTitleTextSize),
           AppSizes.littleSizeBox,
           _listOfSimilarProduct(),
         ],
@@ -74,14 +72,8 @@ class ProductDetailsPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image.asset(product.productImage!,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width,
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height / 4),
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height / 4),
           _productName(),
           AppSizes.littleSizeBox,
           _discountCost(),
@@ -121,9 +113,8 @@ class ProductDetailsPage extends StatelessWidget {
       children: [
         CustomText(
             text: product.productDiscount != null
-                ? '${product.productPrice! -
-                product.productPrice! * product.productDiscount! ~/ 100} تومان '
-                : '${product.productPrice} تومان ',
+                ? '${product.productPrice! - product.productPrice! * product.productDiscount! ~/ 100} ${LocaleKeys.Product_item_moneyUnit.tr} '
+                : '${product.productPrice} ${LocaleKeys.Product_item_moneyUnit.tr} ',
             textSize: AppSizes.subTitleTextSize),
         const Spacer(),
         _checkProductInBasket(),
@@ -140,14 +131,13 @@ class ProductDetailsPage extends StatelessWidget {
         assignId: true,
         builder: (controller) {
           return CustomButton(
-            onTap: () =>
-            {
+            onTap: () => {
               // controller.addProductToBasket(product),
             },
             textSize: 13,
             buttonHeight: 30,
             buttonWidth: 130,
-            buttonText: 'افزودن به سبد خرید',
+            buttonText: LocaleKeys.Product_item_addToShoppingCart.tr,
             textColor: Colors.blue,
           );
         },
@@ -180,7 +170,7 @@ class ProductDetailsPage extends StatelessWidget {
               // controller.removeProductFromBasket(product)
             },
             child:
-            Icon(Icons.delete, size: 20, color: AppColors.deepButtonColor),
+                Icon(Icons.delete, size: 20, color: AppColors.deepButtonColor),
           )
         ],
       ),

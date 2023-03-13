@@ -3,12 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:multi_line_field_package/multi_line_field_package.dart';
 import 'package:shop_getx/core/app_sizes.dart';
+import 'package:shop_getx/generated/locales.g.dart';
 import 'package:shop_getx/models/user.dart';
 
 import '../../controllers/image_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../core/app_colors.dart';
-import '../../core/app_texts.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/custom_text_field.dart';
@@ -24,12 +24,10 @@ class SignUpPage extends GetView<UserController> {
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => UserController());
-    return Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
+    return Scaffold(
             backgroundColor: Colors.white,
             resizeToAvoidBottomInset: false,
-            body: _bodyOfPage(context)));
+            body: _bodyOfPage(context));
   }
 
   Padding _bodyOfPage(BuildContext context) {
@@ -43,7 +41,8 @@ class SignUpPage extends GetView<UserController> {
               child: Column(
             children: [
               AppSizes.littleSizeBox,
-              CustomText(text: AppTexts.createAccountBtn, textSize: 30),
+              CustomText(
+                  text: LocaleKeys.SignUp_page_signUpTitle.tr, textSize: 30),
               AppSizes.littleSizeBox,
               _profileImage(context),
               AppSizes.normalSizeBox2,
@@ -72,7 +71,7 @@ class SignUpPage extends GetView<UserController> {
   CustomText _haveAccount() {
     return CustomText(
         textDecoration: TextDecoration.underline,
-        text: 'قبلا حساب ایجاد کرده ام.',
+        text: LocaleKeys.SignUp_page_haveAccount.tr,
         onClickText: () => Get.off(LoginPage()),
         textColor: Colors.blue);
   }
@@ -105,14 +104,15 @@ class SignUpPage extends GetView<UserController> {
   Widget _createAccountButton(BuildContext context, UserController logic) {
     return CustomButton(
       textColor: Colors.white,
-      buttonText: AppTexts.createAccountBtn,
+      buttonText: LocaleKeys.Login_page_signUpBtn.tr,
       buttonColor: AppColors.loginBtnColor,
       buttonHeight: MediaQuery.of(context).size.height / 12,
       buttonWidth: MediaQuery.of(context).size.width,
       onTap: () {
         if (formKey.currentState!.validate()) {
           if (logic.checkUserNameExist(logic.userNameController.text)) {
-            Get.snackbar('کاربر تکراری', 'نام کاربری موجود است.');
+            Get.snackbar(LocaleKeys.SignUp_page_repeatedUser.tr,
+                LocaleKeys.SignUp_page_availableUserMessage.tr);
           } else {
             // prepare user image and information
             User user = User(
@@ -136,10 +136,10 @@ class SignUpPage extends GetView<UserController> {
       controller: logic.phoneNumController,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       keyboardType: TextInputType.number,
-      labelText: AppTexts.phoneTxt,
+      labelText: LocaleKeys.SignUp_page_phoneNumber.tr,
       checkValidation: (value) {
         if (value!.isNotEmpty && !logic.correctPhoneFormat(value)) {
-          return AppTexts.phoneNumError;
+          return LocaleKeys.SignUp_page_phoneNumError.tr;
         }
       },
       icon: const Icon(Icons.phone_android),
@@ -151,10 +151,10 @@ class SignUpPage extends GetView<UserController> {
     return Obx(() {
       return CustomTextField(
         controller: logic.passController,
-        labelText: AppTexts.passwordTxt,
+        labelText: LocaleKeys.SignUp_page_password.tr,
         checkValidation: (value) {
           if (!logic.checkPasswordFormat(value!).value) {
-            return AppTexts.passwordError;
+            return LocaleKeys.SignUp_page_passwordError.tr;
           }
         },
         icon: const Icon(Icons.remove_red_eye),
@@ -170,10 +170,10 @@ class SignUpPage extends GetView<UserController> {
       controller: logic.userNameController,
       checkValidation: (value) {
         if (!logic.checkEmailValidation(value!).value) {
-          return AppTexts.emailError;
+          return LocaleKeys.SignUp_page_emailError.tr;
         }
       },
-      labelText: AppTexts.emailTxt,
+      labelText: LocaleKeys.SignUp_page_userName.tr,
       secure: false,
       icon: const Icon(Icons.email_outlined),
       borderColor: AppColors.textFieldColor,
@@ -186,10 +186,10 @@ class SignUpPage extends GetView<UserController> {
       controller: logic.addressController,
       validation: (value) {
         if (value!.isNotEmpty && !(value.length >= 10)) {
-          return AppTexts.addressError;
+          return LocaleKeys.SignUp_page_addressError.tr;
         }
       },
-      labelText: AppTexts.addressTxt,
+      labelText: LocaleKeys.SignUp_page_address.tr,
       suffixIcon: const Icon(Icons.home),
       borderColor: AppColors.textFieldColor,
     );
