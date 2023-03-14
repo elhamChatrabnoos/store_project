@@ -100,7 +100,9 @@ class AllProductListPage extends GetView {
           ),
         ),
         child: ProductItem(
-          isFade: false,
+          isFade: category.productsList![index].totalProductCount! == 0
+              ? true
+              : false,
           iconLike: false,
           onItemClick: () {
             Get.to(() => AddEditProductPage(
@@ -113,45 +115,48 @@ class AllProductListPage extends GetView {
 
   Widget _noRemovableItem(int index, FavoritesController favController,
       ShoppingCartController shoppingController) {
-    return category.productsList![index].isProductHide!
-        ? ProductItem(
-            isFade: true,
-            product: category.productsList![index],
-            productIndex: index,
-            iconLike: false)
-        : ProductItem(
-            isFade: false,
-            onIconLikeTap: () {
-              favController.editFavoriteList(category.productsList![index]);
-            },
-            iconLike: favController
-                .searchItemInFavorites(category.productsList![index]),
-            onItemClick: () {
-              // Get.to(
-              //     () => ProductDetailsPage(product: category.productsList![index]));
-            },
-            addToBasketClick: () {
-              shoppingController
-                  .editShoppingCart(category.productsList![index]);
-            },
-            onAddBtnClick: () {
-              shoppingController
-                  .searchProductInBasket(category.productsList![index]);
-              shoppingController
-                  .editShoppingCart(shoppingController.targetProduct!);
-            },
-            onRemoveBtnClick: () {
-              shoppingController
-                  .searchProductInBasket(category.productsList![index]);
-              shoppingController
-                  .removeProductFromBasket(shoppingController.targetProduct!);
-            },
-            product: shoppingController
-                    .searchProductInBasket(category.productsList![index])
-                ? shoppingController.targetProduct!
-                : category.productsList![index],
-            productIndex: index,
-          );
+    if (category.productsList![index].isProductHide!) {
+      return const SizedBox();
+    } else if (category.productsList![index].totalProductCount! == 0) {
+      return ProductItem(
+          isFade: true,
+          product: category.productsList![index],
+          productIndex: index,
+          iconLike: false);
+    } else {
+      return ProductItem(
+        isFade: false,
+        onIconLikeTap: () {
+          favController.editFavoriteList(category.productsList![index]);
+        },
+        iconLike:
+            favController.searchItemInFavorites(category.productsList![index]),
+        onItemClick: () {
+          // Get.to(
+          //     () => ProductDetailsPage(product: category.productsList![index]));
+        },
+        addToBasketClick: () {
+          shoppingController.editShoppingCart(category.productsList![index]);
+        },
+        onAddBtnClick: () {
+          shoppingController
+              .searchProductInBasket(category.productsList![index]);
+          shoppingController
+              .editShoppingCart(shoppingController.targetProduct!);
+        },
+        onRemoveBtnClick: () {
+          shoppingController
+              .searchProductInBasket(category.productsList![index]);
+          shoppingController
+              .removeProductFromBasket(shoppingController.targetProduct!);
+        },
+        product: shoppingController
+                .searchProductInBasket(category.productsList![index])
+            ? shoppingController.targetProduct!
+            : category.productsList![index],
+        productIndex: index,
+      );
+    }
   }
 
   Widget _floatingActionButton() {

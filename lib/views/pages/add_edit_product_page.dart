@@ -298,9 +298,9 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
                       hint: Text(text),
                       // if any term click to edit disable this button
                       onChanged: (value) {
-                        tagController.changeDropDown(value!);
+                        logic.changeDropDown(value!);
                       },
-                      value: tagController.tag,
+                      value: logic.tag,
                       items: tagsList.map((Tag item) {
                         return DropdownMenuItem<Tag>(
                             value: item, child: Text(item.name!));
@@ -343,6 +343,8 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
   void _initialControllers() {
     tagController.getTags().then((value) {
       if (widget.product != null) {
+        print('product name : ${widget.product!.productName}');
+        print('tag name : ${widget.product!.productTag}');
         tagController.tag!.name = widget.product!.productTag;
       }
     });

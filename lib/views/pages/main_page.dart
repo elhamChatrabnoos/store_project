@@ -61,7 +61,7 @@ class MainPage extends GetView {
                 color: AppColors.navActiveItemColor)),
       ],
       onTap: (index) {
-        pageController.animateToPage(index,
+        pageController.animateToPage(index, 
             duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
       },
     );

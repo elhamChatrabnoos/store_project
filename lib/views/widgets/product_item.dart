@@ -61,15 +61,15 @@ class ProductItem extends GetView<ImageController> {
                   ),
                 ],
               )),
-          Card(
-            color: Color(0x6ea6a3a3),
-            child: isFade
-                ? SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 160,
-                  )
-                : SizedBox(),
-          )
+          // Card(
+          //   color: Color(0x6ea6a3a3),
+          //   child: isFade
+          //       ? SizedBox(
+          //           width: MediaQuery.of(context).size.width,
+          //           height: 160,
+          //         )
+          //       : SizedBox(),
+          // )
         ],
       ),
     );
@@ -126,10 +126,12 @@ class ProductItem extends GetView<ImageController> {
 
   Widget _isAvailableProduct() {
     return CustomText(
-      text: LocaleKeys.Product_item_available.tr,
+      text: isFade
+          ? LocaleKeys.Add_product_page_isNotAvailable.tr
+          : LocaleKeys.Product_item_available.tr,
       textSize: 15,
       textWeight: FontWeight.normal,
-      textColor: Colors.green,
+      textColor: isFade ? Colors.red : Colors.green,
     );
   }
 

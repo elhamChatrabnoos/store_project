@@ -19,10 +19,13 @@ class AddEditTagDialog extends StatelessWidget {
   final Tag? targetTag;
   final int? tagIndex;
 
-  TagController tagController = Get.put(TagController());
+  TagController controller = Get.put(TagController());
 
   @override
   Widget build(BuildContext context) {
+    if(isActionEdit){
+      controller.tagNameController.text = targetTag!.name!;
+    }
     return AlertDialog(
       content: Form(
         key: formKey,
@@ -30,7 +33,7 @@ class AddEditTagDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             CustomTextField(
-              controller: tagController.tagName,
+              controller: controller.tagNameController,
               checkValidation: (value) {
                 if (value!.isEmpty) {
                   return LocaleKeys.HomePage_tagNameError.tr;
@@ -40,21 +43,25 @@ class AddEditTagDialog extends StatelessWidget {
               borderColor: AppColors.textFieldColor,
             ),
             AppSizes.normalSizeBox3,
-            CustomButton(
-              buttonWidth: 100,
-              buttonHeight: 40,
-              textColor: Colors.white,
-              buttonText: isActionEdit
-                  ? LocaleKeys.Dialogs_message_editBtn.tr
-                  : LocaleKeys.Dialogs_message_saveBtn.tr,
-              buttonColor: AppColors.loginBtnColor,
-              onTap: () {
-                if (formKey.currentState!.validate()) {
-                  !isActionEdit ? _addTag() : _editCategory();
-                  Get.back();
-                }
+            GetBuilder<TagController>(
+              assignId: true,
+              builder: (logic) {
+                return CustomButton(
+                  buttonWidth: 100,
+                  buttonHeight: 40,
+                  textColor: Colors.white,
+                  buttonText: isActionEdit
+                      ? LocaleKeys.Dialogs_message_editBtn.tr
+                      : LocaleKeys.Dialogs_message_saveBtn.tr,
+                  buttonColor: AppColors.loginBtnColor,
+                  onTap: () {
+                    if (formKey.currentState!.validate()) {
+                      !isActionEdit ? _addTag() : _editCategory();
+                    }
+                  },
+                  textSize: AppSizes.normalTextSize1,
+                );
               },
-              textSize: AppSizes.normalTextSize1,
             )
           ],
         ),
@@ -62,13 +69,17 @@ class AddEditTagDialog extends StatelessWidget {
     );
   }
 
-  void _addTag() {
-    Tag tag = Tag(name: tagController.tagName.text);
-    tagController.addTag(tag);
+  Future<void> _addTag() async {
+    Tag tag = Tag(name: controller.tagNameController.text);
+    await controller.addTag(tag);
+    Get.back();
   }
 
-  void _editCategory() {
-    Tag tag = Tag(id: targetTag!.id, name: tagController.tagName.text);
-    tagController.editTag(tag, tagIndex!);
+  Future<void> _editCategory() async {
+    Tag tag = Tag(
+        id: targetTag!.id, name: controller.tagNameController.text);
+    await controller.editTag(tag, tagIndex!);
+    Get.back();
   }
+
 }
