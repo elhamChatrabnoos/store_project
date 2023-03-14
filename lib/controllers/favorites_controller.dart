@@ -75,14 +75,15 @@ class FavoritesController extends GetxController {
   void addFavorite(Favorite newFavorite) {
     _favoritesRepository.addFavorite(newFavorite: newFavorite).then((value) {
       AppSharedPreference.favoritePref!.setInt(AppKeys.favorId, value.id!);
-    });
+      getFavorites();
+   });
   }
 
   void getFavorites() {
     _favoritesRepository.getFavorites().then((value) {
       allFavoriteList = value;
-      update();
-      // searchUserInFavorites(UserController.getUserFromPref()['userId']);
+      // get related favorite list of current user
+      searchUserInFavorites(UserController.getUserFromPref()['userId']);
     });
   }
 
@@ -96,4 +97,5 @@ class FavoritesController extends GetxController {
     }
     return false;
   }
+
 }

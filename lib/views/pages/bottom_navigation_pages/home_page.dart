@@ -29,7 +29,7 @@ class HomePage extends GetView {
   ];
 
   bool isUserAdmin =
-      AppSharedPreference.isUserAdminPref!.getBool(AppKeys.isUserAdmin)!;
+  AppSharedPreference.isUserAdminPref!.getBool(AppKeys.isUserAdmin)!;
 
   ProductController productController = Get.find<ProductController>();
 
@@ -39,9 +39,9 @@ class HomePage extends GetView {
     Get.lazyPut(() => TagController());
 
     return Scaffold(
-            backgroundColor: AppColors.grayColor,
-            appBar: _appBarView(context),
-            body: _bodyItems(context));
+        backgroundColor: AppColors.grayColor,
+        appBar: _appBarView(context),
+        body: _bodyItems(context));
   }
 
   AppBar _appBarView(BuildContext context) {
@@ -98,70 +98,95 @@ class HomePage extends GetView {
   Widget _addTagText() {
     return isUserAdmin
         ? GetBuilder<TagController>(builder: (logic) {
-            return TextButton(
-                onPressed: () {
-                  logic.tagName.text = '';
-                  Get.dialog(AddEditTagDialog(isActionEdit: false));
-                },
-                child:  Text(LocaleKeys.HomePage_addTagTxt.tr));
-          })
+      return TextButton(
+          onPressed: () {
+            logic.tagName.text = '';
+            Get.dialog(AddEditTagDialog(isActionEdit: false));
+          },
+          child: Text(LocaleKeys.HomePage_addTagTxt.tr));
+    })
         : const SizedBox();
   }
 
   Widget _listOfTags() {
     return SizedBox(
         height: 30,
-        child: GetBuilder<TagController>(builder: (logic) {
-          return ListView.builder(
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-            itemCount: tagsList.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: InkWell(
-                  onLongPress: () {
-                    isUserAdmin ? logic.removeTag(tagsList[index]) : null;
-                  },
-                  onTap: () {
-                    if (isUserAdmin) {
-                      logic.tagName.text = tagsList[index].name!;
-                      Get.dialog(AddEditTagDialog(
-                        tagIndex: index,
-                        isActionEdit: true,
-                        targetTag: tagsList[index],
-                      ));
-                    }
-                  },
-                  child: CustomButton(
-                    buttonColor: AppColors.grayColor,
-                    borderColor: AppColors.darkGrayColor,
-                    buttonText: tagsList[index].name!,
+        child: GetBuilder<TagController>(builder: (tagLogic) {
+          return GetBuilder<CategoryController>(builder: (caLogic) {
+            return ListView.builder(
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              itemCount: tagsList.length,
+              itemBuilder: (context, index) {
+                return tagsList[index].id != 0 ?  Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: InkWell(
+                    onLongPress: () async {
+                      if(isUserAdmin){
+                        await _removeTag(index, caLogic, tagLogic);
+                      }
+                    },
+                    onTap: () {
+                      if (isUserAdmin) {
+                        tagLogic.tagName.text = tagsList[index].name!;
+                        Get.dialog(AddEditTagDialog(
+                          tagIndex: index,
+                          isActionEdit: true,
+                          targetTag: tagsList[index],
+                        ));
+                      }
+                    },
+                    child: CustomButton(
+                      buttonColor: AppColors.grayColor,
+                      borderColor: AppColors.darkGrayColor,
+                      buttonText: tagsList[index].name!,
+                    ),
                   ),
-                ),
-              );
-            },
-          );
+                ) : SizedBox();
+              },
+            );
+          });
         }));
+  }
+
+  Future<void> _removeTag(int index, CategoryController caLogic, TagController taLogic) async {
+    // remove tag from all categories product
+    for (var category in categoryList) {
+      for (var product in category.productsList!) {
+        if (product.productTag == tagsList[index].name) {
+          product.productTag = LocaleKeys.Add_product_page_withoutTag.tr;
+          await caLogic.editCategory(category);
+        }
+      }
+    }
+
+    // remove tag from product list product
+    for (var product in productList) {
+      if(product.productTag == tagsList[index].name){
+        product.productTag = null;
+        await productController.editProduct(product);
+      }
+    }
+    await taLogic.removeTag(tagsList[index]);
   }
 
   Widget _addNewCategory() {
     return isUserAdmin
         ? GetBuilder<CategoryController>(builder: (logic) {
-            return TextButton(
-                onPressed: () {
-                  logic.categoryName.text = '';
-                  Get.dialog(AddEditCategoryDialog(isActionEdit: false));
-                },
-                child: CustomText(
-                  text: LocaleKeys.HomePage_addCategoryTxt.tr,
-                  textSize: AppSizes.normalTextSize2,
-                ));
-          })
-        : CustomText(
-            text: LocaleKeys.HomePage_categories.tr,
+      return TextButton(
+          onPressed: () {
+            logic.categoryName.text = '';
+            Get.dialog(AddEditCategoryDialog(isActionEdit: false));
+          },
+          child: CustomText(
+            text: LocaleKeys.HomePage_addCategoryTxt.tr,
             textSize: AppSizes.normalTextSize2,
-          );
+          ));
+    })
+        : CustomText(
+      text: LocaleKeys.HomePage_categories.tr,
+      textSize: AppSizes.normalTextSize2,
+    );
   }
 
   Widget _listOfCategories() {
@@ -239,7 +264,10 @@ class HomePage extends GetView {
 
   Widget _listOfProduct(BuildContext context) {
     return SizedBox(
-        height: MediaQuery.of(context).size.height / 2.5,
+        height: MediaQuery
+            .of(context)
+            .size
+            .height / 2.5,
         child: GetBuilder<ProductController>(builder: (logic) {
           return ListView.builder(
             scrollDirection: Axis.horizontal,
@@ -249,15 +277,15 @@ class HomePage extends GetView {
               return index == 4
                   ? _moreButton()
                   : HomeProductItem(
-                      onLongPress: () =>
-                          isUserAdmin ? logic.deleteProduct(productList[index]) : null,
-                      onItemClick: () {
-                        // Get.to(() => ProductDetailsPage(
-                        //       product: productList[index],
-                        //     ));
-                      },
-                      product: productList[index],
-                    );
+                onLongPress: () =>
+                isUserAdmin ? logic.deleteProduct(productList[index]) : null,
+                onItemClick: () {
+                  // Get.to(() => ProductDetailsPage(
+                  //       product: productList[index],
+                  //     ));
+                },
+                product: productList[index],
+              );
             },
           );
         }));
@@ -271,7 +299,7 @@ class HomePage extends GetView {
         // onTap: () => Get.to(() => AllProductListPage()),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children:  [
+          children: [
             CustomText(
               textSize: 15,
               text: LocaleKeys.HomePage_allProduct.tr,

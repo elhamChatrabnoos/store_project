@@ -9,7 +9,6 @@ import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/generated/locales.g.dart';
 import 'package:shop_getx/models/product.dart';
 import 'package:shop_getx/models/product_category.dart';
-import 'package:shop_getx/views/pages/all_product_list_page.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
 
 import '../../controllers/image_controller.dart';
@@ -21,7 +20,7 @@ import '../widgets/custom_text_field.dart';
 import '../widgets/image_picker.dart';
 
 class AddEditProductPage extends StatefulWidget {
-  AddEditProductPage({required this.category, this.product, Key? key})
+  const AddEditProductPage({required this.category, this.product, Key? key})
       : super(key: key);
 
   final ProductCategory category;
@@ -35,7 +34,6 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
   final formKey = GlobalKey<FormState>();
 
   TagController tagController = Get.put(TagController());
-
   ProductController productController = Get.find<ProductController>();
   CategoryController cateController = Get.find<CategoryController>();
   ImageController controller = Get.put(ImageController());
@@ -50,46 +48,49 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title: const Text('افزودن محصول جدید'),
-            ),
-            backgroundColor: Colors.white,
-            resizeToAvoidBottomInset: false,
-            body: _bodyOfPage(context));
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(LocaleKeys.Add_product_page_title.tr),
+        ),
+        backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: false,
+        body: _bodyOfPage(context));
   }
 
   Padding _bodyOfPage(BuildContext context) {
     return Padding(
         padding:
-            const EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 10),
+        const EdgeInsets.only(left: 40, right: 40, top: 15, bottom: 10),
         child: Form(
           key: formKey,
           // Todo delete thumb and show keyboard and textField together
           child: SingleChildScrollView(
               child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _productImage(context),
-              AppSizes.normalSizeBox3,
-              _productName(LocaleKeys.Add_product_page_productName.tr, false),
-              AppSizes.normalSizeBox3,
-              _productDescription(
-                  LocaleKeys.Add_product_page_productDescription.tr),
-              AppSizes.normalSizeBox3,
-              _productPrice(LocaleKeys.Add_product_page_productPrice.tr),
-              AppSizes.normalSizeBox3,
-              _productDiscount(LocaleKeys.Add_product_page_productDiscount.tr),
-              AppSizes.normalSizeBox3,
-              _productTotalCount(
-                  LocaleKeys.Add_product_page_totalProductCount.tr),
-              AppSizes.normalSizeBox3,
-              _productTag(context, LocaleKeys.Add_product_page_productTag.tr),
-              AppSizes.normalSizeBox3,
-              _isProductHide(),
-              _saveButton(context),
-            ],
-          )),
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _productImage(context),
+                  AppSizes.normalSizeBox3,
+                  _productName(
+                      LocaleKeys.Add_product_page_productName.tr, false),
+                  AppSizes.normalSizeBox3,
+                  _productDescription(
+                      LocaleKeys.Add_product_page_productDescription.tr),
+                  AppSizes.normalSizeBox3,
+                  _productPrice(LocaleKeys.Add_product_page_productPrice.tr),
+                  AppSizes.normalSizeBox3,
+                  _productDiscount(
+                      LocaleKeys.Add_product_page_productDiscount.tr),
+                  AppSizes.normalSizeBox3,
+                  _productTotalCount(
+                      LocaleKeys.Add_product_page_totalProductCount.tr),
+                  AppSizes.normalSizeBox3,
+                  _productTag(
+                      context, LocaleKeys.Add_product_page_productTag.tr),
+                  AppSizes.normalSizeBox3,
+                  _isProductHide(),
+                  _saveButton(context),
+                ],
+              )),
         ));
   }
 
@@ -128,6 +129,11 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
           _addProductToList();
         }
       },
+      buttonHeight: 50,
+      buttonWidth: MediaQuery
+          .of(context)
+          .size
+          .width,
       textSize: AppSizes.normalTextSize2,
     );
   }
@@ -138,11 +144,10 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
           LocaleKeys.Add_product_page_addImageMsg.tr);
     } else {
       bool isProductHide = radioController.radioGroupValue ==
-              LocaleKeys.Dialogs_message_yesBtn.tr
+          LocaleKeys.Dialogs_message_yesBtn.tr
           ? true
           : false;
-      String? tagName =
-          tagController.tag != null ? tagController.tag!.name : null;
+      String? tagName = tagController.tag!.name;
       Product newProduct;
       // if product null add new product else edit it
       if (widget.product == null) {
@@ -158,13 +163,15 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
           productCategory: widget.category.name,
           productCountInBasket: 0,
           totalProductCount:
-              int.parse(productController.totalCountController.text),
+          int.parse(productController.totalCountController.text),
           productTag: tagName,
         );
 
         productController.addProduct(newProduct).then((value) {
           widget.category.productsList!.add(value);
-          cateController.editCategory(widget.category);
+          cateController.editCategory(widget.category).then((value) {
+            Get.back();
+          });
         });
       }
       // edit product in category list
@@ -182,21 +189,22 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
           productCategory: widget.category.name,
           productCountInBasket: 0,
           totalProductCount:
-              int.parse(productController.totalCountController.text),
+          int.parse(productController.totalCountController.text),
           productTag: tagName,
         );
 
-        productController.editProduct(newProduct);
-        for (var i = 0; i < widget.category.productsList!.length; ++i) {
-          if (widget.category.productsList![i].id == widget.product!.id) {
-            widget.category.productsList![i] = newProduct;
-            break;
+        productController.editProduct(newProduct).then((value) {
+          for (var i = 0; i < widget.category.productsList!.length; ++i) {
+            if (widget.category.productsList![i].id == widget.product!.id) {
+              widget.category.productsList![i] = newProduct;
+              break;
+            }
           }
-        }
-        cateController.editCategory(widget.category);
+          cateController.editCategory(widget.category).then((value) {
+            Get.back();
+          });
+        });
       }
-
-      Get.off(() => AllProductListPage(widget.category));
     }
   }
 
@@ -274,28 +282,32 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
   Widget _productTag(BuildContext context, String text) {
     return Container(
         color: AppColors.grayColor,
-        width: MediaQuery.of(context).size.width,
-        child: DropdownButtonHideUnderline(
-          child: ButtonTheme(
-            alignedDropdown: true,
-            child: GetBuilder<TagController>(
-              assignId: true,
-              builder: (logic) {
-                return DropdownButton<Tag>(
-                  hint: Text(text),
-                  // if any term click to edit disable this button
-                  onChanged: (Tag? value) {
-                    tagController.changeDropDown(value!);
-                  },
-                  value: tagController.tag,
-                  items: tagsList.map((Tag item) {
-                    return DropdownMenuItem<Tag>(
-                        value: item, child: Text(item.name!));
-                  }).toList(),
-                );
-              },
-            ),
-          ),
+        width: MediaQuery
+            .of(context)
+            .size
+            .width,
+        child:
+        GetBuilder<TagController>(
+          assignId: true,
+          builder: (logic) {
+            return
+              DropdownButtonHideUnderline(
+                child: ButtonTheme(
+                    alignedDropdown: true,
+                    child: DropdownButton<Tag>(
+                      hint: Text(text),
+                      // if any term click to edit disable this button
+                      onChanged: (value) {
+                        tagController.changeDropDown(value!);
+                      },
+                      value: tagController.tag,
+                      items: tagsList.map((Tag item) {
+                        return DropdownMenuItem<Tag>(
+                            value: item, child: Text(item.name!));
+                      }).toList(),
+                    )),
+              );
+          },
         ));
   }
 
@@ -318,32 +330,33 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
   Widget _radioButton(String text) {
     return Expanded(
         child: RadioListTile(
-      activeColor: AppColors.primaryColor,
-      title: Text(text),
-      value: text,
-      groupValue: radioController.radioGroupValue,
-      onChanged: (value) {
-        radioController.changeRadioValue(value.toString());
-      },
-    ));
+          activeColor: AppColors.primaryColor,
+          title: Text(text),
+          value: text,
+          groupValue: radioController.radioGroupValue,
+          onChanged: (value) {
+            radioController.changeRadioValue(value.toString());
+          },
+        ));
   }
 
   void _initialControllers() {
+    tagController.getTags().then((value) {
+      if (widget.product != null) {
+        tagController.tag!.name = widget.product!.productTag;
+      }
+    });
+
     if (widget.product != null) {
       productController.nameController.text = widget.product!.productName!;
       productController.descriptionController.text =
-          widget.product!.productDescription!;
+      widget.product!.productDescription!;
       productController.priceController.text =
           widget.product!.productPrice.toString();
       productController.discountController.text =
           widget.product!.productDiscount.toString();
       productController.totalCountController.text =
           widget.product!.totalProductCount.toString();
-
-      if (tagsList.isNotEmpty && widget.product!.productTag != null) {
-        tagController.tag = tagsList.first;
-        tagController.tag!.name = widget.product!.productTag;
-      }
 
       radioController.radioGroupValue = widget.product!.isProductHide!
           ? LocaleKeys.Add_product_page_yesBtn.tr

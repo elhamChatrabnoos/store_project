@@ -78,6 +78,7 @@ class AllProductListPage extends GetView {
   }
 
   Widget _removableItem(int index, CategoryController categoryController) {
+    print('removable Item');
     return Dismissible(
         key: UniqueKey(),
         direction: DismissDirection.endToStart,
@@ -92,7 +93,6 @@ class AllProductListPage extends GetView {
         background: Container(
           color: AppColors.primaryColor,
           margin: const EdgeInsets.symmetric(horizontal: 15),
-          alignment: Alignment.centerRight,
           child: const Icon(
             Icons.delete,
             size: 50,
@@ -103,7 +103,7 @@ class AllProductListPage extends GetView {
           isFade: false,
           iconLike: false,
           onItemClick: () {
-            Get.off(() => AddEditProductPage(
+            Get.to(() => AddEditProductPage(
                 product: category.productsList![index], category: category));
           },
           product: category.productsList![index],
@@ -159,7 +159,7 @@ class AllProductListPage extends GetView {
       return FloatingActionButton(
         backgroundColor: AppColors.primaryColor,
         onPressed: () {
-          Get.off(() => AddEditProductPage(
+          Get.to(() => AddEditProductPage(
                 category: category,
               ));
         },

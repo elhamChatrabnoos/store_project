@@ -106,6 +106,7 @@ class LocaleKeys {
       'Add_product_page_isProductHide';
   static const Add_product_page_addImageMsg = 'Add_product_page_addImageMsg';
   static const Add_product_page_imageWarning = 'Add_product_page_imageWarning';
+  static const Add_product_page_withoutTag = 'Add_product_page_withoutTag';
   static const image_picker_dialog_camera = 'image_picker_dialog_camera';
   static const image_picker_dialog_gallery = 'image_picker_dialog_gallery';
   static const image_picker_dialog_delete = 'image_picker_dialog_delete';
@@ -195,6 +196,7 @@ class Locales {
     'Add_product_page_isProductHide': 'Is the product hidden?',
     'Add_product_page_addImageMsg': 'Please select a product image.',
     'Add_product_page_imageWarning': 'Image error',
+    'Add_product_page_withoutTag': 'without tag',
     'image_picker_dialog_camera': 'Camera',
     'image_picker_dialog_gallery': 'Gallery',
     'image_picker_dialog_delete': 'Delete',
@@ -281,6 +283,7 @@ class Locales {
     'Add_product_page_isProductHide': 'محصول پنهان باشد؟',
     'Add_product_page_addImageMsg': 'لطفا عکس محصول را انتخاب کنید.',
     'Add_product_page_imageWarning': 'خطای عکس',
+    'Add_product_page_withoutTag': 'بدون تگ',
     'image_picker_dialog_camera': 'دوربین',
     'image_picker_dialog_gallery': 'گالری',
     'image_picker_dialog_delete': 'حذف',

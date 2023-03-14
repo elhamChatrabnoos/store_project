@@ -97,7 +97,8 @@
     "noBtn": "No",
     "isProductHide": "Is the product hidden?",
     "addImageMsg": "Please select a product image.",
-    "imageWarning": "Image error"
+    "imageWarning": "Image error",
+    "withoutTag": "without tag"
   },
 
   "image_picker_dialog": {

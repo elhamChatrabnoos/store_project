@@ -8,6 +8,7 @@ import 'package:shop_getx/views/widgets/custom_text.dart';
 import '../../controllers/favorites_controller.dart';
 import '../../controllers/product_controller.dart';
 import '../../controllers/shopping_cart_controller.dart';
+import '../../controllers/tag_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../shared_class/shared_prefrences.dart';
 import 'login_page.dart';
@@ -21,6 +22,7 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+
   UserController userController = Get.put(UserController());
   ShoppingCartController shoppingController = Get.put(ShoppingCartController());
   FavoritesController favoritesController = Get.put(FavoritesController());
@@ -28,8 +30,8 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   void initState() {
-    _specifyPage();
     super.initState();
+    _specifyPage();
   }
 
   void _specifyPage() {

@@ -112,7 +112,7 @@ class UserController extends GetxController {
         ((value.contains('@gmail.com') || value.contains('@yahoo.com'))
             ? true.obs
             : false.obs);
-    update();
+    // update();
     return correctEmail;
   }
 

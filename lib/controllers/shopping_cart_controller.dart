@@ -33,6 +33,7 @@ class ShoppingCartController extends GetxController {
     _shoppingCartRepository.addShoppingCart(newCart: cart).then((value) {
       AppSharedPreference.shoppingCartPref!
           .setInt(AppKeys.cartShoppingId, value.id!);
+      getShoppingCarts();
     });
   }
 

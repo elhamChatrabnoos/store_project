@@ -97,7 +97,8 @@
     "noBtn": "خیر",
     "isProductHide": "محصول پنهان باشد؟",
     "addImageMsg" : "لطفا عکس محصول را انتخاب کنید.",
-    "imageWarning": "خطای عکس"
+    "imageWarning": "خطای عکس",
+    "withoutTag": "بدون تگ"
   },
 
   "image_picker_dialog": {

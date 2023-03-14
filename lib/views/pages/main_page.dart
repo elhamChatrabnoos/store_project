@@ -34,7 +34,6 @@ class MainPage extends GetView {
 
   Widget _bottomBarItems() {
     return AnimatedNotchBottomBar(
-
       itemLabelStyle: TextStyle(color: AppColors.navInactiveItemColor),
       color: AppColors.bottomNavBackColor,
       notchColor: AppColors.bottomNavItemColor,
