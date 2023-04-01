@@ -19,11 +19,13 @@ import 'package:shop_getx/views/widgets/home_poduct_item.dart';
 
 import '../../../controllers/category_controller.dart';
 import '../../../shared_class/custom_search.dart';
+import '../product_details_page.dart';
 
 class HomePage extends GetView {
   HomePage({Key? key}) : super(key: key);
 
   List<String> sliderImages = [
+    'assets/images/slider1.jpg',
     'assets/images/slider2.jpg',
     'assets/images/slider3.jpg'
   ];
@@ -35,11 +37,12 @@ class HomePage extends GetView {
 
   @override
   Widget build(BuildContext context) {
+
     Get.lazyPut(() => CategoryController());
     Get.lazyPut(() => TagController());
 
     return Scaffold(
-        backgroundColor: AppColors.grayColor,
+        backgroundColor: AppColors.backGroundColor,
         appBar: _appBarView(context),
         body: _bodyItems(context));
   }
@@ -115,7 +118,7 @@ class HomePage extends GetView {
         height: 30,
         child: GetBuilder<TagController>(builder: (tagLogic) {
           return GetBuilder<CategoryController>(builder: (caLogic) {
-            return  ListView.builder(
+            return ListView.builder(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
               itemCount: tagsList.length,
@@ -133,7 +136,7 @@ class HomePage extends GetView {
                             _showTagDialog(tagLogic, index);
                           },
                           child: CustomButton(
-                            buttonColor: AppColors.grayColor,
+                            buttonColor: AppColors.backGroundColor,
                             borderColor: AppColors.darkGrayColor,
                             buttonText: tagsList[index].name!,
                           ),
@@ -208,7 +211,7 @@ class HomePage extends GetView {
           shrinkWrap: true,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
-            childAspectRatio: 0.9,
+            childAspectRatio: 1.1,
           ),
           itemCount: categoryList.length,
           itemBuilder: (context, index) {
@@ -289,9 +292,9 @@ class HomePage extends GetView {
                           ? logic.deleteProduct(productList[index])
                           : null,
                       onItemClick: () {
-                        // Get.to(() => ProductDetailsPage(
-                        //       product: productList[index],
-                        //     ));
+                        Get.to(() => ProductDetailsPage(
+                              product: productList[index],
+                            ));
                       },
                       product: productList[index],
                     );
@@ -328,12 +331,15 @@ class HomePage extends GetView {
 
   Widget _imagesSlider() {
     return CarouselSlider.builder(
-        itemCount: 2,
-        itemBuilder: (context, index, realIndex) {
-          return Padding(
-              padding: const EdgeInsets.all(10),
-              child: Image.asset(sliderImages[index]));
-        },
-        options: CarouselOptions(autoPlay: false));
+      itemCount: sliderImages.length,
+      itemBuilder: (context, index, realIndex) {
+        return Padding(
+            padding: const EdgeInsets.all(10),
+            child: Image.asset(sliderImages[index]));
+      },
+      options: CarouselOptions(
+        autoPlay: true
+      ),
+    );
   }
 }

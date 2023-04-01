@@ -80,7 +80,6 @@ class ProductItem extends GetView<ImageController> {
   }
 
   Widget _checkProductInBasket() {
-    // print('count is ${product.productCountInBasket}');
     if (product.productCountInBasket! > 0) {
       return _addDeleteProduct();
     } else {
@@ -132,7 +131,7 @@ class ProductItem extends GetView<ImageController> {
         text: product.productDiscount != null
             ? '${product.productPrice! - product.productPrice! * product.productDiscount! ~/ 100} ${LocaleKeys.Product_item_moneyUnit.tr} '
             : '${product.productPrice} ${LocaleKeys.Product_item_moneyUnit.tr} ',
-        textSize: 18);
+        textSize: AppSizes.subTitleTextSize);
   }
 
   Widget _productDiscount() {

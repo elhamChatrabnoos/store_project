@@ -282,7 +282,7 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
 
   Widget _productTag(BuildContext context, String text) {
     return Container(
-        color: AppColors.grayColor,
+        color: AppColors.backGroundColor,
         width: MediaQuery
             .of(context)
             .size

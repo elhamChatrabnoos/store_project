@@ -92,9 +92,11 @@ class ShoppingCartController extends GetxController {
     for (var i = 0; i < buyBasketList.length; ++i) {
       if (product.id == buyBasketList[i].id) {
         targetProduct = buyBasketList[i];
+        print('true');
         return true;
       }
     }
+    print('false');
     return false;
   }
 

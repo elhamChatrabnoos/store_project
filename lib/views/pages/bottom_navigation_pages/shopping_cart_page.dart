@@ -26,7 +26,7 @@ class ShoppingCartPage extends GetView {
       assignId: true,
       builder: (logic) {
         return Scaffold(
-          backgroundColor: AppColors.grayColor,
+          backgroundColor: AppColors.backGroundColor,
           body: buyBasketList.isNotEmpty
               ? _bodyItems(logic)
               : Center(

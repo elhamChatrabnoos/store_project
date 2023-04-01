@@ -16,7 +16,7 @@ import '../../controllers/shopping_cart_controller.dart';
 import '../../controllers/tag_controller.dart';
 import '../../shared_class/custom_search.dart';
 
-class AllProductListPage extends GetView<ProductController> {
+class AllProductListPage extends GetView {
   AllProductListPage(this.category, {Key? key}) : super(key: key);
 
   final ProductCategory category;
@@ -127,10 +127,8 @@ class AllProductListPage extends GetView<ProductController> {
         },
         iconLike:
             favController.searchItemInFavorites(category.productsList![index]),
-        onItemClick: () {
-          // Get.to(
-          //     () => ProductDetailsPage(product: category.productsList![index]));
-        },
+        onItemClick: () => Get.to(
+            () => ProductDetailsPage(product: category.productsList![index])),
         addToBasketClick: () {
           shoppingController.editShoppingCart(category.productsList![index]);
         },
@@ -175,12 +173,13 @@ class AllProductListPage extends GetView<ProductController> {
     }
   }
 
-  void changeProductCountInBasket(int index, FavoritesController favoritesController) {
+  void changeProductCountInBasket(
+      int index, FavoritesController favoritesController) {
     // if target product is in favoriteList and it has 1 product count in basket
     for (var favItem in favoritesList) {
       if (favItem.id == category.productsList![index].id &&
-          favItem.productCountInBasket == 1 ) {
-        favItem.productCountInBasket = favItem.productCountInBasket! -1;
+          favItem.productCountInBasket == 1) {
+        favItem.productCountInBasket = favItem.productCountInBasket! - 1;
         favoritesController.editFavoriteListInServer();
       }
     }
@@ -191,5 +190,4 @@ class AllProductListPage extends GetView<ProductController> {
           category.productsList![index].productCountInBasket! - 1;
     }
   }
-
 }

@@ -18,7 +18,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      // locale: const Locale('fa_IR'),
+        scrollBehavior: const MaterialScrollBehavior()
+            .copyWith(scrollbars: false),
+        // locale: const Locale('fa_IR'),
       // locale: const Locale('en_Us'),
       locale: const Locale('fa', 'IR'),
       translationsKeys: AppTranslation.translations,

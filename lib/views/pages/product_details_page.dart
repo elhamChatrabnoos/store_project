@@ -6,35 +6,42 @@ import 'package:shop_getx/models/product.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
 import 'package:shop_getx/views/widgets/home_poduct_item.dart';
 
+import '../../controllers/image_controller.dart';
 import '../../controllers/product_controller.dart';
+import '../../controllers/shopping_cart_controller.dart';
 import '../../generated/locales.g.dart';
 import '../../models/shopping_cart.dart';
 import '../widgets/custom_button.dart';
+import '../widgets/future_image.dart';
 
-class ProductDetailsPage extends StatelessWidget {
-  const ProductDetailsPage({Key? key, required this.product}) : super(key: key);
+class ProductDetailsPage extends GetView {
+  ProductDetailsPage({Key? key, required this.product}) : super(key: key);
 
   final Product product;
 
-  // final ShoppingCartController controller = Get.find<ShoppingCartController>();
+  // final ShoppingCartController _shoppingCartController =
+  //     Get.put(ShoppingCartController());
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => ImageController());
+    Get.lazyPut(() => ShoppingCartController());
+
     return Scaffold(
-        backgroundColor: const Color(0xFFECE9EB),
-        appBar: AppBar(
-            centerTitle: true, title: Text(LocaleKeys.Details_page_title)),
-        body: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _topPartPage(context),
-                  AppSizes.littleSizeBox,
-                  _bottomPartPage()
-                ],
-              )),
-        );
+      backgroundColor: AppColors.grayColor,
+      appBar: AppBar(
+          centerTitle: true, title: Text(LocaleKeys.Details_page_title.tr)),
+      body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _topPartPage(context),
+              AppSizes.littleSizeBox,
+              _bottomPartPage()
+            ],
+          )),
+    );
   }
 
   Widget _bottomPartPage() {
@@ -71,12 +78,21 @@ class ProductDetailsPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(product.productImage!,
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 4),
+          GetBuilder<ImageController>(
+            assignId: true,
+            builder: (imageController) {
+              return Align(
+                  alignment: Alignment.center,
+                  child: FutureImage(
+                    future: imageController.stringToImage(product.productImage),
+                    imageSize: 200,
+                  ));
+            },
+          ),
+          AppSizes.littleSizeBox,
           _productName(),
           AppSizes.littleSizeBox,
-          _discountCost(),
+          product.productDiscount != 0 ? _discountCost() : const SizedBox(),
           AppSizes.littleSizeBox,
           _productPriceAndToBasket(),
         ],
@@ -117,36 +133,32 @@ class ProductDetailsPage extends StatelessWidget {
                 : '${product.productPrice} ${LocaleKeys.Product_item_moneyUnit.tr} ',
             textSize: AppSizes.subTitleTextSize),
         const Spacer(),
-        _checkProductInBasket(),
+        GetBuilder<ShoppingCartController>(
+          assignId: true,
+          builder: (logic) {
+            return _checkProductInBasket(logic);
+          },
+        ),
       ],
     );
   }
 
-  Widget _checkProductInBasket() {
-    int indexOfProduct = buyBasketList.indexOf(product);
-    if (indexOfProduct > -1) {
-      return _addDeleteProduct();
+  Widget _checkProductInBasket(ShoppingCartController shoppingController) {
+    if (shoppingController.searchProductInBasket(product)) {
+      return _addDeleteProduct(shoppingController);
     } else {
-      return GetBuilder<ProductController>(
-        assignId: true,
-        builder: (controller) {
-          return CustomButton(
-            onTap: () => {
-              // controller.addProductToBasket(product),
-            },
-            textSize: 13,
-            buttonHeight: 30,
-            buttonWidth: 130,
-            buttonText: LocaleKeys.Product_item_addToShoppingCart.tr,
-            textColor: Colors.blue,
-          );
+      return CustomButton(
+        onTap: () {
+          shoppingController.editShoppingCart(product);
         },
+        textSize: 13,
+        buttonText: LocaleKeys.Product_item_addToShoppingCart.tr,
+        textColor: Colors.blue,
       );
     }
   }
 
-  // Todo create widget for this
-  Widget _addDeleteProduct() {
+  Widget _addDeleteProduct(ShoppingCartController shoppingController) {
     return Container(
       padding: EdgeInsets.all(5),
       decoration: BoxDecoration(
@@ -158,16 +170,20 @@ class ProductDetailsPage extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
-              // controller.addProductToBasket(product);
+              shoppingController.searchProductInBasket(product);
+              shoppingController
+                  .editShoppingCart(shoppingController.targetProduct!);
             },
             child: Icon(Icons.add, size: 20, color: AppColors.deepButtonColor),
           ),
           CustomText(
-              text: product.productCountInBasket.toString(),
+              text: shoppingController.targetProduct!.productCountInBasket.toString(),
               textColor: AppColors.deepButtonColor),
           InkWell(
             onTap: () {
-              // controller.removeProductFromBasket(product)
+              shoppingController.searchProductInBasket(product);
+              shoppingController
+                  .removeProductFromBasket(shoppingController.targetProduct!);
             },
             child:
                 Icon(Icons.delete, size: 20, color: AppColors.deepButtonColor),
