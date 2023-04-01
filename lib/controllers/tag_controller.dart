@@ -21,9 +21,11 @@ class TagController extends GetxController {
   Future<void> getTags() async {
     await _tagRepository.getTags().then((value) {
       tagsList = value;
+
       Tag tag = Tag(id: 0, name: LocaleKeys.Add_product_page_withoutTag.tr);
       tagsList.add(tag);
       this.tag = tag;
+
       update();
     });
   }

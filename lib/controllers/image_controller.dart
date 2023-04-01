@@ -33,7 +33,7 @@ class ImageController extends GetxController {
 
   Future<Uint8List?> stringToImage(String? imageString) async {
     if (imageString != null || imageString != '') {
-      return await base64Decode(imageString!);
+      return base64Decode(imageString!);
     }
     return null;
   }

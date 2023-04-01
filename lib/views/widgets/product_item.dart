@@ -61,15 +61,6 @@ class ProductItem extends GetView<ImageController> {
                   ),
                 ],
               )),
-          // Card(
-          //   color: Color(0x6ea6a3a3),
-          //   child: isFade
-          //       ? SizedBox(
-          //           width: MediaQuery.of(context).size.width,
-          //           height: 160,
-          //         )
-          //       : SizedBox(),
-          // )
         ],
       ),
     );
@@ -89,6 +80,7 @@ class ProductItem extends GetView<ImageController> {
   }
 
   Widget _checkProductInBasket() {
+    print('count is ${product.productCountInBasket}');
     if (product.productCountInBasket! > 0) {
       return _addDeleteProduct();
     } else {

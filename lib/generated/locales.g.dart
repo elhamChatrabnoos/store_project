@@ -66,6 +66,8 @@ class LocaleKeys {
   static const ShoppingCart_page_moneyUnit = 'ShoppingCart_page_moneyUnit';
   static const ShoppingCart_page_unavailableProduct =
       'ShoppingCart_page_unavailableProduct';
+  static const ShoppingCart_page_confirmShopping =
+      'ShoppingCart_page_confirmShopping';
   static const ShoppingCart_page_successFullShopping =
       'ShoppingCart_page_successFullShopping';
   static const ShoppingCart_page_unSuccessFullShopping =
@@ -163,7 +165,7 @@ class Locales {
     'ShoppingCart_page_lastItemRemove': 'Remove the product from the shopping cart?',
     'ShoppingCart_page_unavailableProduct':
         'Insufficient stock of selected products.',
-    'ShoppingCart_page_successFullShopping':
+    'ShoppingCart_page_confirmShopping': 'Are you sure about your purchase?',    'ShoppingCart_page_successFullShopping':
         'Shopping was successful. Thank you for your trust',
     'ShoppingCart_page_unSuccessFullShopping':
     'An error has occurred! Please try again',
@@ -250,10 +252,12 @@ class Locales {
     'ShoppingCart_page_moneyUnit': 'تومان',
     'ShoppingCart_page_lastItemRemove': 'محصول از سبد خرید حذف شود؟',
     'ShoppingCart_page_unavailableProduct': 'موجودی محصولات انتخابی کافی نیست.',
+    'ShoppingCart_page_confirmShopping': 'آیا از خرید خود اطمینان دارید؟',
     'ShoppingCart_page_successFullShopping':
         'خرید با موفقیت انجام شد. از اعتماد شما متشکریم',
     'ShoppingCart_page_unSuccessFullShopping':
     'خطایی رخ داده است! لطفا مجددا تلاش کنید',
+
     'Dialogs_message_yesBtn': 'بله',
     'Dialogs_message_noBtn': 'خیر',
     'Dialogs_message_closeBtn': 'بستن',

@@ -41,50 +41,53 @@ class ShoppingCartPage extends GetView {
   }
 
   Widget _bodyItems(ShoppingCartController controller) {
-    return Column(
-      children: [
-        _completeShopping(controller),
-        AppSizes.littleSizeBox,
-        _shoppingCartList(controller)
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          _completeShopping(controller),
+          AppSizes.littleSizeBox,
+          _shoppingCartList(controller)
+        ],
+      ),
     );
   }
 
   Widget _shoppingCartList(ShoppingCartController shoppingController) {
     return ListView.builder(
-        shrinkWrap: true,
-        itemCount: buyBasketList.length,
-        itemBuilder: (context, index) {
-          return ProductItem(
-            iconLike: false,
-            isFade: false,
-            onAddBtnClick: () {
-              shoppingController.editShoppingCart(buyBasketList[index]);
-            },
-            onRemoveBtnClick: () {
-              num? productCount = buyBasketList[index].productCountInBasket;
-              //if product count is more than 1 in basket remove 1 else remove product totally
-              if (productCount! > 1) {
-                shoppingController
-                    .removeProductFromBasket(buyBasketList[index]);
-              } else {
-                Get.dialog(CustomAlertDialog(
-                  messageTxt: LocaleKeys.ShoppingCart_page_lastItemRemove.tr,
-                  onOkTap: () {
-                    Get.back();
-                    shoppingController
-                        .removeProductFromBasket(buyBasketList[index]);
-                  },
-                  confirmBtnTxt: LocaleKeys.Dialogs_message_yesBtn.tr,
-                  negativeBtnTxt: LocaleKeys.Dialogs_message_noBtn.tr,
-                  onNoTap: () => Get.back(),
-                ));
-              }
-            },
-            product: buyBasketList[index],
-            productIndex: index,
-          );
-        });
+          shrinkWrap: true,
+          itemCount: buyBasketList.length,
+          itemBuilder: (context, index) {
+            return ProductItem(
+              iconLike: false,
+              isFade: false,
+              onAddBtnClick: () {
+                shoppingController.editShoppingCart(buyBasketList[index]);
+              },
+              onRemoveBtnClick: () {
+                num? productCount = buyBasketList[index].productCountInBasket;
+                //if product count is more than 1 in basket remove 1 else remove product totally
+                if (productCount! > 1) {
+                  shoppingController
+                      .removeProductFromBasket(buyBasketList[index]);
+                } else {
+                  Get.dialog(CustomAlertDialog(
+                    messageTxt: LocaleKeys.ShoppingCart_page_lastItemRemove.tr,
+                    onOkTap: () {
+                      Get.back();
+                      shoppingController
+                          .removeProductFromBasket(buyBasketList[index]);
+                    },
+                    confirmBtnTxt: LocaleKeys.Dialogs_message_yesBtn.tr,
+                    negativeBtnTxt: LocaleKeys.Dialogs_message_noBtn.tr,
+                    onNoTap: () => Get.back(),
+                  ));
+                }
+              },
+              product: buyBasketList[index],
+              productIndex: index,
+            );
+          }
+    );
   }
 
   Widget _completeShopping(ShoppingCartController controller) {
@@ -97,7 +100,16 @@ class ShoppingCartPage extends GetView {
             return CustomButton(
               onTap: () {
                 if (controller.allProductStock()) {
-                  _emptyShoppingCart(controller, logic);
+                  Get.dialog(CustomAlertDialog(
+                    messageTxt: LocaleKeys.ShoppingCart_page_confirmShopping.tr,
+                    onOkTap: () {
+                      _emptyShoppingCart(controller, logic);
+                      Get.back();
+                    },
+                    confirmBtnTxt: LocaleKeys.Add_product_page_yesBtn.tr,
+                    negativeBtnTxt: LocaleKeys.Add_product_page_noBtn.tr,
+                    onNoTap: () => Get.back(),
+                  ));
                 } else {
                   Get.dialog(CustomAlertDialog(
                     messageTxt:
@@ -161,10 +173,11 @@ class ShoppingCartPage extends GetView {
 
     if (allShopping == buyBasketList.length) {
       catController.emptyShoppingCart();
-      Get.snackbar(
-          LocaleKeys.Dialogs_message_doneMsg.tr, LocaleKeys.ShoppingCart_page_successFullShopping.tr);
+      Get.snackbar(LocaleKeys.Dialogs_message_doneMsg.tr,
+          LocaleKeys.ShoppingCart_page_successFullShopping.tr);
     } else {
-      Get.snackbar(LocaleKeys.Dialogs_message_warning.tr, LocaleKeys.ShoppingCart_page_unSuccessFullShopping.tr);
+      Get.snackbar(LocaleKeys.Dialogs_message_warning.tr,
+          LocaleKeys.ShoppingCart_page_unSuccessFullShopping.tr);
     }
   }
 }

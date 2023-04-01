@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shop_getx/controllers/category_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/generated/locales.g.dart';
@@ -24,9 +25,11 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
 
   UserController userController = Get.put(UserController());
+  // if(userController.currentUser != null)
   ShoppingCartController shoppingController = Get.put(ShoppingCartController());
   FavoritesController favoritesController = Get.put(FavoritesController());
-  final ProductController productController = Get.put(ProductController());
+  // final ProductController productController = Get.put(ProductController());
+  final CategoryController categoryController = Get.put(CategoryController());
 
   @override
   void initState() {

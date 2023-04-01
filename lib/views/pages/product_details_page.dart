@@ -12,7 +12,7 @@ import '../../models/shopping_cart.dart';
 import '../widgets/custom_button.dart';
 
 class ProductDetailsPage extends StatelessWidget {
-  ProductDetailsPage({Key? key, required this.product}) : super(key: key);
+  const ProductDetailsPage({Key? key, required this.product}) : super(key: key);
 
   final Product product;
 

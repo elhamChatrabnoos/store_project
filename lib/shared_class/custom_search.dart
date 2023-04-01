@@ -56,9 +56,10 @@ class CustomSearchDelegate extends SearchDelegate {
         return ProductItem(
           isFade: false,
           iconLike: false,
-          onItemClick: () => Get.to(
-            ProductDetailsPage(product: targetList[index]),
-          ),
+          onItemClick: () {
+            // Get.to(
+            //     ProductDetailsPage(product: targetList[index]),
+          },
           product: result,
           productIndex: index,
         );

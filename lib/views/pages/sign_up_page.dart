@@ -19,7 +19,7 @@ class SignUpPage extends GetView<UserController> {
   SignUpPage({Key? key}) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
-  ImageController imageController = Get.put(ImageController());
+
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +93,8 @@ class SignUpPage extends GetView<UserController> {
             logic.removeProfileImage();
             Navigator.pop(context);
           },
-          imageFile: imageController.imageFile != null
-              ? imageController.stringToImage(imageController.imageFile)
+          imageFile: controller.imageController.imageFile != null
+              ? controller.imageController.stringToImage(controller.imageController.imageFile)
               : null,
         );
       },
@@ -116,7 +116,7 @@ class SignUpPage extends GetView<UserController> {
           } else {
             // prepare user image and information
             User user = User(
-                userImage: imageController.imageFile,
+                userImage: controller.imageController.imageFile,
                 userName: logic.userNameController.text,
                 userPass: logic.passController.text,
                 userAddress: logic.addressController.text,

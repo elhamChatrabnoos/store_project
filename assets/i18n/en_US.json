@@ -58,7 +58,8 @@
     "unavailableProduct": "Insufficient stock of selected products.",
     "successFullShopping": "Shopping was successful. Thank you for your trust",
     "lastItemRemove": "Remove the product from the shopping cart?",
-    "unSuccessFullShopping": "An error has occurred! Please try again"
+    "confirmShopping": "Are you sure about your purchase?",
+    "unSuccessFullShopping": "An error has occurred! Please try again",
   },
   "Dialogs_message": {
     "yesBtn": "Yes",

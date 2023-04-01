@@ -27,9 +27,6 @@ class _LoginPageState extends State<LoginPage> {
 
   UserController userController = Get.find<UserController>();
 
-  ShoppingCartController shoppingController = Get.put(ShoppingCartController());
-  FavoritesController favoritesController = Get.put(FavoritesController());
-
   @override
   void initState() {
     super.initState();
@@ -45,33 +42,36 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _loginBody(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.all(40),
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _titleTextImage(),
-              AppSizes.normalSizeBox,
-              _emailTextField(),
-              AppSizes.normalSizeBox2,
-              _passwordTextField(),
-              AppSizes.normalSizeBox,
-              _buttons(context)
-            ],
-          ),
-        ));
+    return SingleChildScrollView(
+      child: Padding(
+          padding: const EdgeInsets.all(40),
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _titleTextImage(),
+                AppSizes.normalSizeBox,
+                _emailTextField(),
+                AppSizes.normalSizeBox2,
+                _passwordTextField(),
+                AppSizes.normalSizeBox,
+                _buttons(context)
+              ],
+            ),
+          )),
+    );
   }
 
   Widget _buttons(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         CustomButton(
           textSize: AppSizes.normalTextSize2,
-          buttonWidth: MediaQuery.of(context).size.width / 3,
-          buttonHeight:  MediaQuery.of(context).size.height / 12,
+          buttonWidth: size.width / 3,
+          buttonHeight:  size.height / 12,
           textColor: AppColors.loginTextColor,
           buttonText: LocaleKeys.Login_page_loginBtn.tr,
           buttonColor: AppColors.loginBtnColor,
@@ -97,6 +97,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _findShoppingCart() {
+    ShoppingCartController shoppingController = Get.put(ShoppingCartController());
     if (!shoppingController
         .searchUserShoppingCart(userController.currentUser!.id!)) {
       ShoppingCart cart = ShoppingCart(
@@ -107,6 +108,7 @@ class _LoginPageState extends State<LoginPage> {
 
 
   void _findFavoriteList() {
+    FavoritesController favoritesController = Get.put(FavoritesController());
     if (!favoritesController
         .searchUserInFavorites(userController.currentUser!.id!)) {
       Favorite favorite = Favorite(

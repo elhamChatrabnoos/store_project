@@ -15,14 +15,12 @@ import '../../controllers/shopping_cart_controller.dart';
 import '../../controllers/tag_controller.dart';
 import '../../shared_class/custom_search.dart';
 
-class AllProductListPage extends GetView {
+class AllProductListPage extends GetView<ProductController> {
   AllProductListPage(this.category, {Key? key}) : super(key: key);
 
   final ProductCategory category;
   bool isUserAdmin =
       AppSharedPreference.isUserAdminPref!.getBool(AppKeys.isUserAdmin)!;
-
-  ProductController productController = Get.find<ProductController>();
 
   @override
   Widget build(BuildContext context) {
@@ -78,14 +76,11 @@ class AllProductListPage extends GetView {
   }
 
   Widget _removableItem(int index, CategoryController categoryController) {
-    print('removable Item');
     return Dismissible(
         key: UniqueKey(),
         direction: DismissDirection.endToStart,
         onDismissed: (_) {
-          productController
-              .deleteProduct(category.productsList![index])
-              .then((value) {
+          controller.deleteProduct(category.productsList![index]).then((value) {
             category.productsList!.remove(category.productsList![index]);
             categoryController.editCategory(category);
           });
@@ -149,6 +144,10 @@ class AllProductListPage extends GetView {
               .searchProductInBasket(category.productsList![index]);
           shoppingController
               .removeProductFromBasket(shoppingController.targetProduct!);
+          if (category.productsList![index].productCountInBasket! == 1) {
+            category.productsList![index].productCountInBasket =
+                category.productsList![index].productCountInBasket! - 1;
+          }
         },
         product: shoppingController
                 .searchProductInBasket(category.productsList![index])

@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:shop_getx/models/product_category.dart';
 import 'package:shop_getx/repositories/category_repository.dart';
@@ -23,28 +22,30 @@ class CategoryController extends GetxController {
   }
 
   void addCategory(ProductCategory category) {
-    _categoryRepository.addCategory(newCategory: category).then((value){
+    _categoryRepository.addCategory(newCategory: category).then((value) {
       getCategories();
     });
     update();
   }
 
-  void deleteCategory(ProductCategory category){
-    _categoryRepository.deleteCategory(targetCategory: category).then((value){
-      getCategories();
+  void deleteCategory(ProductCategory category) {
+    _categoryRepository.deleteCategory(targetCategory: category).then((value) {
+      categoryList.remove(category);
+      update();
+      // getCategories();
     });
-    update();
+
   }
 
-  Future<void> editCategory(ProductCategory category) async{
-    await _categoryRepository.editCategory(targetCategory: category).then((value){
+  Future<void> editCategory(ProductCategory category) async {
+    await _categoryRepository
+        .editCategory(targetCategory: category)
+        .then((value) {
       print('update category');
       getCategories();
     });
     update();
   }
-
-
 }
 
 List<ProductCategory> categoryList = [];

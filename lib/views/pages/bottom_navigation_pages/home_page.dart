@@ -31,7 +31,7 @@ class HomePage extends GetView {
   bool isUserAdmin =
       AppSharedPreference.isUserAdminPref!.getBool(AppKeys.isUserAdmin)!;
 
-  ProductController productController = Get.find<ProductController>();
+  final ProductController productController = Get.put(ProductController());
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,6 @@ class HomePage extends GetView {
             showSearch(
               context: context,
               delegate: CustomSearchDelegate(targetList: productList),
-              // delegate to customize the search bar
             );
           },
           icon: const Icon(
@@ -116,7 +115,7 @@ class HomePage extends GetView {
         height: 30,
         child: GetBuilder<TagController>(builder: (tagLogic) {
           return GetBuilder<CategoryController>(builder: (caLogic) {
-            return ListView.builder(
+            return  ListView.builder(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
               itemCount: tagsList.length,

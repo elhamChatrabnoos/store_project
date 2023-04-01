@@ -8,9 +8,10 @@ import 'package:shop_getx/repositories/user_repository.dart';
 import 'package:shop_getx/shared_class/shared_prefrences.dart';
 
 import '../models/user.dart';
+import 'image_controller.dart';
 
 class UserController extends GetxController {
-
+  ImageController imageController = Get.put(ImageController());
   RxBool correctEmail = false.obs;
   RxBool secureTextPass = true.obs;
   RxBool secureTextConfPass = true.obs;
@@ -71,12 +72,16 @@ class UserController extends GetxController {
 
   Future<void> addUser(User user) async {
     await _userRepository.addUser(newUser: user);
+    // if(have pagination)
+    // getUsers()
+    // else
+    //   userList.add(user)
+
   }
 
   void getUsers() {
     _userRepository.getUsers().then((value) {
       userList = value;
-      print('user list len: ${userList!.length}');
       update();
     });
   }

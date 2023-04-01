@@ -57,8 +57,7 @@ class FavoritesController extends GetxController {
 
     // edit favorite list
     num userId = UserController.getUserFromPref()['userId'];
-    print('id of favor : ' +
-        AppSharedPreference.favoritePref!.getInt(AppKeys.favorId).toString());
+
     Favorite favorite = Favorite(
         id: AppSharedPreference.favoritePref!.getInt(AppKeys.favorId),
         userId: userId,

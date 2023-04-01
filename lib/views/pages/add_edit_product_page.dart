@@ -173,6 +173,7 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
             Get.back();
           });
         });
+
       }
       // edit product in category list
       else {
@@ -343,8 +344,6 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
   void _initialControllers() {
     tagController.getTags().then((value) {
       if (widget.product != null) {
-        print('product name : ${widget.product!.productName}');
-        print('tag name : ${widget.product!.productTag}');
         tagController.tag!.name = widget.product!.productTag;
       }
     });

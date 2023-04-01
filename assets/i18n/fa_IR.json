@@ -58,6 +58,7 @@
     "unavailableProduct": "موجودی محصولات انتخابی کافی نیست.",
     "successFullShopping": "خرید با موفقیت انجام شد. از اعتماد شما متشکریم",
     "lastItemRemove": "محصول از سبد خرید حذف شود؟",
+    "confirmShopping": "آیا از خرید خود اطمینان دارید؟",
     "unSuccessFullShopping": "خطایی رخ داده است! لطفا مجددا تلاش کنید."
   },
   "Dialogs_message": {

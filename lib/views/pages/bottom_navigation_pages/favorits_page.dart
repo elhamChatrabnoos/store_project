@@ -72,7 +72,7 @@ class FavoritesPage extends GetView {
       },
       iconLike: favController.searchItemInFavorites(favoritesList[index]),
       onItemClick: () {
-        Get.to(() => ProductDetailsPage(product: favoritesList[index]));
+        // Get.to(() => ProductDetailsPage(product: favoritesList[index]));
       },
       addToBasketClick: () {
         shoppingController.editShoppingCart(favoritesList[index]);
@@ -85,11 +85,16 @@ class FavoritesPage extends GetView {
         shoppingController.searchProductInBasket(favoritesList[index]);
         shoppingController
             .removeProductFromBasket(shoppingController.targetProduct!);
+        if (favoritesList[index].productCountInBasket! == 1) {
+          favoritesList[index].productCountInBasket =
+              favoritesList[index].productCountInBasket! - 1;
+        }
       },
       product: shoppingController.searchProductInBasket(favoritesList[index])
           ? shoppingController.targetProduct!
           : favoritesList[index],
-      productIndex: index, isFade: false,
+      productIndex: index,
+      isFade: false,
     );
   }
 }
