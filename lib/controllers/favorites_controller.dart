@@ -56,6 +56,11 @@ class FavoritesController extends GetxController {
     }
 
     // edit favorite list
+    await editFavoriteListInServer();
+  }
+
+
+  Future<void> editFavoriteListInServer() async {
     num userId = UserController.getUserFromPref()['userId'];
 
     Favorite favorite = Favorite(
@@ -68,8 +73,11 @@ class FavoritesController extends GetxController {
         .then((value) {
       getFavorites();
     });
+
     update();
   }
+
+
 
   void addFavorite(Favorite newFavorite) {
     _favoritesRepository.addFavorite(newFavorite: newFavorite).then((value) {

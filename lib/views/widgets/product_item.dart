@@ -80,7 +80,7 @@ class ProductItem extends GetView<ImageController> {
   }
 
   Widget _checkProductInBasket() {
-    print('count is ${product.productCountInBasket}');
+    // print('count is ${product.productCountInBasket}');
     if (product.productCountInBasket! > 0) {
       return _addDeleteProduct();
     } else {

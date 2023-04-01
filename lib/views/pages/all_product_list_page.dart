@@ -5,6 +5,7 @@ import 'package:shop_getx/controllers/favorites_controller.dart';
 import 'package:shop_getx/controllers/product_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_keys.dart';
+import 'package:shop_getx/models/favorites.dart';
 import 'package:shop_getx/models/product_category.dart';
 import 'package:shop_getx/shared_class/shared_prefrences.dart';
 import 'package:shop_getx/views/pages/add_edit_product_page.dart';
@@ -144,10 +145,7 @@ class AllProductListPage extends GetView<ProductController> {
               .searchProductInBasket(category.productsList![index]);
           shoppingController
               .removeProductFromBasket(shoppingController.targetProduct!);
-          if (category.productsList![index].productCountInBasket! == 1) {
-            category.productsList![index].productCountInBasket =
-                category.productsList![index].productCountInBasket! - 1;
-          }
+          changeProductCountInBasket(index, favController);
         },
         product: shoppingController
                 .searchProductInBasket(category.productsList![index])
@@ -176,4 +174,22 @@ class AllProductListPage extends GetView<ProductController> {
       return const SizedBox();
     }
   }
+
+  void changeProductCountInBasket(int index, FavoritesController favoritesController) {
+    // if target product is in favoriteList and it has 1 product count in basket
+    for (var favItem in favoritesList) {
+      if (favItem.id == category.productsList![index].id &&
+          favItem.productCountInBasket == 1 ) {
+        favItem.productCountInBasket = favItem.productCountInBasket! -1;
+        favoritesController.editFavoriteListInServer();
+      }
+    }
+
+    // if product count in basket was 1 it should change its count
+    if (category.productsList![index].productCountInBasket! == 1) {
+      category.productsList![index].productCountInBasket =
+          category.productsList![index].productCountInBasket! - 1;
+    }
+  }
+
 }
