@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shop_getx/controllers/image_controller.dart';
+import 'package:shop_getx/controllers/shared/image_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/generated/locales.g.dart';
@@ -150,7 +150,7 @@ class ProductItem extends GetView<ImageController> {
             )),
         AppSizes.littleSizeBox2Width,
         CustomText(
-          text: product.productPrice.toString(),
+          text: '${product.productPrice.toString()} ${LocaleKeys.Product_item_moneyUnit.tr}',
           textDecoration: TextDecoration.lineThrough,
           decorationColor: const Color.fromARGB(255, 0, 0, 0),
           textSize: 14,

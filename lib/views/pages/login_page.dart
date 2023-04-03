@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shop_getx/controllers/favorites_controller.dart';
-import 'package:shop_getx/controllers/shopping_cart_controller.dart';
-import 'package:shop_getx/controllers/user_controller.dart';
+import 'package:shop_getx/controllers/client/favorites_controller.dart';
+import 'package:shop_getx/controllers/client/shopping_cart_controller.dart';
+import 'package:shop_getx/controllers/client/user_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_images.dart';
 import 'package:shop_getx/core/app_sizes.dart';
@@ -10,7 +10,9 @@ import 'package:shop_getx/generated/locales.g.dart';
 import 'package:shop_getx/models/shopping_cart.dart';
 import 'package:shop_getx/views/pages/sign_up_page.dart';
 
+import '../../core/app_keys.dart';
 import '../../models/favorites.dart';
+import '../../shared_class/shared_prefrences.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
 import 'main_page.dart';
@@ -36,9 +38,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            backgroundColor: Colors.white,
-            resizeToAvoidBottomInset: false,
-            body: _loginBody(context));
+        backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: false,
+        body: _loginBody(context));
   }
 
   Widget _loginBody(BuildContext context) {
@@ -71,22 +73,29 @@ class _LoginPageState extends State<LoginPage> {
         CustomButton(
           textSize: AppSizes.normalTextSize2,
           buttonWidth: size.width / 3,
-          buttonHeight:  size.height / 12,
+          buttonHeight: size.height / 12,
           textColor: AppColors.loginTextColor,
           buttonText: LocaleKeys.Login_page_loginBtn.tr,
           buttonColor: AppColors.loginBtnColor,
           onTap: () {
             if (formKey.currentState!.validate()) {
               userController.saveUserToPref(userController.currentUser!);
-              _findShoppingCart();
-              _findFavoriteList();
+
+              UserController.isUserAdmin = AppSharedPreference.isUserAdminPref!
+                  .getBool(AppKeys.isUserAdmin)!;
+
+              if (!UserController.isUserAdmin!) {
+                _findShoppingCart();
+                _findFavoriteList();
+              }
+
               Get.off(() => MainPage());
             }
           },
         ),
         CustomButton(
             textSize: AppSizes.normalTextSize2,
-            buttonHeight:  MediaQuery.of(context).size.height / 12,
+            buttonHeight: MediaQuery.of(context).size.height / 12,
             buttonWidth: MediaQuery.of(context).size.width / 3,
             textColor: AppColors.loginBtnColor,
             buttonText: LocaleKeys.Login_page_signUpBtn.tr,
@@ -97,7 +106,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _findShoppingCart() {
-    ShoppingCartController shoppingController = Get.put(ShoppingCartController());
+    ShoppingCartController shoppingController =
+        Get.put(ShoppingCartController());
     if (!shoppingController
         .searchUserShoppingCart(userController.currentUser!.id!)) {
       ShoppingCart cart = ShoppingCart(
@@ -106,17 +116,15 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-
   void _findFavoriteList() {
     FavoritesController favoritesController = Get.put(FavoritesController());
     if (!favoritesController
         .searchUserInFavorites(userController.currentUser!.id!)) {
-      Favorite favorite = Favorite(
-          userId: userController.currentUser!.id, favoritesList: []);
+      Favorite favorite =
+          Favorite(userId: userController.currentUser!.id, favoritesList: []);
       favoritesController.addFavorite(favorite);
     }
   }
-
 
   Widget _passwordTextField() {
     return Obx(() {

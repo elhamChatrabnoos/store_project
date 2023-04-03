@@ -6,8 +6,8 @@ import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/generated/locales.g.dart';
 import 'package:shop_getx/models/user.dart';
 
-import '../../controllers/image_controller.dart';
-import '../../controllers/user_controller.dart';
+import '../../controllers/shared/image_controller.dart';
+import '../../controllers/client/user_controller.dart';
 import '../../core/app_colors.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text.dart';
@@ -15,15 +15,15 @@ import '../widgets/custom_text_field.dart';
 import '../widgets/image_picker.dart';
 import 'login_page.dart';
 
-class SignUpPage extends GetView<UserController> {
+class SignUpPage extends GetView<ImageController> {
   SignUpPage({Key? key}) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
-
+  UserController userController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => UserController());
+    Get.lazyPut(() => ImageController());
     return Scaffold(
             backgroundColor: Colors.white,
             resizeToAvoidBottomInset: false,
@@ -93,8 +93,8 @@ class SignUpPage extends GetView<UserController> {
             logic.removeProfileImage();
             Navigator.pop(context);
           },
-          imageFile: controller.imageController.imageFile != null
-              ? controller.imageController.stringToImage(controller.imageController.imageFile)
+          imageFile: logic.imageFile != null
+              ? logic.stringToImage(logic.imageFile)
               : null,
         );
       },
@@ -116,7 +116,7 @@ class SignUpPage extends GetView<UserController> {
           } else {
             // prepare user image and information
             User user = User(
-                userImage: controller.imageController.imageFile,
+                userImage: controller.imageFile,
                 userName: logic.userNameController.text,
                 userPass: logic.passController.text,
                 userAddress: logic.addressController.text,

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../generated/locales.g.dart';
+import '../../generated/locales.g.dart';
 
 class RadioBtnController extends GetxController{
 

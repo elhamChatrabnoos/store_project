@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:shop_getx/generated/locales.g.dart';
 import 'package:shop_getx/repositories/tag_repository.dart';
 
-import '../models/Tag.dart';
+import '../../models/Tag.dart';
 
 class TagController extends GetxController {
 

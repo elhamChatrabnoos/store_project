@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shop_getx/controllers/tag_controller.dart';
+import 'package:shop_getx/controllers/admin/tag_controller.dart';
 import 'package:shop_getx/generated/locales.g.dart';
 
 import '../../core/app_colors.dart';

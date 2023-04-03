@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/image_controller.dart';
+import '../../controllers/shared/image_controller.dart';
 import 'future_image.dart';
 
 class CategoryItem extends StatelessWidget {

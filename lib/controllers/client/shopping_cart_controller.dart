@@ -1,13 +1,13 @@
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shop_getx/controllers/product_controller.dart';
-import 'package:shop_getx/controllers/user_controller.dart';
+import 'package:shop_getx/controllers/shared/product_controller.dart';
+import 'package:shop_getx/controllers/client/user_controller.dart';
 import 'package:shop_getx/models/shopping_cart.dart';
 import 'package:shop_getx/repositories/shopping_cart_repository.dart';
 import 'package:shop_getx/shared_class/shared_prefrences.dart';
 
-import '../core/app_keys.dart';
-import '../models/product.dart';
+import '../../core/app_keys.dart';
+import '../../models/product.dart';
 
 class ShoppingCartController extends GetxController {
   List<ShoppingCart> shoppingCartList = [];

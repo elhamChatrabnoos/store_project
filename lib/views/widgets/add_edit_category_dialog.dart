@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shop_getx/controllers/category_controller.dart';
+import 'package:shop_getx/controllers/admin/category_controller.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/generated/locales.g.dart';
 import 'package:shop_getx/models/product_category.dart';
 
-import '../../controllers/image_controller.dart';
+import '../../controllers/shared/image_controller.dart';
 import '../../core/app_colors.dart';
 import 'custom_button.dart';
 import 'custom_text_field.dart';

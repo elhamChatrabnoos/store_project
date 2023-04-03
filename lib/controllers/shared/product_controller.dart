@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:shop_getx/repositories/product_repository.dart';
 
-import '../models/product.dart';
+import '../../models/product.dart';
 
 class ProductController extends GetxController {
   final ProductRepository _productRepository = ProductRepository();

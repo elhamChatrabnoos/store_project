@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shop_getx/controllers/category_controller.dart';
-import 'package:shop_getx/controllers/shopping_cart_controller.dart';
+import 'package:shop_getx/controllers/admin/category_controller.dart';
+import 'package:shop_getx/controllers/client/shopping_cart_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/generated/locales.g.dart';
@@ -9,7 +9,7 @@ import 'package:shop_getx/views/widgets/custom_button.dart';
 import 'package:shop_getx/views/widgets/custom_dialog.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
 
-import '../../../controllers/product_controller.dart';
+import '../../../controllers/shared/product_controller.dart';
 import '../../../models/shopping_cart.dart';
 import '../../widgets/product_item.dart';
 

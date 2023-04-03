@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shop_getx/controllers/favorites_controller.dart';
-import 'package:shop_getx/controllers/shopping_cart_controller.dart';
+import 'package:shop_getx/controllers/client/favorites_controller.dart';
+import 'package:shop_getx/controllers/client/shopping_cart_controller.dart';
 import 'package:shop_getx/generated/locales.g.dart';
 import 'package:shop_getx/models/favorites.dart';
 import 'package:shop_getx/views/pages/product_details_page.dart';

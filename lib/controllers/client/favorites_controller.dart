@@ -1,13 +1,13 @@
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shop_getx/controllers/product_controller.dart';
-import 'package:shop_getx/controllers/user_controller.dart';
+import 'package:shop_getx/controllers/shared/product_controller.dart';
+import 'package:shop_getx/controllers/client/user_controller.dart';
 import 'package:shop_getx/models/favorites.dart';
 import 'package:shop_getx/models/product.dart';
 import 'package:shop_getx/repositories/favorits_repository.dart';
 
-import '../core/app_keys.dart';
-import '../shared_class/shared_prefrences.dart';
+import '../../core/app_keys.dart';
+import '../../shared_class/shared_prefrences.dart';
 
 class FavoritesController extends GetxController {
   RxBool isFavorite = false.obs;

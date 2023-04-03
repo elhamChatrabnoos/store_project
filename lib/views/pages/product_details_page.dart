@@ -6,9 +6,9 @@ import 'package:shop_getx/models/product.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
 import 'package:shop_getx/views/widgets/home_poduct_item.dart';
 
-import '../../controllers/image_controller.dart';
-import '../../controllers/product_controller.dart';
-import '../../controllers/shopping_cart_controller.dart';
+import '../../controllers/shared/image_controller.dart';
+import '../../controllers/shared/product_controller.dart';
+import '../../controllers/client/shopping_cart_controller.dart';
 import '../../generated/locales.g.dart';
 import '../../models/shopping_cart.dart';
 import '../widgets/custom_button.dart';
@@ -217,7 +217,7 @@ class ProductDetailsPage extends GetView {
             )),
         AppSizes.littleSizeBox2Width,
         CustomText(
-          text: product.productPrice.toString(),
+          text: '${product.productPrice.toString()} ${LocaleKeys.Product_item_moneyUnit.tr}',
           textDecoration: TextDecoration.lineThrough,
           decorationColor: const Color.fromARGB(255, 119, 117, 117),
           textSize: AppSizes.normalTextSize1,

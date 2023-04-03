@@ -7,8 +7,8 @@ import 'package:shop_getx/core/app_keys.dart';
 import 'package:shop_getx/repositories/user_repository.dart';
 import 'package:shop_getx/shared_class/shared_prefrences.dart';
 
-import '../models/user.dart';
-import 'image_controller.dart';
+import '../../models/user.dart';
+import '../shared/image_controller.dart';
 
 class UserController extends GetxController {
   ImageController imageController = Get.put(ImageController());
@@ -19,6 +19,7 @@ class UserController extends GetxController {
   List<User>? userList = [];
   User? currentUser;
   num? newUserId;
+  static bool? isUserAdmin;
 
   TextEditingController userNameController = TextEditingController();
   TextEditingController passController = TextEditingController();

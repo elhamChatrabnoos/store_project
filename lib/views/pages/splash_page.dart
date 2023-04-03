@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shop_getx/controllers/category_controller.dart';
+import 'package:shop_getx/controllers/admin/category_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_sizes.dart';
 import 'package:shop_getx/generated/locales.g.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
 
-import '../../controllers/favorites_controller.dart';
-import '../../controllers/product_controller.dart';
-import '../../controllers/shopping_cart_controller.dart';
-import '../../controllers/tag_controller.dart';
-import '../../controllers/user_controller.dart';
+import '../../controllers/client/favorites_controller.dart';
+import '../../controllers/shared/product_controller.dart';
+import '../../controllers/client/shopping_cart_controller.dart';
+import '../../controllers/admin/tag_controller.dart';
+import '../../controllers/client/user_controller.dart';
 import '../../shared_class/shared_prefrences.dart';
 import 'login_page.dart';
 import 'main_page.dart';

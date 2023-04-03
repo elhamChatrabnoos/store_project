@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:multi_line_field_package/multi_line_field_package.dart';
-import 'package:shop_getx/controllers/image_controller.dart';
+import 'package:shop_getx/controllers/shared/image_controller.dart';
 import 'package:shop_getx/generated/locales.g.dart';
 import 'package:shop_getx/views/pages/login_page.dart';
 
-import '../../controllers/user_controller.dart';
+import '../../controllers/client/user_controller.dart';
 import '../../core/app_colors.dart';
 import '../../core/app_sizes.dart';
 import '../../models/user.dart';

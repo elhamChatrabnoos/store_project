@@ -1,8 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shop_getx/controllers/product_controller.dart';
-import 'package:shop_getx/controllers/tag_controller.dart';
+import 'package:shop_getx/controllers/shared/product_controller.dart';
+import 'package:shop_getx/controllers/admin/tag_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_keys.dart';
 import 'package:shop_getx/core/app_sizes.dart';
@@ -17,7 +17,8 @@ import 'package:shop_getx/views/widgets/custom_button.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
 import 'package:shop_getx/views/widgets/home_poduct_item.dart';
 
-import '../../../controllers/category_controller.dart';
+import '../../../controllers/admin/category_controller.dart';
+import '../../../controllers/client/user_controller.dart';
 import '../../../shared_class/custom_search.dart';
 import '../product_details_page.dart';
 
@@ -37,7 +38,6 @@ class HomePage extends GetView {
 
   @override
   Widget build(BuildContext context) {
-
     Get.lazyPut(() => CategoryController());
     Get.lazyPut(() => TagController());
 
@@ -209,9 +209,9 @@ class HomePage extends GetView {
       builder: (logic) {
         return GridView.builder(
           shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
-            childAspectRatio: 1.1,
+            childAspectRatio: isUserAdmin ? 0.9 : 1.1,
           ),
           itemCount: categoryList.length,
           itemBuilder: (context, index) {
@@ -292,9 +292,11 @@ class HomePage extends GetView {
                           ? logic.deleteProduct(productList[index])
                           : null,
                       onItemClick: () {
-                        Get.to(() => ProductDetailsPage(
-                              product: productList[index],
-                            ));
+                        !isUserAdmin
+                            ? Get.to(() => ProductDetailsPage(
+                                  product: productList[index],
+                                ))
+                            : null;
                       },
                       product: productList[index],
                     );
@@ -337,9 +339,7 @@ class HomePage extends GetView {
             padding: const EdgeInsets.all(10),
             child: Image.asset(sliderImages[index]));
       },
-      options: CarouselOptions(
-        autoPlay: true
-      ),
+      options: CarouselOptions(autoPlay: true),
     );
   }
 }
