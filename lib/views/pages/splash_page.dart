@@ -7,9 +7,7 @@ import 'package:shop_getx/generated/locales.g.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
 
 import '../../controllers/client/favorites_controller.dart';
-import '../../controllers/shared/product_controller.dart';
 import '../../controllers/client/shopping_cart_controller.dart';
-import '../../controllers/admin/tag_controller.dart';
 import '../../controllers/client/user_controller.dart';
 import '../../shared_class/shared_prefrences.dart';
 import 'login_page.dart';

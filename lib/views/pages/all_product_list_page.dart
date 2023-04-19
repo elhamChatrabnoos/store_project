@@ -143,7 +143,7 @@ class AllProductListPage extends GetView {
               .searchProductInBasket(category.productsList![index]);
           shoppingController
               .removeProductFromBasket(shoppingController.targetProduct!);
-          changeProductCountInBasket(index, favController);
+          _changeProductCountInBasket(index, favController);
         },
         product: shoppingController
                 .searchProductInBasket(category.productsList![index])
@@ -173,7 +173,7 @@ class AllProductListPage extends GetView {
     }
   }
 
-  void changeProductCountInBasket(
+  void _changeProductCountInBasket(
       int index, FavoritesController favoritesController) {
     // if target product is in favoriteList and it has 1 product count in basket
     for (var favItem in favoritesList) {
@@ -184,6 +184,10 @@ class AllProductListPage extends GetView {
       }
     }
 
+    _changeProductCountIncategory(index);
+  }
+
+  void _changeProductCountIncategory(int index) {
     // if product count in basket was 1 it should change its count
     if (category.productsList![index].productCountInBasket! == 1) {
       category.productsList![index].productCountInBasket =

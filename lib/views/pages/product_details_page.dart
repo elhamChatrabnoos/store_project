@@ -38,13 +38,13 @@ class ProductDetailsPage extends GetView {
             children: [
               _topPartPage(context),
               AppSizes.littleSizeBox,
-              _bottomPartPage()
+              _bottomPartPage(context)
             ],
           )),
     );
   }
 
-  Widget _bottomPartPage() {
+  Widget _bottomPartPage(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
       color: const Color(0xFFFFFFFF),
@@ -65,7 +65,7 @@ class ProductDetailsPage extends GetView {
               text: LocaleKeys.Details_page_similarProduct.tr,
               textSize: AppSizes.subTitleTextSize),
           AppSizes.littleSizeBox,
-          _listOfSimilarProduct(),
+          _listOfSimilarProduct(context),
         ],
       ),
     );
@@ -108,9 +108,9 @@ class ProductDetailsPage extends GetView {
     );
   }
 
-  Widget _listOfSimilarProduct() {
+  Widget _listOfSimilarProduct(BuildContext context) {
     return SizedBox(
-      height: 270,
+      height: MediaQuery.of(context).size.height / 2.5,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
