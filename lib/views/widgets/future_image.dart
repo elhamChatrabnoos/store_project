@@ -22,6 +22,5 @@ class FutureImage extends StatelessWidget {
         }
       },
     );
-    ;
   }
 }

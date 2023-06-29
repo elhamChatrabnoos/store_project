@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../models/product.dart';
-import '../views/pages/product_details_page.dart';
 import '../views/widgets/product_item.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
@@ -20,7 +18,6 @@ class CustomSearchDelegate extends SearchDelegate {
     ];
   }
 
-// second overwrite to pop out of search menu
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
@@ -29,14 +26,12 @@ class CustomSearchDelegate extends SearchDelegate {
     );
   }
 
-// third overwrite to show query result
   @override
   Widget buildResults(BuildContext context) {
     return _listToShow();
   }
 
-// last overwrite to show the
-// querying process at the runtime
+
   @override
   Widget buildSuggestions(BuildContext context) {
     return _listToShow();

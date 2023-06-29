@@ -6,11 +6,10 @@ import 'package:shop_getx/models/product.dart';
 import 'package:shop_getx/views/widgets/custom_text.dart';
 import 'package:shop_getx/views/widgets/home_poduct_item.dart';
 
+import '../../controllers/client/shopping_cart_controller.dart';
 import '../../controllers/shared/image_controller.dart';
 import '../../controllers/shared/product_controller.dart';
-import '../../controllers/client/shopping_cart_controller.dart';
 import '../../generated/locales.g.dart';
-import '../../models/shopping_cart.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/future_image.dart';
 

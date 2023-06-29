@@ -4,6 +4,7 @@ import 'package:shop_getx/models/product_category.dart';
 import 'package:shop_getx/repositories/category_repository.dart';
 
 class CategoryController extends GetxController {
+
   final CategoryRepository _categoryRepository = CategoryRepository();
 
   TextEditingController categoryName = TextEditingController();
@@ -34,7 +35,6 @@ class CategoryController extends GetxController {
       update();
       // getCategories();
     });
-
   }
 
   Future<void> editCategory(ProductCategory category) async {
@@ -46,6 +46,8 @@ class CategoryController extends GetxController {
     });
     update();
   }
+
+
 }
 
 List<ProductCategory> categoryList = [];

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shop_getx/controllers/admin/category_controller.dart';
 import 'package:shop_getx/controllers/client/favorites_controller.dart';
-import 'package:shop_getx/controllers/shared/product_controller.dart';
 import 'package:shop_getx/core/app_colors.dart';
 import 'package:shop_getx/core/app_keys.dart';
 import 'package:shop_getx/models/favorites.dart';
@@ -13,9 +12,9 @@ import 'package:shop_getx/views/pages/product_details_page.dart';
 import 'package:shop_getx/views/widgets/product_item.dart';
 
 import '../../controllers/client/shopping_cart_controller.dart';
-import '../../controllers/admin/tag_controller.dart';
 import '../../shared_class/custom_search.dart';
 
+// ignore: must_be_immutable
 class AllProductListPage extends GetView {
   AllProductListPage(this.category, {Key? key}) : super(key: key);
 

@@ -168,21 +168,20 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
 
   Product _setProductFeature(bool isProductHide, String? tagName) {
     return Product(
-        id: widget.product!.id,
-        productImage: controller.imageFile,
-        productName: productController.nameController.text,
-        productDescription: productController.descriptionController.text,
-        productPrice: int.parse(productController.priceController.text),
-        productDiscount: productController.discountController.text != null
-            ? int.parse(productController.discountController.text)
-            : 0,
-        isProductHide: isProductHide,
-        productCategory: widget.category.name,
-        productCountInBasket: 0,
-        totalProductCount:
-            int.parse(productController.totalCountController.text),
-        productTag: tagName,
-      );
+      id: widget.product!.id,
+      productImage: controller.imageFile,
+      productName: productController.nameController.text,
+      productDescription: productController.descriptionController.text,
+      productPrice: int.parse(productController.priceController.text),
+      productDiscount: productController.discountController.text != null
+          ? int.parse(productController.discountController.text)
+          : 0,
+      isProductHide: isProductHide,
+      productCategory: widget.category.name,
+      productCountInBasket: 0,
+      totalProductCount: int.parse(productController.totalCountController.text),
+      productTag: tagName,
+    );
   }
 
   bool _checkProductHideOrNot() {
@@ -315,6 +314,9 @@ class _AddEditProductPageState extends State<AddEditProductPage> {
             );
           },
         ));
+
+
+
   }
 
   Widget _isProductHide() {
