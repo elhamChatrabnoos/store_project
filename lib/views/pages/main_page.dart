@@ -13,14 +13,14 @@ import 'bottom_navigation_pages/home_page.dart';
 import 'bottom_navigation_pages/shopping_cart_page.dart';
 
 class MainPage extends GetView {
-  MainPage({Key? key}) : super(key: key);
+   MainPage({Key? key}) : super(key: key);
 
   List bottomBarPages = [const FavoritesPage(), HomePage(), ShoppingCartPage()];
   List bottomBarPagesAdmin = [HomePage()];
   PageController pageController = PageController(initialPage: 1);
 
   bool isUserAdmin =
-  AppSharedPreference.isUserAdminPref!.getBool(AppKeys.isUserAdmin)!;
+      AppSharedPreference.isUserAdminPref!.getBool(AppKeys.isUserAdmin)!;
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +32,14 @@ class MainPage extends GetView {
         controller: pageController,
         children: !isUserAdmin
             ? List.generate(
-            bottomBarPages.length, (index) => bottomBarPages[index])
+                bottomBarPages.length, (index) => bottomBarPages[index])
             : List.generate(bottomBarPagesAdmin.length,
                 (index) => bottomBarPagesAdmin[index]),
       ),
       extendBody: true,
       bottomNavigationBar: (!isUserAdmin
-          ? bottomBarPages.length < 4
-          : bottomBarPagesAdmin.length < 2)
+              ? bottomBarPages.length < 4
+              : bottomBarPagesAdmin.length < 2)
           ? _bottomBarItems()
           : null,
     );
@@ -49,18 +49,18 @@ class MainPage extends GetView {
     return AnimatedNotchBottomBar(
       itemLabelStyle: TextStyle(color: AppColors.navInactiveItemColor),
       color: AppColors.bottomNavBackColor,
-      notchColor: AppColors.bottomNavItemColor,
+      notchColor: AppColors.grayColor2,
       pageController: pageController,
       bottomBarItems: [
         !isUserAdmin
             ? BottomBarItem(
-            itemLabel: LocaleKeys.HomePage_favoritesBtn.tr,
-            inActiveItem: Icon(Icons.favorite_border,
-                color: AppColors.navInactiveItemColor),
-            activeItem:
-            Icon(Icons.favorite, color: AppColors.navActiveItemColor))
+                itemLabel: LocaleKeys.HomePage_favoritesBtn.tr,
+                inActiveItem: Icon(Icons.favorite_border,
+                    color: AppColors.navInactiveItemColor),
+                activeItem:
+                    Icon(Icons.favorite, color: AppColors.navActiveItemColor))
             : const BottomBarItem(
-            inActiveItem: SizedBox(), activeItem: SizedBox()),
+                inActiveItem: SizedBox(), activeItem: SizedBox()),
         BottomBarItem(
             itemLabel: LocaleKeys.HomePage_homeBtn.tr,
             inActiveItem: Icon(
@@ -68,16 +68,16 @@ class MainPage extends GetView {
               color: AppColors.navInactiveItemColor,
             ),
             activeItem:
-            Icon(Icons.home_filled, color: AppColors.navActiveItemColor)),
+                Icon(Icons.home_filled, color: AppColors.navActiveItemColor)),
         !isUserAdmin
             ? BottomBarItem(
-            itemLabel: LocaleKeys.HomePage_shoppingCartBtn.tr,
-            inActiveItem: Icon(Icons.shopping_basket_outlined,
-                color: AppColors.navInactiveItemColor),
-            activeItem: Icon(Icons.shopping_basket,
-                color: AppColors.navActiveItemColor))
+                itemLabel: LocaleKeys.HomePage_shoppingCartBtn.tr,
+                inActiveItem: Icon(Icons.shopping_basket_outlined,
+                    color: AppColors.navInactiveItemColor),
+                activeItem: Icon(Icons.shopping_basket,
+                    color: AppColors.navActiveItemColor))
             : const BottomBarItem(
-            inActiveItem: SizedBox(), activeItem: SizedBox()),
+                inActiveItem: SizedBox(), activeItem: SizedBox()),
       ],
       onTap: (index) {
         pageController.animateToPage(index,

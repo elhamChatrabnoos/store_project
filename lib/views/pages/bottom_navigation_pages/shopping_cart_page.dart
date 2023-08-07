@@ -25,16 +25,18 @@ class ShoppingCartPage extends GetView {
     return GetBuilder<ShoppingCartController>(
       assignId: true,
       builder: (logic) {
-        return Scaffold(
-          backgroundColor: AppColors.backGroundColor,
-          body: buyBasketList.isNotEmpty
-              ? _bodyItems(logic)
-              : Center(
-                  child: CustomText(
-                      text: LocaleKeys.ShoppingCart_page_noCartMsg.tr,
-                      textSize: AppSizes.normalTextSize1,
-                      textColor: Colors.black),
-                ),
+        return SafeArea(
+          child: Scaffold(
+            backgroundColor: AppColors.backGroundColor,
+            body: buyBasketList.isNotEmpty
+                ? _bodyItems(logic)
+                : Center(
+                    child: CustomText(
+                        text: LocaleKeys.ShoppingCart_page_noCartMsg.tr,
+                        textSize: AppSizes.normalTextSize1,
+                        textColor: Colors.black),
+                  ),
+          ),
         );
       },
     );

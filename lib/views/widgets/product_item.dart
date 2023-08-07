@@ -72,7 +72,7 @@ class ProductItem extends GetView<ImageController> {
       children: [
         _priceText(),
         AppSizes.littleSizeBox2,
-        product.productDiscount != 0 ? _productDiscount() : const SizedBox(),
+        product.productDiscount != 0 ? _productDiscount() : const SizedBox(height: 30,),
         AppSizes.normalSizeBox2,
         _checkProductInBasket(),
       ],
@@ -178,6 +178,7 @@ class ProductItem extends GetView<ImageController> {
 
   Widget _addDeleteProduct() {
     return Container(
+      height: 40,
       padding: const EdgeInsets.all(0),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),

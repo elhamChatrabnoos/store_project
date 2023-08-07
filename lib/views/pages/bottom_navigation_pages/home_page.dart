@@ -80,13 +80,13 @@ class HomePage extends GetView {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppSizes.littleSizeBox,
+            // AppSizes.littleSizeBox,
             _addTagText(),
             _listOfTags(),
             _imagesSlider(),
-            AppSizes.normalSizeBox2,
+            AppSizes.normalSizeBox3,
             _addNewCategory(),
-            AppSizes.littleSizeBox,
+            // AppSizes.littleSizeBox,
             _listOfCategories(),
             _categoryTitle(LocaleKeys.HomePage_allProduct.tr),
             _listOfProduct(context),
@@ -209,9 +209,10 @@ class HomePage extends GetView {
       builder: (logic) {
         return GridView.builder(
           shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
-            childAspectRatio: isUserAdmin ? 0.9 : 1.1,
+            childAspectRatio: isUserAdmin ? 0.6 : 0.8,
           ),
           itemCount: categoryList.length,
           itemBuilder: (context, index) {
